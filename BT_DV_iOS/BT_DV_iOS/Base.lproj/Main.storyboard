@@ -62,7 +62,7 @@
                                                     <constraint firstAttribute="height" constant="100" id="MPd-ZS-DaU"/>
                                                     <constraint firstAttribute="width" constant="100" id="tDT-Tl-LDa"/>
                                                 </constraints>
-                                                <state key="normal" image="btn_start_rotated"/>
+                                                <state key="normal" image="btn_start"/>
                                                 <variation key="default">
                                                     <mask key="constraints">
                                                         <exclude reference="LAJ-H6-KN5"/>
@@ -129,36 +129,36 @@
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="H4z-OI-lhy"/>
-                                                <exclude reference="GOK-Ag-8mX"/>
-                                                <exclude reference="sDU-ba-vPY"/>
-                                                <exclude reference="CkG-1M-hgB"/>
-                                                <exclude reference="FSm-Dt-qoA"/>
-                                                <exclude reference="qWA-AO-XZW"/>
                                                 <exclude reference="TPa-Yi-a1p"/>
                                                 <exclude reference="aEm-Js-RtA"/>
                                                 <exclude reference="zqU-Wu-FwM"/>
+                                                <exclude reference="CkG-1M-hgB"/>
+                                                <exclude reference="FSm-Dt-qoA"/>
+                                                <exclude reference="qWA-AO-XZW"/>
+                                                <exclude reference="GOK-Ag-8mX"/>
+                                                <exclude reference="sDU-ba-vPY"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=compact">
                                             <mask key="constraints">
                                                 <include reference="H4z-OI-lhy"/>
                                                 <exclude reference="Inf-nX-xko"/>
-                                                <include reference="GOK-Ag-8mX"/>
-                                                <exclude reference="Seb-7B-UZQ"/>
-                                                <exclude reference="e1j-Hc-lDR"/>
-                                                <exclude reference="nz0-qO-ylL"/>
-                                                <include reference="sDU-ba-vPY"/>
+                                                <exclude reference="BI9-8U-l5E"/>
+                                                <include reference="TPa-Yi-a1p"/>
+                                                <include reference="aEm-Js-RtA"/>
+                                                <exclude reference="gXs-ne-0IZ"/>
+                                                <include reference="zqU-Wu-FwM"/>
                                                 <exclude reference="4rL-C8-XPK"/>
                                                 <include reference="CkG-1M-hgB"/>
                                                 <include reference="FSm-Dt-qoA"/>
                                                 <exclude reference="Ikm-8v-kb6"/>
                                                 <include reference="qWA-AO-XZW"/>
                                                 <exclude reference="vXd-ti-Q8B"/>
-                                                <exclude reference="BI9-8U-l5E"/>
-                                                <include reference="TPa-Yi-a1p"/>
-                                                <include reference="aEm-Js-RtA"/>
-                                                <exclude reference="gXs-ne-0IZ"/>
-                                                <include reference="zqU-Wu-FwM"/>
+                                                <include reference="GOK-Ag-8mX"/>
+                                                <exclude reference="Seb-7B-UZQ"/>
+                                                <exclude reference="e1j-Hc-lDR"/>
+                                                <exclude reference="nz0-qO-ylL"/>
+                                                <include reference="sDU-ba-vPY"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -329,38 +329,38 @@
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="v4E-5B-lOW"/>
-                                                <exclude reference="Rcj-ox-TWV"/>
-                                                <exclude reference="oe2-OE-NJm"/>
-                                                <exclude reference="qBS-Wv-mT7"/>
-                                                <exclude reference="CRo-US-PZn"/>
-                                                <exclude reference="OmP-Vn-Jds"/>
+                                                <exclude reference="He1-Yf-Gu9"/>
+                                                <exclude reference="Waz-eb-CQU"/>
+                                                <exclude reference="x4f-yP-BEC"/>
+                                                <exclude reference="77o-DS-fdg"/>
+                                                <exclude reference="DAc-Ah-OAH"/>
+                                                <exclude reference="Qf8-hH-pC1"/>
                                                 <exclude reference="782-Kr-lHn"/>
                                                 <exclude reference="RqA-DX-Oia"/>
                                                 <exclude reference="T9d-IM-Bzb"/>
                                                 <exclude reference="XyU-en-I6Y"/>
-                                                <exclude reference="77o-DS-fdg"/>
-                                                <exclude reference="DAc-Ah-OAH"/>
-                                                <exclude reference="Qf8-hH-pC1"/>
-                                                <exclude reference="He1-Yf-Gu9"/>
-                                                <exclude reference="Waz-eb-CQU"/>
-                                                <exclude reference="x4f-yP-BEC"/>
+                                                <exclude reference="CRo-US-PZn"/>
+                                                <exclude reference="OmP-Vn-Jds"/>
+                                                <exclude reference="Rcj-ox-TWV"/>
+                                                <exclude reference="oe2-OE-NJm"/>
+                                                <exclude reference="qBS-Wv-mT7"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=compact">
                                             <mask key="constraints">
                                                 <exclude reference="SPi-2Q-Fgn"/>
                                                 <include reference="v4E-5B-lOW"/>
-                                                <exclude reference="3zf-id-86J"/>
-                                                <include reference="Rcj-ox-TWV"/>
-                                                <exclude reference="gmR-wc-V5b"/>
-                                                <exclude reference="nbo-GH-NRl"/>
-                                                <include reference="oe2-OE-NJm"/>
-                                                <include reference="qBS-Wv-mT7"/>
-                                                <include reference="CRo-US-PZn"/>
-                                                <exclude reference="JBA-mx-Idc"/>
-                                                <exclude reference="NBx-Xc-fpv"/>
-                                                <include reference="OmP-Vn-Jds"/>
-                                                <exclude reference="pWF-Gn-kfY"/>
+                                                <exclude reference="1yM-Qv-qwm"/>
+                                                <exclude reference="6Me-jM-aEx"/>
+                                                <exclude reference="E98-M9-9q3"/>
+                                                <include reference="He1-Yf-Gu9"/>
+                                                <include reference="Waz-eb-CQU"/>
+                                                <include reference="x4f-yP-BEC"/>
+                                                <include reference="77o-DS-fdg"/>
+                                                <exclude reference="7mi-d8-euQ"/>
+                                                <include reference="DAc-Ah-OAH"/>
+                                                <include reference="Qf8-hH-pC1"/>
+                                                <exclude reference="sWY-y9-HFa"/>
                                                 <include reference="782-Kr-lHn"/>
                                                 <include reference="RqA-DX-Oia"/>
                                                 <include reference="T9d-IM-Bzb"/>
@@ -369,17 +369,17 @@
                                                 <exclude reference="WNU-6a-Zio"/>
                                                 <include reference="XyU-en-I6Y"/>
                                                 <exclude reference="upe-Iv-PkD"/>
-                                                <include reference="77o-DS-fdg"/>
-                                                <exclude reference="7mi-d8-euQ"/>
-                                                <include reference="DAc-Ah-OAH"/>
-                                                <include reference="Qf8-hH-pC1"/>
-                                                <exclude reference="sWY-y9-HFa"/>
-                                                <exclude reference="1yM-Qv-qwm"/>
-                                                <exclude reference="6Me-jM-aEx"/>
-                                                <exclude reference="E98-M9-9q3"/>
-                                                <include reference="He1-Yf-Gu9"/>
-                                                <include reference="Waz-eb-CQU"/>
-                                                <include reference="x4f-yP-BEC"/>
+                                                <include reference="CRo-US-PZn"/>
+                                                <exclude reference="JBA-mx-Idc"/>
+                                                <exclude reference="NBx-Xc-fpv"/>
+                                                <include reference="OmP-Vn-Jds"/>
+                                                <exclude reference="pWF-Gn-kfY"/>
+                                                <exclude reference="3zf-id-86J"/>
+                                                <include reference="Rcj-ox-TWV"/>
+                                                <exclude reference="gmR-wc-V5b"/>
+                                                <exclude reference="nbo-GH-NRl"/>
+                                                <include reference="oe2-OE-NJm"/>
+                                                <include reference="qBS-Wv-mT7"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -490,7 +490,7 @@
         <image name="btn_reversal_1" width="92" height="92"/>
         <image name="btn_scene_auto_1" width="92" height="92"/>
         <image name="btn_setting_1" width="92" height="92"/>
-        <image name="btn_start_rotated" width="179" height="176"/>
+        <image name="btn_start" width="176" height="179"/>
         <image name="img_battery_05" width="92" height="92"/>
     </resources>
 </document>

@@ -10,11 +10,18 @@ import UIKit
 import AVFoundation
 import Photos
 
+let CaptureModePhoto = 0
+let CaptureModeMovie = 1
+
+
+
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var cameraView: UIView!
     
     @IBOutlet weak var thumbnail: UIButton!
+    
     
     var captureSession = AVCaptureSession()
     var captureDevice: AVCaptureDevice?
@@ -25,55 +32,10 @@ class ViewController: UIViewController {
     var stillImageOutput: AVCaptureStillImageOutput = AVCaptureStillImageOutput()
     
     var currentOrientation: UIDeviceOrientation = UIDevice.current.orientation
+    
+    
+    
 
- //存入相簿
-    func savePhotoToLibrary(_ image: UIImage) {
-        let photoLibrary = PHPhotoLibrary.shared()
-        photoLibrary.performChanges({
-            PHAssetChangeRequest.creationRequestForAsset(from: image)
-        }) { (success: Bool, error: Error?) -> Void in
-            if success {
-                // Set thumbnail
-                self.setPhotoThumbnail(image)
-            } else {
-                print("Error writing to photo library: \(error!.localizedDescription)")
-            }
-        }
-    }
-    
-    func setPhotoThumbnail(_ image: UIImage) {
-        DispatchQueue.main.async { () -> Void in
-            self.thumbnail.setBackgroundImage(image, for: UIControlState())
-            self.thumbnail.layer.borderColor = UIColor.white.cgColor
-            self.thumbnail.layer.borderWidth = 1.0
-        }
-    }
-    
-    
-    //偵測畫面旋轉
-    func rotated() {
-        switch UIDevice.current.orientation {
-        case .landscapeLeft:
-            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeRight
-            print("landscape")
-        case .landscapeRight:
-            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeLeft
-            
-        default:
-            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portrait
-            
-            print("Portrait")
-        }
-    }
-
-    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
-        
-        layer.videoOrientation = orientation
-        
-        previewLayer?.frame = self.view.bounds
-        
-    }
-    
     
     @IBAction func capturePicture(_ sender: Any) {
         if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo){
@@ -86,11 +48,11 @@ class ViewController: UIViewController {
                 
                 print("take image: \(image)")
                 self.savePhotoToLibrary(image!)
-                  self.rotated()
+ 
                 
             })
         }
-
+                 self.rotated()
     }
     
     
@@ -122,45 +84,31 @@ class ViewController: UIViewController {
 
     }
     
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        if let connection =  self.previewLayer?.connection  {
-            
-            let currentDevice: UIDevice = UIDevice.current
-            
-            let orientation: UIDeviceOrientation = currentDevice.orientation
-            
-            let previewLayerConnection : AVCaptureConnection = connection
-            
-            if previewLayerConnection.isVideoOrientationSupported {
+    //存入相簿
+    func savePhotoToLibrary(_ image: UIImage) {
+        let photoLibrary = PHPhotoLibrary.shared()
+        photoLibrary.performChanges({
+            PHAssetChangeRequest.creationRequestForAsset(from: image)
+        }) { (success: Bool, error: Error?) -> Void in
+            if success {
+                // Set thumbnail
+                self.setPhotoThumbnail(image)
                 
-                switch (orientation) {
-                case .portrait: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-                
-                    break
-                    
-                case .landscapeRight: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeLeft)
-                
-                    break
-                    
-                case .landscapeLeft: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeRight)
-                
-                    break
-                    
-                case .portraitUpsideDown: updatePreviewLayer(layer: previewLayerConnection, orientation: .portraitUpsideDown)
-                
-                    break
-                    
-                default: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-                
-                    break
-                }
+            } else {
+                print("Error writing to photo library: \(error!.localizedDescription)")
             }
         }
     }
-
+    
+    func setPhotoThumbnail(_ image: UIImage) {
+        DispatchQueue.main.async { () -> Void in
+            self.thumbnail.setBackgroundImage(image, for: UIControlState())
+            self.thumbnail.layer.borderColor = UIColor.white.cgColor
+            self.thumbnail.layer.borderWidth = 1.0
+        }
+    }
+    
+    
     func beginSession(){
         print("有沒有在這裡耶")
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -223,6 +171,90 @@ class ViewController: UIViewController {
         }
     }
 
+    
+    //偵測畫面旋轉
+    func rotated() {
+        switch UIDevice.current.orientation {
+        case .landscapeLeft:
+            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeRight
+            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            
+            print("landscape")
+        case .landscapeRight:
+            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeLeft
+            
+            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            
+            
+        case .portraitUpsideDown:
+            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portraitUpsideDown
+            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            print("上下顛倒啦")
+            
+            
+        default:
+            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portrait
+            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            
+            
+            print("Portrait")
+        }
+    }
+    
+    
+    
+//MARK:- Rotated
+    
+    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
+        
+        layer.videoOrientation = orientation
+        
+        previewLayer?.frame = self.view.bounds
+        
+    }
+    
+
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let connection =  self.previewLayer?.connection  {
+            
+            let currentDevice: UIDevice = UIDevice.current
+            
+            let orientation: UIDeviceOrientation = currentDevice.orientation
+            
+            let previewLayerConnection : AVCaptureConnection = connection
+            
+            if previewLayerConnection.isVideoOrientationSupported {
+                
+                switch (orientation) {
+                case .portrait: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                    
+                case .landscapeRight: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                print("右邊橫躺")
+                
+                    break
+                    
+                case .landscapeLeft: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                    
+                case .portraitUpsideDown: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                    
+                default: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                }
+            }
+        }
+    }
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
