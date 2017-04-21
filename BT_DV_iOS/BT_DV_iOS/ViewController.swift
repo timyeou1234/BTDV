@@ -35,8 +35,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     @IBOutlet weak var setFlashBtn: UIButton!
     
+    @IBOutlet var setSenceBtn: SettinSenceButton!
     
-    @IBOutlet weak var setSenceBtn: UIButton!
     
     @IBOutlet weak var batteryStatus: UIImageView!
     
@@ -176,6 +176,19 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
 //            }
 //        }
 
+    }
+    @IBAction func setSence(_ sender: Any) {
+/*
+          let sence = setSenceBtn?.initMenu(["Item A", "Item B", "Item C"], actions: [({ () -> (Void) in
+                self.setting()
+            }), ({ () -> (Void) in
+                print("QQ")
+            }), ({ () -> (Void) in
+                print("Estou fazendo a ação C")
+            })])
+
+       
+*/
     }
     
 //MARK:- CapturePhoto
@@ -356,6 +369,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     //設定Session
     func setupSession() -> Bool {
+        
+
         captureSession.sessionPreset = AVCaptureSessionPresetHigh
         
         // Setup Camera
@@ -707,11 +722,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         //設定快門1/30分之一秒  iso 50
         //        print((captureDevice?.activeFormat.maxISO)!)
-        captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 500), iso: 200, completionHandler: nil)
+do{
+//        captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 500), iso: 200, completionHandler: nil)
         let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 3000,tint: 15)
         self.setWhiteBalanceGains(self.captureDevice!.deviceWhiteBalanceGains(for: temperatureAndTint))
         captureDevice?.unlockForConfiguration()
-        
+        }catch{
+print("ERRRRRROR")
+}
         /*
          if ((captureDevice?.lockForConfiguration) != nil){
          let maxISO = captureDevice?.activeFormat.maxISO
@@ -763,7 +781,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
             self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.setSenceBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
             self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
 
 
@@ -777,7 +795,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
             self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.setSenceBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
             self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
 
             
@@ -789,7 +807,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
             self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.setSenceBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
             self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
 
 
@@ -803,7 +821,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
             self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.setSenceBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(0))
             self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(0))
 
             
@@ -869,6 +887,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     override var prefersStatusBarHidden: Bool{
         return true
     }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.setting()
+    }
+    override func viewWillLayoutSubviews() {
+        
+            }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -877,31 +903,44 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         self.view.addGestureRecognizer(pinchGesture)
         
+        
+
+
         if setupSession(){
+
             setPreview()
             setupFace()
             startSession()
+            
+            
         }
 
-//        
-//        frontCamera(frontCamera)
-//        
-//        if captureDevice != nil{
-//            beginSession()
-//            
-//        }
+ 
+      
+ 
+
         
         //去觀察畫面是否轉向
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
     }
-
+/*
+    
+    override func viewDidAppear(_ animated: Bool) {
+        setSenceBtn?.initMenu(["Item A", "Item B", "Item C"], actions: [({ () -> (Void) in
+            self.setting()
+        }), ({ () -> (Void) in
+            print("QQ")
+        }), ({ () -> (Void) in
+            print("Estou fazendo a ação C")
+        })])
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-
+*/
 }
 
 extension ViewController: AVCaptureFileOutputRecordingDelegate {

@@ -488,7 +488,7 @@
                         <outlet property="photoOrMovieBtn" destination="xeL-7u-o00" id="Qrb-Uv-yXT"/>
                         <outlet property="setCameraBtn" destination="XWW-W4-3BF" id="bjr-kZ-Jbu"/>
                         <outlet property="setFlashBtn" destination="GkM-2N-00D" id="rIh-au-kBN"/>
-                        <outlet property="setSenceBtn" destination="mXK-LE-OdA" id="YQ9-Bi-4dU"/>
+                        <outlet property="setSenceBtn" destination="mXK-LE-OdA" id="pIf-r3-AgZ"/>
                         <outlet property="settingBtn" destination="J3k-W4-P3R" id="L3W-ud-WoV"/>
                         <outlet property="thumbnail" destination="PTb-LI-nu1" id="e26-VE-hgs"/>
                         <outlet property="topView" destination="Y05-dG-P4N" id="xsd-dh-hT9"/>
