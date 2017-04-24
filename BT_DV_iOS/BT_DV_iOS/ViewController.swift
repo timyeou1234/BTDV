@@ -35,7 +35,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     @IBOutlet weak var setFlashBtn: UIButton!
     
-    @IBOutlet var setSenceBtn: SettinSenceButton!
+    @IBOutlet var setSenceBtn: UIButton!
     
     
     @IBOutlet weak var batteryStatus: UIImageView!
@@ -59,6 +59,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     var format = AVCaptureDeviceFormat()
     
     var counter = 0
+    var counterForFlashLight = 0
+    var counterForSetting = 0
     
     var videoCounter = 0
     //設定錄影或拍照用
@@ -72,6 +74,17 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     var deviceIsChange: Bool = false
     
+
+    @IBOutlet weak var senceTableView: UIView!
+    
+    @IBOutlet weak var flashLightTableView: UIView!
+    
+    
+    @IBOutlet weak var settingTableView: UIView!
+    @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
+    
+    @IBAction func unwindFromFlash(segue:UIStoryboardSegue) { }
+
 
     
     @IBAction func capturePhotoOrMovie(_ sender: Any) {
@@ -164,6 +177,15 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     }
     
     @IBAction func setFlash(_ sender: Any) {
+        
+        if  counterForFlashLight % 2 == 0{
+        flashLightTableView.isHidden = false
+            counterForFlashLight += 1
+        
+        }else{
+        flashLightTableView.isHidden = true
+            counterForFlashLight += 1
+        }
 //        if captureDevice!.hasTorch{
 //            do{
 //                try captureDevice!.lockForConfiguration()
@@ -178,19 +200,28 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
 
     }
     @IBAction func setSence(_ sender: Any) {
-/*
-          let sence = setSenceBtn?.initMenu(["Item A", "Item B", "Item C"], actions: [({ () -> (Void) in
-                self.setting()
-            }), ({ () -> (Void) in
-                print("QQ")
-            }), ({ () -> (Void) in
-                print("Estou fazendo a ação C")
-            })])
-
-       
-*/
+        if counter % 2 == 0{
+        senceTableView.isHidden = false
+            print("show")
+            counter += 1
+        }else{
+        senceTableView.isHidden = true
+        counter += 1
+        }
+        
+        
     }
     
+    @IBAction func settingCamera(_ sender: Any) {
+        if counterForSetting % 2 == 0{
+        self.settingTableView.isHidden = false
+            counterForSetting += 1
+        }else{
+        self.settingTableView.isHidden = true
+            counterForSetting += 1
+        }
+        
+    }
 //MARK:- CapturePhoto
     func capturePhoto(){
         
@@ -783,8 +814,10 @@ print("ERRRRRROR")
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
             self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
             self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-
-
+            
+            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+//            self.senceTableView.frame = CGRect(x: 0, y: 80, width: 100, height: 50)
+self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
 
             print("landscape")
         case .landscapeRight:
@@ -797,7 +830,10 @@ print("ERRRRRROR")
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
             self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
             self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-
+            
+            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+//            self.senceTableView.frame = CGRect(x: 0, y: 80, width: 100, height: 50)
+            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
             
             
         case .portraitUpsideDown:
@@ -809,6 +845,10 @@ print("ERRRRRROR")
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
             self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
             self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+
+            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+//            self.senceTableView.frame = CGRect(x: 0, y: 80, width: 100, height: 50)
+            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
 
 
             print("上下顛倒啦")
@@ -824,7 +864,9 @@ print("ERRRRRROR")
             self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(0))
             self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(0))
 
-            
+            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+
             
             print("Portrait")
         }
@@ -888,16 +930,20 @@ print("ERRRRRROR")
         return true
     }
     
-    
+ /*
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.setting()
     }
+ 
+ */
     override func viewWillLayoutSubviews() {
         
             }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.senceTableView.isHidden = true
+        self.flashLightTableView.isHidden = true
+        self.settingTableView.isHidden = true
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
         
         
