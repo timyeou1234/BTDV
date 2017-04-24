@@ -228,6 +228,17 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }
         
     }
+    
+    @IBAction func connectBlueTooth(_ sender: Any) {
+        func openBluetooth(){
+            let url = URL(string: "App-Prefs:root=Bluetooth") //for bluetooth setting
+            let app = UIApplication.shared
+            app.openURL(url!)
+        }
+
+        
+    }
+    
 //MARK:- CapturePhoto
     func capturePhoto(){
         
@@ -819,7 +830,7 @@ print("ERRRRRROR")
             self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
             self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+//            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
             
             self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
 //            self.senceTableView.frame = CGRect(x: 0, y: 80, width: 100, height: 50)
@@ -835,7 +846,7 @@ self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_
             self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
             self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+//            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
             
             self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
 //            self.senceTableView.frame = CGRect(x: 0, y: 80, width: 100, height: 50)
@@ -850,7 +861,7 @@ self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_
             self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
             self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+//            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
 
             self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
 //            self.senceTableView.frame = CGRect(x: 0, y: 80, width: 100, height: 50)
@@ -868,7 +879,7 @@ self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_
             self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
             self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
             self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+ //           self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(0))
 
             self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
             self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
@@ -955,15 +966,15 @@ self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_
         
  
         
-        
+    /*
         
         BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
         BLEprotocol.connectStateDelegate = self as! ConnectStateDelegate
         BLEprotocol.dataResponseDelegate = self as! DataResponseDelegate
-       
+       */
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
         
-        
+ 
         self.view.addGestureRecognizer(pinchGesture)
         
         
