@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 
+
 let CaptureModePhoto = 0
 let CaptureModeMovie = 1
 
@@ -17,7 +18,8 @@ let CaptureModeMovie = 1
 
 
 class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate{
-
+    
+    
     @IBOutlet weak var cameraView: UIView!
     
     @IBOutlet weak var thumbnail: UIButton!
@@ -74,6 +76,10 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     var deviceIsChange: Bool = false
     
+    
+    //MARK:-BLE
+    
+    var BLEprotocol = FuelProtocol()
 
     @IBOutlet weak var senceTableView: UIView!
     
@@ -944,6 +950,17 @@ self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_
         self.senceTableView.isHidden = true
         self.flashLightTableView.isHidden = true
         self.settingTableView.isHidden = true
+        
+        //BLE
+        
+ 
+        
+        
+        
+        BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
+        BLEprotocol.connectStateDelegate = self as! ConnectStateDelegate
+        BLEprotocol.dataResponseDelegate = self as! DataResponseDelegate
+       
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
         
         
