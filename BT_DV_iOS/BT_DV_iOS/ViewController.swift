@@ -87,6 +87,10 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     
     @IBOutlet weak var settingTableView: UIView!
+    
+    
+    @IBOutlet weak var connectAndBatteryTableView: UIView!
+    
     @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
     
     @IBAction func unwindFromFlash(segue:UIStoryboardSegue) { }
@@ -184,47 +188,32 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     @IBAction func setFlash(_ sender: Any) {
         
-        if  counterForFlashLight % 2 == 0{
+        if  flashLightTableView.isHidden == true {
         flashLightTableView.isHidden = false
-            counterForFlashLight += 1
         
         }else{
         flashLightTableView.isHidden = true
-            counterForFlashLight += 1
         }
-//        if captureDevice!.hasTorch{
-//            do{
-//                try captureDevice!.lockForConfiguration()
-//                captureDevice!.torchMode = captureDevice!.isTorchActive ? AVCaptureTorchMode.off :AVCaptureTorchMode.on
-//                
-//                captureDevice!.unlockForConfiguration()
-//                
-//            }catch{
-//                
-//            }
-//        }
+
 
     }
     @IBAction func setSence(_ sender: Any) {
-        if counter % 2 == 0{
+        if senceTableView.isHidden == true{
         senceTableView.isHidden = false
             print("show")
-            counter += 1
         }else{
         senceTableView.isHidden = true
-        counter += 1
         }
         
         
     }
     
     @IBAction func settingCamera(_ sender: Any) {
-        if counterForSetting % 2 == 0{
+        if self.settingTableView.isHidden == true
+{
         self.settingTableView.isHidden = false
-            counterForSetting += 1
         }else{
         self.settingTableView.isHidden = true
-            counterForSetting += 1
         }
         
     }
@@ -961,7 +950,7 @@ self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_
         self.senceTableView.isHidden = true
         self.flashLightTableView.isHidden = true
         self.settingTableView.isHidden = true
-        
+        self.connectAndBatteryTableView.isHidden = true
         //BLE
         
  
