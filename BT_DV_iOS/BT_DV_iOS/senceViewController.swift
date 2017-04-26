@@ -84,6 +84,11 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.willMove(toParentViewController: self)
+//        self.removeFromParentViewController()
+//        self.view.removeFromSuperview()
+
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         performSegue(withIdentifier: "unwindToVC", sender: Any?.self)
@@ -93,9 +98,13 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
         if segue.identifier == "unwindToVC"{
             let vca: ViewController? = (segue.destination as? ViewController)
  //           let selectedPath: IndexPath? = senceTableViewDetail.indexPath(for: sender as! UITableViewCell)
-            print(sender)
             vca?.senceTableView.isHidden = true
+            vca?.beSelect = true
+//            vca?.setSenceBtn.setImage(UIImage(named:"btn_sence_auto_1"), for: UIControlState.normal)
+//            vca?.setSenceBtn.setImage(UIImage(named:"btn_sence_auto_2"), for: UIControlState.selected)
+//            vca?.setSenceBtn.addTarget(self, action: #selector(vca?.buttonClick(_:)), for: .touchUpInside)
 
+ //           vca?.buttonClick()
         }
         /*
         if let seletRow = senceTableViewDetail.indexPathForSelectedRow?.row{

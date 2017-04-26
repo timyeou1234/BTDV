@@ -19,6 +19,9 @@ class flashLightViewController: UIViewController {
         super.viewDidLoad()
         self.flashLightTableViewDetail.delegate = self
         self.flashLightTableViewDetail.dataSource = self
+        
+        self.flashLightTableViewDetail.separatorStyle = .none
+
         let nib = UINib(nibName: "flashtLightTableViewCell", bundle: nil)
         self.flashLightTableViewDetail.register(nib, forCellReuseIdentifier: "flashLightTableViewCell")
     }
@@ -75,11 +78,17 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindFromFlashWithSegue"{
+            if let indexPath = self.flashLightTableViewDetail.indexPathForSelectedRow {
+
             let vca: ViewController? = (segue.destination as? ViewController)
             //           let selectedPath: IndexPath? = senceTableViewDetail.indexPath(for: sender as! UITableViewCell)
-            print(sender)
+            let valueIGot = flashLightPicArray[indexPath.row]
+
+            vca?.flashToMain = valueIGot
+                print(valueIGot)
+
             vca?.flashLightTableView.isHidden = true
-            
+            }
         }
         /*
          if let seletRow = senceTableViewDetail.indexPathForSelectedRow?.row{

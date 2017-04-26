@@ -59,12 +59,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     
     var format = AVCaptureDeviceFormat()
-    
+//    MARK:-FORTOP
     var counter = 0
     var counterForFlashLight = 0
     var counterForSetting = 0
-    
     var videoCounter = 0
+    var beSelect:Bool = true
+    var flashToMain = "btn_flash_auto_1"
+    
     //設定錄影或拍照用
     var captureMode: Int = CaptureModePhoto
     
@@ -177,8 +179,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                     captureSession.addInput(activeInput)
                 }
                 captureSession.commitConfiguration()
-                //這邊之後給上方標籤
-                //                flashLabel.text = currentFlashOrTorchMode().name
             } catch {
                 print("Error switching cameras: \(error)")
             }
@@ -200,6 +200,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     @IBAction func setSence(_ sender: Any) {
         if senceTableView.isHidden == true{
         senceTableView.isHidden = false
+
             print("show")
         }else{
         senceTableView.isHidden = true
@@ -931,6 +932,25 @@ self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_
         }
     }
 
+    //MARK:-SET UPPER UI
+    
+//    func setHighlighted(_ highlighted: Bool) {
+//    }
+    func buttonClick(_ button: UIButton) {
+        // swith
+        switch (beSelect){
+        case true :
+            setSenceBtn.isSelected = !setSenceBtn.isSelected
+            beSelect = false
+
+        default:
+            setSenceBtn.isSelected = !setSenceBtn.isSelected
+            beSelect = true
+        }
+        print("真假",setSenceBtn.isSelected)
+        print("按鈕被選到")
+    }
+
     
     override var prefersStatusBarHidden: Bool{
         return true
@@ -951,6 +971,16 @@ self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_
         self.flashLightTableView.isHidden = true
         self.settingTableView.isHidden = true
         self.connectAndBatteryTableView.isHidden = true
+        
+        
+        let whiteBalanceGains = self.captureDevice?.deviceWhiteBalanceGains ?? AVCaptureWhiteBalanceGains()
+        print(whiteBalanceGains)
+self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_2"), for: UIControlState.selected)
+        self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
+        self.setSenceBtn.addTarget(self, action: #selector(self.buttonClick), for: .touchUpInside)
+        
+        print("OOOOOOOOO",flashToMain)
+
         //BLE
         
  
@@ -985,25 +1015,10 @@ self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_
         
         //去觀察畫面是否轉向
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getter: flashToMain), name: NSNotification.Name(rawValue: "FlshMode"), object: nil)
+        
         
     }
-/*
-    
-    override func viewDidAppear(_ animated: Bool) {
-        setSenceBtn?.initMenu(["Item A", "Item B", "Item C"], actions: [({ () -> (Void) in
-            self.setting()
-        }), ({ () -> (Void) in
-            print("QQ")
-        }), ({ () -> (Void) in
-            print("Estou fazendo a ação C")
-        })])
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-*/
 }
 
 extension ViewController: AVCaptureFileOutputRecordingDelegate {

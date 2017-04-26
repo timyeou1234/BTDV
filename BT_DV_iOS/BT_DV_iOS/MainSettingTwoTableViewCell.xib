@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="MainSettingTwoTableViewCell" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MainSettingTwoTableViewCell" customModule="BT_DV_iOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAh-dS-hmX">
+                        <rect key="frame" x="0.0" y="0.0" width="118" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="WTC-v3-usf"/>
+                            <constraint firstAttribute="width" constant="118" id="gA4-n0-Im1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.99855250630000003" green="0.99855250630000003" blue="0.99855250630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aHu-5z-uPx">
+                        <rect key="frame" x="252" y="0.0" width="44" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="44" id="42i-le-nGg"/>
+                            <constraint firstAttribute="height" constant="44" id="4c4-ha-1MD"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" red="0.004659739847715727" green="0.004659739847715727" blue="0.004659739847715727" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstItem="DAh-dS-hmX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Cx1-7V-RVX"/>
+                    <constraint firstAttribute="trailing" secondItem="aHu-5z-uPx" secondAttribute="trailing" constant="24" id="D2C-jQ-g3i"/>
+                    <constraint firstItem="DAh-dS-hmX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="EI8-k7-a66"/>
+                    <constraint firstAttribute="bottom" secondItem="DAh-dS-hmX" secondAttribute="bottom" id="OMX-wG-Ec8"/>
+                    <constraint firstItem="aHu-5z-uPx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="WoF-Nw-14b"/>
+                    <constraint firstAttribute="bottom" secondItem="aHu-5z-uPx" secondAttribute="bottom" id="n1n-V4-n61"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="settingNameTwoLabel" destination="DAh-dS-hmX" id="5cs-6Y-5XF"/>
+                <outlet property="switchImage" destination="aHu-5z-uPx" id="UGo-ev-HqU"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

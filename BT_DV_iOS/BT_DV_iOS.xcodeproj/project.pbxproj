@@ -7,10 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04249AC91EB080010051454B /* SetEVViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04249AC81EB080010051454B /* SetEVViewController.swift */; };
 		042B63F71EAD9D7900B2E1A8 /* FuelProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 042B63F31EAD9D7900B2E1A8 /* FuelProtocol.m */; };
 		042B63F81EAD9D7900B2E1A8 /* MyBluetoothLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 042B63F51EAD9D7900B2E1A8 /* MyBluetoothLE.m */; };
 		042B63F91EAD9D7900B2E1A8 /* CommProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 042B63F61EAD9D7900B2E1A8 /* CommProcess.m */; };
 		042B63FC1EADA11000B2E1A8 /* Function.m in Sources */ = {isa = PBXBuildFile; fileRef = 042B63FA1EADA11000B2E1A8 /* Function.m */; };
+		042B641E1EAF3FF000B2E1A8 /* settingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042B641D1EAF3FF000B2E1A8 /* settingViewController.swift */; };
+		042B64251EAFD1F100B2E1A8 /* MainSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042B64231EAFD1F000B2E1A8 /* MainSettingTableViewCell.swift */; };
+		042B64261EAFD1F100B2E1A8 /* MainSettingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042B64241EAFD1F000B2E1A8 /* MainSettingTableViewCell.xib */; };
+		042B64291EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042B64271EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.swift */; };
+		042B642A1EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042B64281EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib */; };
+		042B642D1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042B642B1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift */; };
+		042B642E1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042B642C1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib */; };
+		042B64311EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042B642F1EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift */; };
+		042B64321EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042B64301EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib */; };
 		0455AB171EAC95730087C14D /* senceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0455AB151EAC95730087C14D /* senceViewController.swift */; };
 		0455AB1B1EAC966A0087C14D /* senceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0455AB191EAC966A0087C14D /* senceTableViewCell.swift */; };
 		0455AB1C1EAC966A0087C14D /* senceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0455AB1A1EAC966A0087C14D /* senceTableViewCell.xib */; };
@@ -22,9 +32,16 @@
 		0487AA3C1E8A3138009822EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3A1E8A3138009822EE /* Main.storyboard */; };
 		0487AA3E1E8A3138009822EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3D1E8A3138009822EE /* Assets.xcassets */; };
 		0487AA411E8A3138009822EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */; };
+		04D03CBD1EB03CC50040C5B0 /* SenceFromSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CBC1EB03CC50040C5B0 /* SenceFromSettingViewController.swift */; };
+		04D03CBF1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CBE1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift */; };
+		04D03CC11EB0708F0040C5B0 /* ImageSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CC01EB0708F0040C5B0 /* ImageSizeViewController.swift */; };
+		04D03CC41EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CC21EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift */; };
+		04D03CC51EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D03CC31EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib */; };
+		04D03CC71EB0789B0040C5B0 /* PowerControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CC61EB0789B0040C5B0 /* PowerControlViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04249AC81EB080010051454B /* SetEVViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetEVViewController.swift; sourceTree = "<group>"; };
 		042B63F01EAD9D7700B2E1A8 /* BT_DV_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BT_DV_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		042B63F11EAD9D7900B2E1A8 /* CommProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommProcess.h; path = "../../../../Downloads/iOS BLE framework/Protocol/CommProcess.h"; sourceTree = "<group>"; };
 		042B63F21EAD9D7900B2E1A8 /* FuelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FuelProtocol.h; path = "../../../../Downloads/iOS BLE framework/Protocol/FuelProtocol.h"; sourceTree = "<group>"; };
@@ -34,6 +51,15 @@
 		042B63F61EAD9D7900B2E1A8 /* CommProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommProcess.m; path = "../../../../Downloads/iOS BLE framework/Protocol/CommProcess.m"; sourceTree = "<group>"; };
 		042B63FA1EADA11000B2E1A8 /* Function.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Function.m; path = "../../../../Downloads/iOS BLE framework/Variable/Function.m"; sourceTree = "<group>"; };
 		042B63FB1EADA11000B2E1A8 /* Function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Function.h; path = "../../../../Downloads/iOS BLE framework/Variable/Function.h"; sourceTree = "<group>"; };
+		042B641D1EAF3FF000B2E1A8 /* settingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingViewController.swift; sourceTree = "<group>"; };
+		042B64231EAFD1F000B2E1A8 /* MainSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSettingTableViewCell.swift; sourceTree = "<group>"; };
+		042B64241EAFD1F000B2E1A8 /* MainSettingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSettingTableViewCell.xib; sourceTree = "<group>"; };
+		042B64271EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSettingTwoTableViewCell.swift; sourceTree = "<group>"; };
+		042B64281EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSettingTwoTableViewCell.xib; sourceTree = "<group>"; };
+		042B642B1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSizeTableViewCell.swift; sourceTree = "<group>"; };
+		042B642C1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageSizeTableViewCell.xib; sourceTree = "<group>"; };
+		042B642F1EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerControlTableViewCell.swift; sourceTree = "<group>"; };
+		042B64301EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PowerControlTableViewCell.xib; sourceTree = "<group>"; };
 		0455AB151EAC95730087C14D /* senceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = senceViewController.swift; sourceTree = "<group>"; };
 		0455AB191EAC966A0087C14D /* senceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = senceTableViewCell.swift; sourceTree = "<group>"; };
 		0455AB1A1EAC966A0087C14D /* senceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = senceTableViewCell.xib; sourceTree = "<group>"; };
@@ -47,6 +73,12 @@
 		0487AA3D1E8A3138009822EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0487AA401E8A3138009822EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0487AA421E8A3138009822EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04D03CBC1EB03CC50040C5B0 /* SenceFromSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenceFromSettingViewController.swift; sourceTree = "<group>"; };
+		04D03CBE1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteBalanceSettingViewController.swift; sourceTree = "<group>"; };
+		04D03CC01EB0708F0040C5B0 /* ImageSizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSizeViewController.swift; sourceTree = "<group>"; };
+		04D03CC21EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSizeDetailTableViewCell.swift; sourceTree = "<group>"; };
+		04D03CC31EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageSizeDetailTableViewCell.xib; sourceTree = "<group>"; };
+		04D03CC61EB0789B0040C5B0 /* PowerControlViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerControlViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,26 +112,42 @@
 			isa = PBXGroup;
 			children = (
 				0487AA361E8A3138009822EE /* AppDelegate.swift */,
-				0487AA381E8A3138009822EE /* ViewController.swift */,
-				0455AB151EAC95730087C14D /* senceViewController.swift */,
-				0455AB191EAC966A0087C14D /* senceTableViewCell.swift */,
+				0487AA3D1E8A3138009822EE /* Assets.xcassets */,
+				042B63F01EAD9D7700B2E1A8 /* BT_DV_iOS-Bridging-Header.h */,
+				042B63F11EAD9D7900B2E1A8 /* CommProcess.h */,
+				042B63F61EAD9D7900B2E1A8 /* CommProcess.m */,
 				046C58191EAD26C800192290 /* flashLightViewController.swift */,
 				046C581B1EAD26F200192290 /* flashtLightTableViewCell.swift */,
 				046C581C1EAD26F200192290 /* flashtLightTableViewCell.xib */,
-				0455AB1A1EAC966A0087C14D /* senceTableViewCell.xib */,
-				0487AA3A1E8A3138009822EE /* Main.storyboard */,
-				042B63F11EAD9D7900B2E1A8 /* CommProcess.h */,
 				042B63F21EAD9D7900B2E1A8 /* FuelProtocol.h */,
 				042B63F31EAD9D7900B2E1A8 /* FuelProtocol.m */,
+				042B63FB1EADA11000B2E1A8 /* Function.h */,
+				042B63FA1EADA11000B2E1A8 /* Function.m */,
+				04D03CC21EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift */,
+				04D03CC31EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib */,
+				042B642B1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift */,
+				042B642C1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib */,
+				04D03CC01EB0708F0040C5B0 /* ImageSizeViewController.swift */,
+				0487AA421E8A3138009822EE /* Info.plist */,
+				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
+				0487AA3A1E8A3138009822EE /* Main.storyboard */,
+				042B64231EAFD1F000B2E1A8 /* MainSettingTableViewCell.swift */,
+				042B64241EAFD1F000B2E1A8 /* MainSettingTableViewCell.xib */,
+				042B64271EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.swift */,
+				042B64281EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib */,
 				042B63F41EAD9D7900B2E1A8 /* MyBluetoothLE.h */,
 				042B63F51EAD9D7900B2E1A8 /* MyBluetoothLE.m */,
-				042B63F61EAD9D7900B2E1A8 /* CommProcess.m */,
-				042B63FA1EADA11000B2E1A8 /* Function.m */,
-				042B63FB1EADA11000B2E1A8 /* Function.h */,
-				0487AA3D1E8A3138009822EE /* Assets.xcassets */,
-				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
-				0487AA421E8A3138009822EE /* Info.plist */,
-				042B63F01EAD9D7700B2E1A8 /* BT_DV_iOS-Bridging-Header.h */,
+				042B642F1EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift */,
+				042B64301EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib */,
+				04D03CC61EB0789B0040C5B0 /* PowerControlViewController.swift */,
+				04D03CBC1EB03CC50040C5B0 /* SenceFromSettingViewController.swift */,
+				0455AB191EAC966A0087C14D /* senceTableViewCell.swift */,
+				0455AB1A1EAC966A0087C14D /* senceTableViewCell.xib */,
+				0455AB151EAC95730087C14D /* senceViewController.swift */,
+				04249AC81EB080010051454B /* SetEVViewController.swift */,
+				042B641D1EAF3FF000B2E1A8 /* settingViewController.swift */,
+				0487AA381E8A3138009822EE /* ViewController.swift */,
+				04D03CBE1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift */,
 			);
 			path = BT_DV_iOS;
 			sourceTree = "<group>";
@@ -166,7 +214,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0487AA411E8A3138009822EE /* LaunchScreen.storyboard in Resources */,
+				042B64321EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib in Resources */,
+				04D03CC51EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib in Resources */,
+				042B64261EAFD1F100B2E1A8 /* MainSettingTableViewCell.xib in Resources */,
 				0487AA3E1E8A3138009822EE /* Assets.xcassets in Resources */,
+				042B642A1EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib in Resources */,
+				042B642E1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib in Resources */,
 				0487AA3C1E8A3138009822EE /* Main.storyboard in Resources */,
 				0455AB1C1EAC966A0087C14D /* senceTableViewCell.xib in Resources */,
 				046C581E1EAD26F200192290 /* flashtLightTableViewCell.xib in Resources */,
@@ -180,16 +233,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D03CBF1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift in Sources */,
+				04249AC91EB080010051454B /* SetEVViewController.swift in Sources */,
 				046C581A1EAD26C800192290 /* flashLightViewController.swift in Sources */,
 				0455AB1B1EAC966A0087C14D /* senceTableViewCell.swift in Sources */,
 				046C581D1EAD26F200192290 /* flashtLightTableViewCell.swift in Sources */,
 				042B63F91EAD9D7900B2E1A8 /* CommProcess.m in Sources */,
 				0487AA391E8A3138009822EE /* ViewController.swift in Sources */,
 				0455AB171EAC95730087C14D /* senceViewController.swift in Sources */,
+				042B64311EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift in Sources */,
+				042B641E1EAF3FF000B2E1A8 /* settingViewController.swift in Sources */,
+				042B64251EAFD1F100B2E1A8 /* MainSettingTableViewCell.swift in Sources */,
+				04D03CC41EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift in Sources */,
+				042B642D1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift in Sources */,
+				042B64291EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.swift in Sources */,
 				0487AA371E8A3138009822EE /* AppDelegate.swift in Sources */,
 				042B63F71EAD9D7900B2E1A8 /* FuelProtocol.m in Sources */,
 				042B63F81EAD9D7900B2E1A8 /* MyBluetoothLE.m in Sources */,
+				04D03CC71EB0789B0040C5B0 /* PowerControlViewController.swift in Sources */,
+				04D03CBD1EB03CC50040C5B0 /* SenceFromSettingViewController.swift in Sources */,
 				042B63FC1EADA11000B2E1A8 /* Function.m in Sources */,
+				04D03CC11EB0708F0040C5B0 /* ImageSizeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
