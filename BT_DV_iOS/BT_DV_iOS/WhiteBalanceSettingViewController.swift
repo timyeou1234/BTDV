@@ -114,6 +114,12 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        appl.valueFromWhiteBalance = indexPath
+        
+        NotificationCenter.default.post(name: NSNotification.Name("postWhiteBalance"), object: indexPath)
+
+        
         performSegue(withIdentifier: "unwindFromnWBWithSegue", sender: Any?.self)
         
     }

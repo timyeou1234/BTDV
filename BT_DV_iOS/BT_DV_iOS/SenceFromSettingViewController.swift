@@ -110,7 +110,11 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        appl.indexPath = indexPath
         
+        NotificationCenter.default.post(name: NSNotification.Name("postSence"), object: indexPath)
+
         
         performSegue(withIdentifier: "unwindFromSenceWithSegue", sender: Any?.self)
         

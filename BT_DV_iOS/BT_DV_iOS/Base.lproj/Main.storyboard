@@ -1083,9 +1083,11 @@
                     <connections>
                         <outlet property="evlabel" destination="xhz-k6-23v" id="p3x-eD-jtS"/>
                         <outlet property="sliderForEV" destination="9aE-m9-d9r" id="hu0-yt-5k6"/>
+                        <segue destination="hVD-hn-gUS" kind="unwind" identifier="unwindFromEV" unwindAction="unwindFromEVWithSegue:" id="UCd-Ev-VIW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C6a-0j-WLP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="hVD-hn-gUS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="427.5" y="1700.7042253521126"/>
         </scene>

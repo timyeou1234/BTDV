@@ -19,6 +19,10 @@ class SetEVViewController: UIViewController {
     @IBAction func changeExposureTargetBias(_ control: UISlider) {
         
         evlabel.text = String(Int(floor(sliderForEV.value)))
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        appl.valueFromEV = Int(floor(sliderForEV.value))
+        
+        NotificationCenter.default.post(name: NSNotification.Name("postEV"), object: Int(floor(sliderForEV.value)))
         
     }
 
@@ -50,5 +54,18 @@ class SetEVViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "unwindFromEV"{
+            
+                if let vc = segue.destination as? settingViewController{
+                    vc.evValue = String(Int(floor(sliderForEV.value)))
+                    vc.settingTableView.reloadData()
+                }
+            
+        }
+
+    }
+
 
 }

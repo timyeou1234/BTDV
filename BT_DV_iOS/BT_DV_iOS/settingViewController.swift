@@ -32,6 +32,8 @@ class settingViewController: UIViewController {
     @IBAction func unwindFromnWB(segue:UIStoryboardSegue) { }
     @IBAction func unwindFromSize(segue:UIStoryboardSegue) { }
     @IBAction func unwindFromPower(segue:UIStoryboardSegue) { }
+    @IBAction func unwindFromEV(segue:UIStoryboardSegue) { }
+
 
 
     var getTapOrNot = false
@@ -87,6 +89,11 @@ class settingViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func switchChanged(_ sender: Any) {
+        let switchControl: UISwitch? = sender as! UISwitch
+        print("The switch is \((switchControl?.isOn)! ? "ON" : "OFF")")
+    }
+
 
 
 }
@@ -123,7 +130,19 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         switch (sendTag){
         case 10:
             if indexPath.row == 3{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTwoTableViewCell", for: indexPath) as? MainSettingTwoTableViewCell
+                var cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTwoTableViewCell", for: indexPath) as? MainSettingTwoTableViewCell
+                if cell == nil{
+                    cell = UITableViewCell(style:UITableViewCellStyle.default, reuseIdentifier: "SwitchCell") as! MainSettingTwoTableViewCell
+                    cell?.textLabel?.text = "I Have A Switch"
+   //                 cell?.selectionStyle = []
+                    let switchView = UISwitch(frame: CGRect.zero)
+                    cell?.accessoryView = switchView
+                    switchView.setOn(false, animated: false)
+                    switchView.addTarget(self, action: #selector(self.switchChanged), for: .valueChanged)
+
+                
+                
+                }
                 
                 cell?.settingNameTwoLabel.text = "觸碰拍攝"
                cell?.tapForTakePhoto.isOn = false
@@ -134,26 +153,13 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
                 //            cell?.flahLightName.text = flashLightNameArray[indexPath.row]
                 
                 return cell!
-
-                
-                
-                
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTableViewCell", for: indexPath) as? MainSettingTableViewCell
                 cell?.settingNameLabel.text = settingNameArrayOne[indexPath.row]
                 let arr = [senceSetting,whiteBalanceSetting,evValue]
                 cell?.settingValueLabel.text = arr[indexPath.row]
                 
-                
-                
-                
-                
                 return cell!
-
-                
-                
-                
-                
             }
         case 20:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageSizeTableViewCell", for: indexPath) as? ImageSizeTableViewCell

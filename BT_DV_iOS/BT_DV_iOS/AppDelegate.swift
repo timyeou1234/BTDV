@@ -15,7 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var valueGetFromFlash = "btn_flash_auto_1"
     var  indexPath:IndexPath?
     var valueFromFlash:IndexPath?
-    
+    var valueFromWhiteBalance:IndexPath?
+    var valueFromEV:Int?
+    var valueFromSize:IndexPath?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

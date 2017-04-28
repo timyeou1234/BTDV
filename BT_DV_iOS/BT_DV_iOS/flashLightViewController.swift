@@ -96,8 +96,6 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
             if let indexPath = self.flashLightTableViewDetail.indexPathForSelectedRow {
 
             let vca: ViewController? = (segue.destination as? ViewController)
-                let appl = UIApplication.shared.delegate as! AppDelegate
-                appl.valueGetFromFlash = flashLightPicArray[indexPath.row]
 
             vca?.flashLightTableView.isHidden = true
             }

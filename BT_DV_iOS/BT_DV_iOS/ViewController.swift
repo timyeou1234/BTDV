@@ -562,7 +562,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     func setupSession() -> Bool {
         
 
-        captureSession.sessionPreset = AVCaptureSessionPresetHigh
+   //     captureSession.sessionPreset = AVCaptureSessionPresetHigh
         
         // Setup Camera
         let camera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
@@ -1246,7 +1246,125 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
 
     }
     
+    //MARK:- SETWhiteBalance
+    func setWBAuto(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .continuousAutoWhiteBalance
+            device?.unlockForConfiguration()
+        }catch{
+            print("ＮＯＮＯ")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+        
+        
+
+    }
     
+    func setWBDark(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+
+    
+    }
+    func setWBCloudy(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+
+    }
+    func setWBSunny(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+
+    
+    }
+    func setWBLight(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+
+    }
+    func setWBYellowLight(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+
+    }
+    
+    func setWBSunset(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+
+    }
+    
+    func setWBWormLight(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+
+    }
     func setting4(){
         let device = activeInput.device
         do{
@@ -1538,6 +1656,7 @@ print("ERRRRRROR")
         self.settingTableView.isHidden = true
         self.connectAndBatteryTableView.isHidden = true
         
+
         var BLEprotocol = FuelProtocol()
         let name = BLEProtocol?.getBattery()
         let version  = BLEProtocol?.getFwVersion()
@@ -1744,6 +1863,90 @@ print("ERRRRRROR")
         
         
         }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postWhiteBalance"), object:appl.valueFromFlash, queue: nil) {notification in
+            switch((appl.valueFromWhiteBalance?.row)!){
+            case 0:
+                self.setWBAuto()
+                break
+            case 1:
+                self.setWBDark()
+                break
+            case 2:
+                self.setWBCloudy()
+                break
+            case 3:
+                self.setWBSunny()
+                break
+            case 4:
+                self.setWBLight()
+                
+                break
+            case 5:
+                self.setWBYellowLight()
+                break
+            case 6:
+                self.setWBSunset()
+                break
+            case 7:
+                self.setWBWormLight()
+                break
+            default:
+                break
+                
+            
+            }
+
+        
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postEV"), object:appl.valueFromEV, queue: nil) { notification in
+            let device = self.activeInput.device
+            do {
+                try device?.lockForConfiguration()
+                device?.setExposureTargetBias((Float(appl.valueFromEV!)), completionHandler: nil)
+                device?.unlockForConfiguration()
+            } catch let error {
+                NSLog("Could not lock device for configuration: \(error)")
+            }
+
+        print(appl.valueFromEV!)
+            
+        }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postSize"), object:appl.valueFromFlash, queue: nil) { notification in
+            switch ((appl.valueFromSize?.row)!){
+                
+            case 0:
+                self.captureSession.sessionPreset = AVCaptureSessionPreset1280x720
+
+                break
+            case 1:
+                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
+
+                break
+                
+            case 2:
+                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
+
+                break
+            case 3:
+                self.captureSession.sessionPreset = AVCaptureSessionPreset1920x1080
+
+                break
+            case 4:
+                
+                self.captureSession.sessionPreset = AVCaptureSessionPresetHigh
+
+                break
+            default:
+                break
+            
+            
+            }
+
+        
+        }
+
+
     
     }
 }

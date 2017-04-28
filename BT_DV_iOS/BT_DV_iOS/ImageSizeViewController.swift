@@ -90,7 +90,10 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        appl.valueFromSize = indexPath
+        
+        NotificationCenter.default.post(name: NSNotification.Name("postSize"), object: indexPath)
         
         performSegue(withIdentifier: "unwindFromSizeWithSegue", sender: Any?.self)
         
