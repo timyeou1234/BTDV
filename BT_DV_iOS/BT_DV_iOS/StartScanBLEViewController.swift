@@ -1,5 +1,5 @@
 //
-//  SetEVViewController.swift
+//  StartScanBLEViewController.swift
 //  BT_DV_iOS
 //
 //  Created by mac on 2017/4/26.
@@ -8,31 +8,12 @@
 
 import UIKit
 
-class SetEVViewController: UIViewController {
-    
+class StartScanBLEViewController: UIViewController {
 
-
-
-    @IBOutlet weak var sliderForEV: UISlider!
-    
-    @IBOutlet weak var evlabel: UILabel!
-    @IBAction func changeExposureTargetBias(_ control: UISlider) {
-        
-        evlabel.text = String(Int(floor(sliderForEV.value)))
-        
-    }
-
-    
-    @IBAction func backAndSendData(_ sender: Any) {
-        self.willMove(toParentViewController: self)
-        self.removeFromParentViewController()
-        self.view.removeFromSuperview()
-
-        
-        
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

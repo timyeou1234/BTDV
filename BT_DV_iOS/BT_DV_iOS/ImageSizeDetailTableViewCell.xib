@@ -13,7 +13,7 @@
         <tableViewCell contentMode="scaleToFill" restorationIdentifier="ImageSizeDetailTableViewCell" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="ImageSizeDetailTableViewCell" customModule="BT_DV_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -23,10 +23,11 @@
                             <constraint firstAttribute="width" constant="206" id="ZJE-OX-uZV"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <color key="backgroundColor" red="0.00085263324873097179" green="0.00085263324873097179" blue="0.00085263324873097179" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="WYk-uC-n4M" secondAttribute="bottom" id="81i-hl-ESi"/>
                     <constraint firstItem="WYk-uC-n4M" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="8nZ-9E-t1u"/>

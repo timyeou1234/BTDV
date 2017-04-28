@@ -8,8 +8,11 @@
 
 import UIKit
 
+
 class flashLightViewController: UIViewController {
 
+    
+    var valueIGot = ""
     @IBOutlet weak var flashLightTableViewDetail: UITableView!
     
     let  flashLightNameArray = ["自動","補光閃光燈","消除紅眼","關","手電筒模式"]
@@ -53,6 +56,12 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
         
     }
     
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
+    }
+
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
@@ -71,7 +80,13 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        appl.valueFromFlash = indexPath
+        
+        NotificationCenter.default.post(name: NSNotification.Name("postFlash"), object: indexPath)
+
         
         performSegue(withIdentifier: "unwindFromFlashWithSegue", sender: Any?.self)
         
@@ -81,11 +96,8 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
             if let indexPath = self.flashLightTableViewDetail.indexPathForSelectedRow {
 
             let vca: ViewController? = (segue.destination as? ViewController)
-            //           let selectedPath: IndexPath? = senceTableViewDetail.indexPath(for: sender as! UITableViewCell)
-            let valueIGot = flashLightPicArray[indexPath.row]
-
-            vca?.flashToMain = valueIGot
-                print(valueIGot)
+                let appl = UIApplication.shared.delegate as! AppDelegate
+                appl.valueGetFromFlash = flashLightPicArray[indexPath.row]
 
             vca?.flashLightTableView.isHidden = true
             }

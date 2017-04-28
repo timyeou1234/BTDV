@@ -27,27 +27,27 @@
                         <color key="textColor" red="0.99855250630000003" green="0.99855250630000003" blue="0.99855250630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aHu-5z-uPx">
-                        <rect key="frame" x="252" y="0.0" width="44" height="44"/>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IrU-Qs-TUa">
+                        <rect key="frame" x="263" y="5" width="51" height="31"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="44" id="42i-le-nGg"/>
-                            <constraint firstAttribute="height" constant="44" id="4c4-ha-1MD"/>
+                            <constraint firstAttribute="width" constant="49" id="DVf-d1-pYE"/>
+                            <constraint firstAttribute="height" constant="31" id="wXV-xn-hfd"/>
                         </constraints>
-                    </imageView>
+                    </switch>
                 </subviews>
                 <color key="backgroundColor" red="0.004659739847715727" green="0.004659739847715727" blue="0.004659739847715727" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
+                    <constraint firstItem="IrU-Qs-TUa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="03r-Ux-Pcj"/>
+                    <constraint firstAttribute="bottom" secondItem="IrU-Qs-TUa" secondAttribute="bottom" constant="8" id="21W-dG-Hvp"/>
                     <constraint firstItem="DAh-dS-hmX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Cx1-7V-RVX"/>
-                    <constraint firstAttribute="trailing" secondItem="aHu-5z-uPx" secondAttribute="trailing" constant="24" id="D2C-jQ-g3i"/>
                     <constraint firstItem="DAh-dS-hmX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="EI8-k7-a66"/>
                     <constraint firstAttribute="bottom" secondItem="DAh-dS-hmX" secondAttribute="bottom" id="OMX-wG-Ec8"/>
-                    <constraint firstItem="aHu-5z-uPx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="WoF-Nw-14b"/>
-                    <constraint firstAttribute="bottom" secondItem="aHu-5z-uPx" secondAttribute="bottom" id="n1n-V4-n61"/>
+                    <constraint firstAttribute="trailing" secondItem="IrU-Qs-TUa" secondAttribute="trailing" constant="8" id="tkz-0z-5Zu"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="settingNameTwoLabel" destination="DAh-dS-hmX" id="5cs-6Y-5XF"/>
-                <outlet property="switchImage" destination="aHu-5z-uPx" id="UGo-ev-HqU"/>
+                <outlet property="tapForTakePhoto" destination="IrU-Qs-TUa" id="mrW-r7-7Wq"/>
             </connections>
         </tableViewCell>
     </objects>

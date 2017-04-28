@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04249AC91EB080010051454B /* SetEVViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04249AC81EB080010051454B /* SetEVViewController.swift */; };
+		04249ACC1EB08A9A0051454B /* StartScanBLEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04249ACB1EB08A9A0051454B /* StartScanBLEViewController.swift */; };
 		042B63F71EAD9D7900B2E1A8 /* FuelProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 042B63F31EAD9D7900B2E1A8 /* FuelProtocol.m */; };
 		042B63F81EAD9D7900B2E1A8 /* MyBluetoothLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 042B63F51EAD9D7900B2E1A8 /* MyBluetoothLE.m */; };
 		042B63F91EAD9D7900B2E1A8 /* CommProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 042B63F61EAD9D7900B2E1A8 /* CommProcess.m */; };
@@ -32,6 +33,7 @@
 		0487AA3C1E8A3138009822EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3A1E8A3138009822EE /* Main.storyboard */; };
 		0487AA3E1E8A3138009822EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3D1E8A3138009822EE /* Assets.xcassets */; };
 		0487AA411E8A3138009822EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */; };
+		04C1E8641EB2F57000EE3299 /* functionForSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1E8631EB2F57000EE3299 /* functionForSetting.swift */; };
 		04D03CBD1EB03CC50040C5B0 /* SenceFromSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CBC1EB03CC50040C5B0 /* SenceFromSettingViewController.swift */; };
 		04D03CBF1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CBE1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift */; };
 		04D03CC11EB0708F0040C5B0 /* ImageSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CC01EB0708F0040C5B0 /* ImageSizeViewController.swift */; };
@@ -42,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		04249AC81EB080010051454B /* SetEVViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetEVViewController.swift; sourceTree = "<group>"; };
+		04249ACB1EB08A9A0051454B /* StartScanBLEViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScanBLEViewController.swift; sourceTree = "<group>"; };
 		042B63F01EAD9D7700B2E1A8 /* BT_DV_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BT_DV_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		042B63F11EAD9D7900B2E1A8 /* CommProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommProcess.h; path = "../../../../Downloads/iOS BLE framework/Protocol/CommProcess.h"; sourceTree = "<group>"; };
 		042B63F21EAD9D7900B2E1A8 /* FuelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FuelProtocol.h; path = "../../../../Downloads/iOS BLE framework/Protocol/FuelProtocol.h"; sourceTree = "<group>"; };
@@ -73,6 +76,7 @@
 		0487AA3D1E8A3138009822EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0487AA401E8A3138009822EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0487AA421E8A3138009822EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04C1E8631EB2F57000EE3299 /* functionForSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = functionForSetting.swift; sourceTree = "<group>"; };
 		04D03CBC1EB03CC50040C5B0 /* SenceFromSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenceFromSettingViewController.swift; sourceTree = "<group>"; };
 		04D03CBE1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteBalanceSettingViewController.swift; sourceTree = "<group>"; };
 		04D03CC01EB0708F0040C5B0 /* ImageSizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSizeViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +96,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04249ACA1EB08A0E0051454B /* xib */ = {
+			isa = PBXGroup;
+			children = (
+				046C581B1EAD26F200192290 /* flashtLightTableViewCell.swift */,
+				042B642B1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift */,
+				042B64231EAFD1F000B2E1A8 /* MainSettingTableViewCell.swift */,
+				042B64271EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.swift */,
+				042B642F1EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift */,
+				04D03CC21EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift */,
+				0455AB191EAC966A0087C14D /* senceTableViewCell.swift */,
+				046C581C1EAD26F200192290 /* flashtLightTableViewCell.xib */,
+				04D03CC31EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib */,
+				042B642C1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib */,
+				042B64241EAFD1F000B2E1A8 /* MainSettingTableViewCell.xib */,
+				042B64281EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib */,
+				042B64301EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib */,
+				0455AB1A1EAC966A0087C14D /* senceTableViewCell.xib */,
+			);
+			name = xib;
+			sourceTree = "<group>";
+		};
 		0487AA2A1E8A3137009822EE = {
 			isa = PBXGroup;
 			children = (
@@ -111,43 +136,32 @@
 		0487AA351E8A3138009822EE /* BT_DV_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				0487AA361E8A3138009822EE /* AppDelegate.swift */,
-				0487AA3D1E8A3138009822EE /* Assets.xcassets */,
+				04249ACA1EB08A0E0051454B /* xib */,
 				042B63F01EAD9D7700B2E1A8 /* BT_DV_iOS-Bridging-Header.h */,
 				042B63F11EAD9D7900B2E1A8 /* CommProcess.h */,
-				042B63F61EAD9D7900B2E1A8 /* CommProcess.m */,
-				046C58191EAD26C800192290 /* flashLightViewController.swift */,
-				046C581B1EAD26F200192290 /* flashtLightTableViewCell.swift */,
-				046C581C1EAD26F200192290 /* flashtLightTableViewCell.xib */,
 				042B63F21EAD9D7900B2E1A8 /* FuelProtocol.h */,
-				042B63F31EAD9D7900B2E1A8 /* FuelProtocol.m */,
 				042B63FB1EADA11000B2E1A8 /* Function.h */,
-				042B63FA1EADA11000B2E1A8 /* Function.m */,
-				04D03CC21EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift */,
-				04D03CC31EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib */,
-				042B642B1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift */,
-				042B642C1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib */,
-				04D03CC01EB0708F0040C5B0 /* ImageSizeViewController.swift */,
-				0487AA421E8A3138009822EE /* Info.plist */,
-				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
-				0487AA3A1E8A3138009822EE /* Main.storyboard */,
-				042B64231EAFD1F000B2E1A8 /* MainSettingTableViewCell.swift */,
-				042B64241EAFD1F000B2E1A8 /* MainSettingTableViewCell.xib */,
-				042B64271EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.swift */,
-				042B64281EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib */,
 				042B63F41EAD9D7900B2E1A8 /* MyBluetoothLE.h */,
+				042B63F61EAD9D7900B2E1A8 /* CommProcess.m */,
+				042B63F31EAD9D7900B2E1A8 /* FuelProtocol.m */,
+				042B63FA1EADA11000B2E1A8 /* Function.m */,
 				042B63F51EAD9D7900B2E1A8 /* MyBluetoothLE.m */,
-				042B642F1EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift */,
-				042B64301EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib */,
+				0487AA421E8A3138009822EE /* Info.plist */,
+				0487AA361E8A3138009822EE /* AppDelegate.swift */,
+				046C58191EAD26C800192290 /* flashLightViewController.swift */,
+				04D03CC01EB0708F0040C5B0 /* ImageSizeViewController.swift */,
 				04D03CC61EB0789B0040C5B0 /* PowerControlViewController.swift */,
 				04D03CBC1EB03CC50040C5B0 /* SenceFromSettingViewController.swift */,
-				0455AB191EAC966A0087C14D /* senceTableViewCell.swift */,
-				0455AB1A1EAC966A0087C14D /* senceTableViewCell.xib */,
 				0455AB151EAC95730087C14D /* senceViewController.swift */,
 				04249AC81EB080010051454B /* SetEVViewController.swift */,
 				042B641D1EAF3FF000B2E1A8 /* settingViewController.swift */,
 				0487AA381E8A3138009822EE /* ViewController.swift */,
 				04D03CBE1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift */,
+				0487AA3D1E8A3138009822EE /* Assets.xcassets */,
+				0487AA3A1E8A3138009822EE /* Main.storyboard */,
+				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
+				04249ACB1EB08A9A0051454B /* StartScanBLEViewController.swift */,
+				04C1E8631EB2F57000EE3299 /* functionForSetting.swift */,
 			);
 			path = BT_DV_iOS;
 			sourceTree = "<group>";
@@ -237,6 +251,7 @@
 				04249AC91EB080010051454B /* SetEVViewController.swift in Sources */,
 				046C581A1EAD26C800192290 /* flashLightViewController.swift in Sources */,
 				0455AB1B1EAC966A0087C14D /* senceTableViewCell.swift in Sources */,
+				04249ACC1EB08A9A0051454B /* StartScanBLEViewController.swift in Sources */,
 				046C581D1EAD26F200192290 /* flashtLightTableViewCell.swift in Sources */,
 				042B63F91EAD9D7900B2E1A8 /* CommProcess.m in Sources */,
 				0487AA391E8A3138009822EE /* ViewController.swift in Sources */,
@@ -252,6 +267,7 @@
 				042B63F81EAD9D7900B2E1A8 /* MyBluetoothLE.m in Sources */,
 				04D03CC71EB0789B0040C5B0 /* PowerControlViewController.swift in Sources */,
 				04D03CBD1EB03CC50040C5B0 /* SenceFromSettingViewController.swift in Sources */,
+				04C1E8641EB2F57000EE3299 /* functionForSetting.swift in Sources */,
 				042B63FC1EADA11000B2E1A8 /* Function.m in Sources */,
 				04D03CC11EB0708F0040C5B0 /* ImageSizeViewController.swift in Sources */,
 			);

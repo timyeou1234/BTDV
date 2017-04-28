@@ -65,7 +65,14 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
         imageViewGame.image = image;
         header.contentView.addSubview(imageViewGame)
     }
-  */  
+  */
+    
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
+    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let v = UITableViewHeaderFooterView()
@@ -103,39 +110,31 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        self.willMove(toParentViewController: self)
-        //        self.removeFromParentViewController()
-        //        self.view.removeFromSuperview()
         
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        performSegue(withIdentifier: "unwindToVC", sender: Any?.self)
+        performSegue(withIdentifier: "unwindFromnWBWithSegue", sender: Any?.self)
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "unwindToVC"{
-            let vca: ViewController? = (segue.destination as? ViewController)
-            //           let selectedPath: IndexPath? = senceTableViewDetail.indexPath(for: sender as! UITableViewCell)
-            vca?.senceTableView.isHidden = true
-            vca?.beSelect = true
-            //            vca?.setSenceBtn.setImage(UIImage(named:"btn_sence_auto_1"), for: UIControlState.normal)
-            //            vca?.setSenceBtn.setImage(UIImage(named:"btn_sence_auto_2"), for: UIControlState.selected)
-            //            vca?.setSenceBtn.addTarget(self, action: #selector(vca?.buttonClick(_:)), for: .touchUpInside)
-            
-            //           vca?.buttonClick()
+        if segue.identifier == "unwindFromnWBWithSegue"{
+            if let indexPath = self.whiteBalanceTableView.indexPathForSelectedRow {
+                
+                if let vc = segue.destination as? settingViewController{
+                    vc.whiteBalanceSetting = whiteBalanceName[indexPath.row]
+                    vc.settingTableView.reloadData()
+                }
+            }
         }
-        /*
-         if let seletRow = senceTableViewDetail.indexPathForSelectedRow?.row{
-         let sendThis = senceNameArray[seletRow]
-         if segue.identifier == "showDetail"{}
-         if let detail = segue.destination as? ViewController{
-         
-         
-         
-         }
-         }
-         */
+        
+        
+        
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
+        
+        
     }
     
     

@@ -12,7 +12,11 @@ class MainSettingTwoTableViewCell: UITableViewCell {
 
     @IBOutlet weak var settingNameTwoLabel: UILabel!
     
-    @IBOutlet weak var switchImage: UIImageView!
+    @IBOutlet weak var tapForTakePhoto: UISwitch!
+    
+  //  let controller = storyboard.instantiateViewController(withIdentifier: "ShelfTableViewController") as! ShelfTableViewController
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

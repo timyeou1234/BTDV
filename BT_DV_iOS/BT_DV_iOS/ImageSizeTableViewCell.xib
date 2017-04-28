@@ -28,10 +28,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tFD-df-kE9">
-                        <rect key="frame" x="174" y="0.0" width="146" height="44"/>
+                        <rect key="frame" x="160" y="0.0" width="160" height="44"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="Fig-q3-mh8"/>
-                            <constraint firstAttribute="width" constant="146" id="qBd-KW-9PQ"/>
+                            <constraint firstAttribute="width" constant="160" id="qBd-KW-9PQ"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

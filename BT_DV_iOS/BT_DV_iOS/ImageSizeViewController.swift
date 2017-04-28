@@ -49,6 +49,12 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
         return "影像尺寸"
         
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
+    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let v = UITableViewHeaderFooterView()
@@ -86,14 +92,35 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        performSegue(withIdentifier: "unwindFromFlashWithSegue", sender: Any?.self)
+        performSegue(withIdentifier: "unwindFromSizeWithSegue", sender: Any?.self)
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "unwindFromSizeWithSegue"{
+            if let indexPath = self.imageSizeDetailTableView.indexPathForSelectedRow {
+                
+                if let vc = segue.destination as? settingViewController{
+                    vc.imageSize = imageSizeDetail[indexPath.row]
+                    vc.settingTableView.reloadData()
+                }
+            }
+        }
         
+        
+        
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
+        
+        
+    }
+    
+    
+
+    
     }
     
     
     
     
-}
+

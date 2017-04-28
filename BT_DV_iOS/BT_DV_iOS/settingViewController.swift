@@ -11,14 +11,32 @@ import UIKit
 class settingViewController: UIViewController {
     
     var sendTag = 10
-    var settingNameArrayOne = ["場景選擇","白平衡","曝光補償"]
+    let settingNameArrayOne = ["場景選擇","白平衡","曝光補償"]
     var settingNameArrayTwo = ["觸碰拍攝"]
+
+    var senceSetting = "自動"
+    var whiteBalanceSetting = "自動ＡＷＢ"
+    var evValue = ""
+    
+    var imageSize = "800萬(3264*2448)"
+    var powerstatus = "2分鐘自動關機"
     
     var imageSizeSettingName = ["影像尺寸"]
     var imageSizeSettingValue = ["800萬(3264*2448)"]
     
     var powerControlName = ["電源管理"]
     var powerControlValue = ["2分鐘自動關機"]
+    
+    
+    @IBAction func unwindFromSence(segue:UIStoryboardSegue) { }
+    @IBAction func unwindFromnWB(segue:UIStoryboardSegue) { }
+    @IBAction func unwindFromSize(segue:UIStoryboardSegue) { }
+    @IBAction func unwindFromPower(segue:UIStoryboardSegue) { }
+
+
+    var getTapOrNot = false
+
+
 
     @IBOutlet weak var settingTableView: UITableView!
     @IBAction func buttonForSetting(_ sender: UIButton) {
@@ -62,7 +80,6 @@ class settingViewController: UIViewController {
         self.settingTableView.register(nib4, forCellReuseIdentifier: "PowerControlTableViewCell")
         
         
-print("OOOOOKK")
     }
 
     override func didReceiveMemoryWarning() {
@@ -109,9 +126,10 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTwoTableViewCell", for: indexPath) as? MainSettingTwoTableViewCell
                 
                 cell?.settingNameTwoLabel.text = "觸碰拍攝"
-                
+               cell?.tapForTakePhoto.isOn = false
+                self.getTapOrNot = (cell?.tapForTakePhoto.isOn)!
  //               settingNameArrayTwo[indexPath.row]
-                cell?.switchImage.image = UIImage(named:"btn_flash_auto_1")
+ //               cell?.switchImage.image = UIImage(named:"btn_flash_auto_1")
                 //            cell?.flashLightPic.image = UIImage(named:flashLightPicArray[indexPath.row])
                 //            cell?.flahLightName.text = flashLightNameArray[indexPath.row]
                 
@@ -123,6 +141,9 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTableViewCell", for: indexPath) as? MainSettingTableViewCell
                 cell?.settingNameLabel.text = settingNameArrayOne[indexPath.row]
+                let arr = [senceSetting,whiteBalanceSetting,evValue]
+                cell?.settingValueLabel.text = arr[indexPath.row]
+                
                 
                 
                 
@@ -137,12 +158,14 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         case 20:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageSizeTableViewCell", for: indexPath) as? ImageSizeTableViewCell
             cell?.imageSizeLabel.text = imageSizeSettingName[indexPath.row]
+            cell?.imageSizeValueLabel.text = imageSize
             
             return cell!
             break
         case 30:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PowerControlTableViewCell", for: indexPath) as? PowerControlTableViewCell
             cell?.powerControlLabel.text = powerControlName[indexPath.row]
+            cell?.powerContolValue.text = powerstatus
             
             return cell!
             
@@ -189,14 +212,17 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
             self.view.addSubview((vc?.view)!)
 
         }else if indexPath.row == 3 && sendTag == 10{
-            let vc = storyboard?.instantiateViewController(withIdentifier: "SetEVViewController")
-            self.addChildViewController(vc!)
-            vc?.didMove(toParentViewController: self)
-            vc?.view.frame = self.view.frame
-            self.view.addSubview((vc?.view)!)
+            let vc = storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        
+            
+            
+            vc.tapOrNot = self.getTapOrNot
+            print("有沒有收到真假值",vc.tapOrNot)
+
 
         }else if indexPath.row == 0 && sendTag == 20{
             let vc = storyboard?.instantiateViewController(withIdentifier: "ImageSizeViewController")
+            
             self.addChildViewController(vc!)
             vc?.didMove(toParentViewController: self)
             vc?.view.frame = self.view.frame

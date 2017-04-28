@@ -11,7 +11,7 @@ import UIKit
 class PowerControlViewController: UIViewController {
 
     @IBOutlet weak var powerControlDetailTableView: UITableView!
-    var powerControlDetail = ["關","     2分鐘後自動關機","5分鐘後自動關機"]
+    var powerControlDetail = ["關","2分鐘後自動關機","5分鐘後自動關機"]
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,8 +20,8 @@ class PowerControlViewController: UIViewController {
         self.powerControlDetailTableView.separatorStyle = .none
         
         
-        let nib = UINib(nibName: "PowerControlTableViewCell", bundle: nil)
-        self.powerControlDetailTableView.register(nib, forCellReuseIdentifier: "PowerControlTableViewCell")
+        let nib = UINib(nibName: "ImageSizeDetailTableViewCell", bundle: nil)
+        self.powerControlDetailTableView.register(nib, forCellReuseIdentifier: "ImageSizeDetailTableViewCell")
 
         
     }
@@ -65,6 +65,12 @@ extension PowerControlViewController: UITableViewDataSource,UITableViewDelegate{
      header.contentView.addSubview(imageViewGame)
      }
      */
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
+    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let v = UITableViewHeaderFooterView()
@@ -88,8 +94,8 @@ extension PowerControlViewController: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PowerControlTableViewCell", for: indexPath) as? PowerControlTableViewCell
-        cell?.powerControlLabel.text = powerControlDetail[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ImageSizeDetailTableViewCell", for: indexPath) as? ImageSizeDetailTableViewCell
+        cell?.imageSizeLabel.text = powerControlDetail[indexPath.row]
         return cell!
         
         
@@ -101,39 +107,26 @@ extension PowerControlViewController: UITableViewDataSource,UITableViewDelegate{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        self.willMove(toParentViewController: self)
-        //        self.removeFromParentViewController()
-        //        self.view.removeFromSuperview()
-        
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        performSegue(withIdentifier: "unwindToVC", sender: Any?.self)
+        performSegue(withIdentifier: "unwindFromPowerWithSegue", sender: Any?.self)
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "unwindToVC"{
-            let vca: ViewController? = (segue.destination as? ViewController)
-            //           let selectedPath: IndexPath? = senceTableViewDetail.indexPath(for: sender as! UITableViewCell)
-            vca?.senceTableView.isHidden = true
-            vca?.beSelect = true
-            //            vca?.setSenceBtn.setImage(UIImage(named:"btn_sence_auto_1"), for: UIControlState.normal)
-            //            vca?.setSenceBtn.setImage(UIImage(named:"btn_sence_auto_2"), for: UIControlState.selected)
-            //            vca?.setSenceBtn.addTarget(self, action: #selector(vca?.buttonClick(_:)), for: .touchUpInside)
-            
-            //           vca?.buttonClick()
+        if segue.identifier == "unwindFromPowerWithSegue"{
+            if let indexPath = self.powerControlDetailTableView.indexPathForSelectedRow {
+                if let vc = segue.destination as? settingViewController{
+                    vc.powerstatus = powerControlDetail[indexPath.row]
+                    vc.settingTableView.reloadData()
+                }
+            }
         }
-        /*
-         if let seletRow = senceTableViewDetail.indexPathForSelectedRow?.row{
-         let sendThis = senceNameArray[seletRow]
-         if segue.identifier == "showDetail"{}
-         if let detail = segue.destination as? ViewController{
-         
-         
-         
-         }
-         }
-         */
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
+        
+
     }
     
     

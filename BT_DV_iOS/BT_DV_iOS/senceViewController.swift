@@ -75,20 +75,27 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
         print(sencePicArray[indexPath.row])
             return cell!
         
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
        return 65.0
     }
     
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
+    }
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        self.willMove(toParentViewController: self)
 //        self.removeFromParentViewController()
 //        self.view.removeFromSuperview()
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        appl.indexPath = indexPath
 
-        
+        NotificationCenter.default.post(name: NSNotification.Name("postSence"), object: indexPath)
+       // print(indexPath.row)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         performSegue(withIdentifier: "unwindToVC", sender: Any?.self)
