@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,29 +21,28 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAh-dS-hmX">
                         <rect key="frame" x="0.0" y="0.0" width="118" height="44"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="44" id="WTC-v3-usf"/>
-                            <constraint firstAttribute="width" constant="118" id="gA4-n0-Im1"/>
+                            <constraint firstAttribute="width" constant="118" id="d06-Mv-zjG"/>
+                            <constraint firstAttribute="height" constant="44" id="lgh-ZG-cgO"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.99855250630000003" green="0.99855250630000003" blue="0.99855250630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IrU-Qs-TUa">
-                        <rect key="frame" x="263" y="6.5" width="51" height="31"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="31" id="70v-Ih-kEF"/>
-                        </constraints>
+                        <rect key="frame" x="263" y="7" width="51" height="31"/>
+                        <connections>
+                            <action selector="tapOnOrOffForPhoto:" destination="KGk-i7-Jjw" eventType="valueChanged" id="WHJ-As-pxD"/>
+                        </connections>
                     </switch>
                 </subviews>
                 <color key="backgroundColor" red="0.004659739847715727" green="0.004659739847715727" blue="0.004659739847715727" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstItem="IrU-Qs-TUa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6.5" id="82o-Iw-DBG"/>
-                    <constraint firstItem="DAh-dS-hmX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Cx1-7V-RVX"/>
-                    <constraint firstItem="IrU-Qs-TUa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="D8B-uE-IkG"/>
-                    <constraint firstItem="DAh-dS-hmX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="EI8-k7-a66"/>
-                    <constraint firstAttribute="trailing" secondItem="IrU-Qs-TUa" secondAttribute="trailing" constant="8" id="IHe-Jp-i9F"/>
-                    <constraint firstAttribute="bottom" secondItem="DAh-dS-hmX" secondAttribute="bottom" id="OMX-wG-Ec8"/>
-                    <constraint firstAttribute="bottom" secondItem="IrU-Qs-TUa" secondAttribute="bottom" constant="6" id="h8d-Tg-01z"/>
+                    <constraint firstItem="DAh-dS-hmX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="1zj-GI-OoY"/>
+                    <constraint firstItem="IrU-Qs-TUa" firstAttribute="centerY" secondItem="DAh-dS-hmX" secondAttribute="centerY" id="B4T-AS-kxK"/>
+                    <constraint firstItem="IrU-Qs-TUa" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="FVV-oa-CN0"/>
+                    <constraint firstItem="DAh-dS-hmX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="HYO-Lg-kg5"/>
+                    <constraint firstAttribute="bottom" secondItem="DAh-dS-hmX" secondAttribute="bottom" id="KfK-uU-khs"/>
+                    <constraint firstItem="DAh-dS-hmX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Mdg-de-SoM"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

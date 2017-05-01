@@ -1633,6 +1633,28 @@ print("ERRRRRROR")
         
     }
     
+    
+    func tapToPhoto(){
+    
+        
+            //tap to capture
+            
+            let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
+            
+            // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
+            singleFinger.numberOfTapsRequired = 2
+            
+            
+            // 幾根指頭觸發
+            singleFinger.numberOfTouchesRequired = 1
+            
+            // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
+            
+            // 為視圖加入監聽手勢
+            self.view.addGestureRecognizer(singleFinger)
+
+    }
+    
     override var prefersStatusBarHidden: Bool{
         return true
     }
@@ -1683,28 +1705,9 @@ print("ERRRRRROR")
  //       self.setFlashBtn.addTarget(self, action: #selector(self.buttopTap), for: UIControlEvents.allEvents)
         
 
-        //BLE
- //       if tapOrNot == true{
- 
-        //tap to capture
-        
-        let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
-        
-        // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
-        singleFinger.numberOfTapsRequired = 2
-        
-        
-        // 幾根指頭觸發
-        singleFinger.numberOfTouchesRequired = 1
-        
-        // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
-        
-        // 為視圖加入監聽手勢
-        self.view.addGestureRecognizer(singleFinger)
-//        }else{
-//        
-//        print("單點拍攝關閉中")
-//        }
+        //MARK:-TAP_TAKE_Photo
+        let appl = UIApplication.shared.delegate as! AppDelegate
+
         
         //
         
@@ -1732,8 +1735,58 @@ print("ERRRRRROR")
         
         //去觀察畫面是否轉向
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(getter: flashToMain), name: NSNotification.Name(rawValue: "FlshMode"), object: nil)
-        let appl = UIApplication.shared.delegate as! AppDelegate
+        
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postTapOrNot"), object:appl.tapToTakePhoto, queue: nil) { notification in
+            if ((appl.tapToTakePhoto)!) == true{
+                print("觸碰手勢啟動！！！")
+                let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
+                
+                // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
+                singleFinger.numberOfTapsRequired = 2
+                
+                
+                // 幾根指頭觸發
+                singleFinger.numberOfTouchesRequired = 1
+                
+                // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
+                
+                // 為視圖加入監聽手勢
+                self.view.addGestureRecognizer(singleFinger)
+            }else{
+                print("觸碰關閉！！")
+                
+                if let recognizers = self.view.gestureRecognizers {
+                    for singleFinger in recognizers {
+                        self.view.removeGestureRecognizer(singleFinger as! UIGestureRecognizer)
+                    }
+                    let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
+                    
+                    
+                    self.view.addGestureRecognizer(pinchGesture)
+
+                }
+
+                /*
+                let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
+                
+                // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
+                singleFinger.numberOfTapsRequired = 2
+                
+                
+                // 幾根指頭觸發
+                singleFinger.numberOfTouchesRequired = 1
+                
+                // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
+                
+                // 為視圖加入監聽手勢
+                self.view.removeGestureRecognizer(singleFinger)
+ */
+            }
+        }
+
 
       NotificationCenter.default.addObserver(forName: NSNotification.Name("postSence"), object:appl.indexPath, queue: nil) { notification in
         print((appl.indexPath?.row)!)

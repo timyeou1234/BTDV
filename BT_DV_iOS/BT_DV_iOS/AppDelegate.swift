@@ -10,7 +10,7 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    var tapToTakePhoto:Bool?
     var window: UIWindow?
     var valueGetFromFlash = "btn_flash_auto_1"
     var  indexPath:IndexPath?

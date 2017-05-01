@@ -7,8 +7,12 @@
 //
 
 import UIKit
+protocol cellModelChanged {
+    func cellModelSwitchTapped(_ model: MainSettingTwoTableViewCell, isSwitchOn: Bool)
+}
 
 class settingViewController: UIViewController {
+    var tapModel : [keepTapStatus] = []
     
     var sendTag = 10
     let settingNameArrayOne = ["場景選擇","白平衡","曝光補償"]
@@ -37,8 +41,18 @@ class settingViewController: UIViewController {
 
 
     var getTapOrNot = false
+    
+    
+    func cellModelSwitchTapped(_ model: MainSettingTwoTableViewCell, isSwitchOn: Bool) {
+        let model = tapModel[(settingTableView.indexPath(for: model)?.row)!]
+        model.isInvited = isSwitchOn
+    }
 
-
+////    func setData (){
+//        let cellMode: keepTapStatus = keepTapStatus(name: "觸碰拍攝", address: "i i ",isInvited: false, profilePic: "")
+//        tapModel.append(cellMode)
+//
+//    }
 
     @IBOutlet weak var settingTableView: UITableView!
     @IBAction func buttonForSetting(_ sender: UIButton) {
@@ -68,10 +82,12 @@ class settingViewController: UIViewController {
         self.settingTableView.delegate = self
         self.settingTableView.dataSource = self
         self.settingTableView.separatorStyle = .none
+//       setData()
 
         
         let nib = UINib(nibName: "MainSettingTableViewCell", bundle: nil)
         self.settingTableView.register(nib, forCellReuseIdentifier: "MainSettingTableViewCell")
+        
         let nib2 = UINib(nibName: "MainSettingTwoTableViewCell", bundle: nil)
         self.settingTableView.register(nib2, forCellReuseIdentifier: "MainSettingTwoTableViewCell")
         
@@ -88,13 +104,13 @@ class settingViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+/*
     func switchChanged(_ sender: Any) {
         let switchControl: UISwitch? = sender as! UISwitch
         print("The switch is \((switchControl?.isOn)! ? "ON" : "OFF")")
     }
 
-
+*/
 
 }
 
@@ -112,6 +128,7 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         case 10:
 
         return 4
+            
         case 20:
             return imageSizeSettingName.count
             
@@ -130,29 +147,27 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         switch (sendTag){
         case 10:
             if indexPath.row == 3{
-                var cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTwoTableViewCell", for: indexPath) as? MainSettingTwoTableViewCell
-                if cell == nil{
-                    cell = UITableViewCell(style:UITableViewCellStyle.default, reuseIdentifier: "SwitchCell") as! MainSettingTwoTableViewCell
-                    cell?.textLabel?.text = "I Have A Switch"
-   //                 cell?.selectionStyle = []
-                    let switchView = UISwitch(frame: CGRect.zero)
-                    cell?.accessoryView = switchView
-                    switchView.setOn(false, animated: false)
-                    switchView.addTarget(self, action: #selector(self.switchChanged), for: .valueChanged)
-
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTwoTableViewCell", for: indexPath) as! MainSettingTwoTableViewCell
+                
+                cell.tapForTakePhoto.isOn = UserDefaults.standard.bool(forKey: "TapOrNot")
+                cell.settingNameTwoLabel.text = "觸碰拍攝"
+                
+//                print("o o oo o o ",tapModel[indexPath.row])
+//                let model = tapModel[indexPath.row]
+//                print(model)
+//
+//               cell.tapForTakePhoto.setOn(model.isInvited, animated: true)
+//                cell.settingNameTwoLabel.text = model.name
                 
                 
-                }
-                
-                cell?.settingNameTwoLabel.text = "觸碰拍攝"
-               cell?.tapForTakePhoto.isOn = false
-                self.getTapOrNot = (cell?.tapForTakePhoto.isOn)!
+//               cell?.tapForTakePhoto.isOn = false
+//                self.getTapOrNot = (cell?.tapForTakePhoto.isOn)!
  //               settingNameArrayTwo[indexPath.row]
  //               cell?.switchImage.image = UIImage(named:"btn_flash_auto_1")
                 //            cell?.flashLightPic.image = UIImage(named:flashLightPicArray[indexPath.row])
                 //            cell?.flahLightName.text = flashLightNameArray[indexPath.row]
                 
-                return cell!
+                return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTableViewCell", for: indexPath) as? MainSettingTableViewCell
                 cell?.settingNameLabel.text = settingNameArrayOne[indexPath.row]
@@ -222,8 +237,8 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         
             
             
-            vc.tapOrNot = self.getTapOrNot
-            print("有沒有收到真假值",vc.tapOrNot)
+//            vc.tapOrNot = self.getTapOrNot
+//            print("有沒有收到真假值",vc.tapOrNot)
 
 
         }else if indexPath.row == 0 && sendTag == 20{

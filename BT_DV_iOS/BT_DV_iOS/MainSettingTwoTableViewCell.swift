@@ -14,6 +14,9 @@ class MainSettingTwoTableViewCell: UITableViewCell {
     
     @IBOutlet weak var tapForTakePhoto: UISwitch!
     
+    var delegate: cellModelChanged!
+
+    
   //  let controller = storyboard.instantiateViewController(withIdentifier: "ShelfTableViewController") as! ShelfTableViewController
     
     
@@ -26,6 +29,25 @@ class MainSettingTwoTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func prepareForReuse() {
+        tapForTakePhoto.setOn(false, animated: true)
+  //      settingNameTwoLabel.text = ""
+    }
+ 
+    @IBAction func tapOnOrOffForPhoto(_ sender: Any) {
+        
+        let invSwitch = sender as! UISwitch
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        appl.tapToTakePhoto = (sender as AnyObject).isOn
+        NotificationCenter.default.post(name: NSNotification.Name("postTapOrNot"), object: appl.tapToTakePhoto)
+        UserDefaults.standard.set(appl.tapToTakePhoto, forKey: "TapOrNot")
+        UserDefaults.standard.synchronize()
+
+        print("按下去與否",(appl.tapToTakePhoto)!)
+//        delegate.cellModelSwitchTapped(self, isSwitchOn: invSwitch.isOn)
+
     }
     
 }
