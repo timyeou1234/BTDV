@@ -84,7 +84,6 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
         self.removeFromParentViewController()
         self.view.removeFromSuperview()
 
-  //      self.view.endEditing(true)
     }
 
     
@@ -93,10 +92,7 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "senceTableViewCell", for: indexPath) as? senceTableViewCell
         cell?.senceName.text = senceNameArray[indexPath.row]
-        let go = UIImage(named: sencePicArray[indexPath.row])
         cell?.senceIcon.image = UIImage(named: sencePicArray[indexPath.row])
-        print(go)
-        print(sencePicArray[indexPath.row])
         return cell!
         
         
@@ -109,7 +105,7 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
         let appl = UIApplication.shared.delegate as! AppDelegate
         appl.indexPath = indexPath
         

@@ -80,7 +80,6 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let appl = UIApplication.shared.delegate as! AppDelegate
         appl.valueFromFlash = indexPath
@@ -100,17 +99,6 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
             vca?.flashLightTableView.isHidden = true
             }
         }
-        /*
-         if let seletRow = senceTableViewDetail.indexPathForSelectedRow?.row{
-         let sendThis = senceNameArray[seletRow]
-         if segue.identifier == "showDetail"{}
-         if let detail = segue.destination as? ViewController{
-         
-         
-         
-         }
-         }
-         */
     }
     
 

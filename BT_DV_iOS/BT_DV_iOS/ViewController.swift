@@ -17,21 +17,48 @@ let CaptureModeMovie = 1
 
 
 class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate,ConnectStateDelegate {
+    /**
+     * 開啟設備BLE事件
+     * @param isEnable 藍牙是否開啟
+     */
     
-    var isConnect:Bool?
-    var BLEProtocol: FuelProtocol?
+    func onConnectionState(_ state: ConnectState) {
+        print("onConnectionState-----state = \(state)")
+        if state == Connected {
+            print("connection status Connected")
+        }
+        else if state == Disconnect {
+            print("connection status Disconnected")
+        }
+        
+    }
+
+ 
+    func onBtStateChanged(_ isEnable: Bool) {
+//        onConnectionState(ConnectState.init(2))
+//        if isEnable == false{
+//        
+//        }else{
+//            BLEProtocol?.connectUUID("Power Grip")
+//            print("安安")
+//        }
+    }
+
+  
+//    var isConnect:Bool?
+//    var BLEProtocol: FuelProtocol?
     /**
      * 返回掃描到的藍牙
      * @param uuid mac address
      * @param name 名稱
      * @param rssi 訊號強度
      */
-    /*
+ /*
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
-        code
+        
     }
- */
-
+ 
+*/
     /**
      * 開啟設備BLE事件
      * @param isEnable 藍牙是否開啟
@@ -51,6 +78,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
 //        func onNotifyCommand(_ command: String)
 //    }
     
+ /*
+    self.manager.loadLastImageThumb { [weak self] (image) in
+    DispatchQueue.main.async {
+    self?.galleryButton.setImage(image, for: .normal)
+    }
+    }
+ */
+
     @IBOutlet weak var cameraView: UIView!
     
     @IBOutlet weak var thumbnail: UIButton!
@@ -71,7 +106,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     @IBOutlet var setSenceBtn: UIButton!
     
     
-    @IBOutlet weak var batteryStatus: UIImageView!
+//    @IBOutlet weak var batteryStatus: UIImageView!
     
     var captureSession = AVCaptureSession()
     var captureDevice: AVCaptureDevice?
@@ -113,37 +148,57 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     
     //MARK:-BLE
-    
-    
-    
-    func onBtStateChanged(_ isEnable: Bool) {
-        if isEnable == true{
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
-            
-            self.perform(#selector(toConnect), with: nil, afterDelay: 2)
-            
-            print("成功連線")
-            isConnect = isEnable
-            
-            
-        }else{
-            print("oo")
-            
-        }
-    }
-    
-    
+    var BLEprotocol = FuelProtocol()
+
+
+//
+//    func onBtStateChanged(_ isEnable: Bool) {
+//        if isEnable == true{
+//            BLEProtocol.
+//            print("有沒有準備來藍牙這邊")
+//            if BLEProtocol?.connectUUID("Power Grip"){
+//            print("有連到唷")
+//            }else{
+//            
+//            }
+//            func onScanResultUUID(_ uuid: String, name: String, rssi: Int32) {
+//                let id = uuid
+//                let n = name
+//                let rs = rssi
+//                print("藍牙狀態",(id,n,rs))
+//                
+//            }
+//
+////            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
+////            self.addChildViewController(popOverVC)
+////            popOverVC.view.frame = self.view.frame
+////            self.view.addSubview(popOverVC.view)
+////            popOverVC.didMove(toParentViewController: self)
+//            
+//            
+//            print("成功連線")
+//            isConnect = isEnable
+//            
+//            
+//        }else{
+//            print("oo")
+//            
+//        }
+//    }
+//    
+
     func onScanResultUUID(_ uuid: String, name: String, rssi: Int32) {
         
-        print(uuid, name, rssi)
+
+        let id = uuid
+        let n = name
+        let rs = rssi
+        print("藍牙狀態",(id,n,rs))
+
     }
-    func onConnectionState(_ state: ConnectState) {
-        print(state)
-    }
+//    func onConnectionState(_ state: ConnectState) {
+//        print(state)
+//    }
     
     
     
@@ -169,7 +224,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     @IBAction func unwindFromFlash(segue:UIStoryboardSegue) { }
 
-
+//MARK:-Button
     
     @IBAction func capturePhotoOrMovie(_ sender: Any) {
         if captureMode == CaptureModePhoto {
@@ -264,76 +319,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }else{
         flashLightTableView.isHidden = true
         }
-      /*
-        let app = UIApplication.shared.delegate as! AppDelegate
-        var flashName = app.valueGetFromFlash
-        print(flashName)
-        let device = activeInput.device
-
-        switch(flashName){
-
-        case "btn_flash_on_1":
-            do{
-                try device?.lockForConfiguration()
-                device?.flashMode = .on
-                device?.unlockForConfiguration()
-            }catch{
-                print("喔")
-            }
-            print("真的假的")
-            
-        case "btn_flash_redeye_1":
-            do{
-                try device?.lockForConfiguration()
-                
-                device?.flashMode = .on
-                
-                device?.unlockForConfiguration()
-            }catch{
-                print("Back")
-            }
-        case "btn_flash_off_1":
-            do{
-                try device?.lockForConfiguration()
-                
-                device?.flashMode = .off
-                
-                device?.unlockForConfiguration()
-            }catch{
-                print("Error")
-            }
-            
-            
-        case "btn_flash_light_1":
-            
-            do{
-                try device?.lockForConfiguration()
-                if device?.torchMode == .off{
-                    device?.torchMode = .on
-                    
-                    
-                }else{
-                    device?.torchMode = .off
-                    
-                }
-                
-                device?.unlockForConfiguration()
-            }catch{
-                print("Error")
-            }
-            
-            
-        default:
-            do{
-                try device?.lockForConfiguration()
-                device?.torchMode = .off
-                device?.unlockForConfiguration()
-            }catch{
-                
-            }
-            
-        }
-      */
         
     }
     
@@ -341,7 +326,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         if senceTableView.isHidden == true{
         senceTableView.isHidden = false
 
-            print("show")
         }else{
         senceTableView.isHidden = true
         }
@@ -361,16 +345,35 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     @IBAction func connectBlueTooth(_ sender: Any) {
         
-        func onConnectionState(_ state: ConnectState) {
-            print("onConnectionState-----state = \(state)")
-            if state == Connected {
-                print("connection status Connected")
-            }
-            else if state == Disconnect {
-                print("connection status Disconnected")
-            }
-            
-        }
+//       let value =  BLEProtocol?.getInstanceSimulation(true, printLog: true)
+//        print("藍芽勒",value)
+//        
+//        func onBtStateEnable(_ isEnable: Bool) {
+//            if isEnable == true{
+//            print("連接到了")
+//            }else{
+//            print("沒有·什麼都沒有")
+//            }
+//        }
+//        
+//        if BLEProtocol?.onBtStateEnable{
+//        print("真的")
+//        
+//        }else{
+//         print("喔喔")
+//        }
+//        BLEProtocol?.onScanResultUUID(<#T##uuid: String!##String!#>, name: <#T##String!#>, rssi: <#T##Int32#>)
+        
+//        func onConnectionState(_ state: ConnectState) {
+//            print("onConnectionState-----state = \(state)")
+//            if state == Connected {
+//                print("connection status Connected")
+//            }
+//            else if state == Disconnect {
+//                print("connection status Disconnected")
+//            }
+//            
+//        }
 
     /*
         func openBluetooth(){
@@ -708,7 +711,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                     try device?.lockForConfiguration()
                     device?.flashMode = newMode
                     device?.unlockForConfiguration()
-                    //                    flashLabel.text = currentFlashOrTorchMode().name
                 } catch {
                     print("Error setting flash mode: \(error)")
                 }
@@ -734,7 +736,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                     try device?.lockForConfiguration()
                     device?.torchMode = newMode
                     device?.unlockForConfiguration()
-                    //                    flashLabel.text = currentFlashOrTorchMode().name
                 } catch {
                     print("Error setting torch mode: \(error)")
                 }
@@ -1174,8 +1175,9 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     
     func setFlashAuto(){
-        let device = activeInput.device
         
+        let device = activeInput.device
+        if (device?.hasFlash)!{
         do{
             try device?.lockForConfiguration()
             device?.flashMode = .auto
@@ -1183,13 +1185,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }catch{
             print("喔")
         }
-        
+        }
     }
 
     
     func setTorchOn(){
         
         let device = activeInput.device
+        if (device?.hasFlash)!{
 
         do{
             try device?.lockForConfiguration()
@@ -1202,12 +1205,13 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }catch{
             print("喔")
         }
-
+        }
     }
     
     func setFlashOn(){
         let device = activeInput.device
-        
+        if (device?.hasFlash)!{
+
         do{
             try device?.lockForConfiguration()
             device?.flashMode = .on
@@ -1215,13 +1219,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }catch{
             print("喔")
         }
-
+        }
     
     }
     
     func setRedEye(){
         let device = activeInput.device
-        
+        if (device?.hasFlash)!{
+
         do{
             try device?.lockForConfiguration()
             device?.flashMode = .on
@@ -1230,12 +1235,13 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             print("喔")
         }
 
-    
+        }
     }
     
     func setFlashOff(){
         let device = activeInput.device
-        
+        if (device?.hasFlash)!{
+
         do{
             try device?.lockForConfiguration()
             device?.flashMode = .off
@@ -1243,7 +1249,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }catch{
             print("喔")
         }
-
+        }
     }
     
     //MARK:- SETWhiteBalance
@@ -1257,8 +1263,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             print("ＮＯＮＯ")
         }
         
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
-        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+//        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+//        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
         
         
 
@@ -1273,7 +1279,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }catch{
         }
         
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 3500,tint: 15)
         self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
 
     
@@ -1288,7 +1294,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             print("Error")
         }
         
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5000,tint: 15)
         self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
 
     }
@@ -1302,7 +1308,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             print("Error")
         }
         
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5500,tint: 15)
         self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
 
     
@@ -1317,7 +1323,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             print("Error")
         }
         
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 6800,tint: 15)
         self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
 
     }
@@ -1346,7 +1352,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             print("Error")
         }
         
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 7500,tint: 15)
         self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
 
     }
@@ -1361,7 +1367,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             print("Error")
         }
         
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 9000,tint: 15)
         self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
 
     }
@@ -1662,15 +1668,12 @@ print("ERRRRRROR")
     
     
 
- /*
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.setting4()
-    }
  
-*/
     override func viewWillLayoutSubviews() {
         
             }
+    
+    //MAEK:-ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         self.senceTableView.isHidden = true
@@ -1679,14 +1682,31 @@ print("ERRRRRROR")
         self.connectAndBatteryTableView.isHidden = true
         
 
-        var BLEprotocol = FuelProtocol()
-        let name = BLEProtocol?.getBattery()
-        let version  = BLEProtocol?.getFwVersion()
+//        let name = BLEProtocol?.getBattery()
+//        print("電池電量",name)
+//        let version  = BLEProtocol?.getFwVersion()
         
         
-        BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
-        BLEprotocol.connectStateDelegate = self as ConnectStateDelegate
-//        BLEprotocol.dataResponseDelegate = self
+       BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
+        
+        BLEprotocol.connectStateDelegate = self as! ConnectStateDelegate
+ //     BLEprotocol.dataResponseDelegate = self as! DataResponseDelegate
+        BLEprotocol.startScanTimeout(1)
+        print("好煩啊啊啊啊啊",BLEprotocol.startScanTimeout(1))
+
+
+        
+        func onScanResultUUID(_ uuid: String, name: String, rssi: Int) {
+            print("onScanResultUUID-----uuid = \(uuid) , name = \(name) , rssi = \(rssi)")
+            if name.contains("Power Grip") {
+            }
+        }
+
+        
+        
+        
+        
+ //       BLEprotocol.connectUUID("Power Grip")
 
         
         
@@ -1795,7 +1815,7 @@ print("ERRRRRROR")
         case 0:
             
             self.settingAuto()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_3"), for: UIControlState.normal)
+            self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
 
             break
         case 1:

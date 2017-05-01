@@ -9,12 +9,12 @@
 import UIKit
 
 class PowerControlViewController: UIViewController {
-
+    
     @IBOutlet weak var powerControlDetailTableView: UITableView!
     var powerControlDetail = ["關","2分鐘後自動關機","5分鐘後自動關機"]
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.powerControlDetailTableView.delegate = self
         self.powerControlDetailTableView.dataSource = self
         self.powerControlDetailTableView.separatorStyle = .none
@@ -22,17 +22,17 @@ class PowerControlViewController: UIViewController {
         
         let nib = UINib(nibName: "ImageSizeDetailTableViewCell", bundle: nil)
         self.powerControlDetailTableView.register(nib, forCellReuseIdentifier: "ImageSizeDetailTableViewCell")
-
+        
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-
+    
+    
 }
 extension PowerControlViewController: UITableViewDataSource,UITableViewDelegate{
     
@@ -70,7 +70,7 @@ extension PowerControlViewController: UITableViewDataSource,UITableViewDelegate{
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = UIColor.white
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let v = UITableViewHeaderFooterView()
@@ -108,7 +108,6 @@ extension PowerControlViewController: UITableViewDataSource,UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         performSegue(withIdentifier: "unwindFromPowerWithSegue", sender: Any?.self)
         
@@ -126,7 +125,7 @@ extension PowerControlViewController: UITableViewDataSource,UITableViewDelegate{
         self.removeFromParentViewController()
         self.view.removeFromSuperview()
         
-
+        
     }
     
     

@@ -9,13 +9,13 @@
 import UIKit
 
 class ImageSizeViewController: UIViewController {
-
+    
     @IBOutlet weak var imageSizeDetailTableView: UITableView!
     
     var imageSizeDetail = ["90萬(1280*720)","200萬(1920*1080)","300萬(2048*1536)","600萬(3264*1836)","800萬(3264*2448)"]
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.imageSizeDetailTableView.delegate = self
         self.imageSizeDetailTableView.dataSource = self
         self.imageSizeDetailTableView.separatorStyle = .none
@@ -24,13 +24,13 @@ class ImageSizeViewController: UIViewController {
         let nib = UINib(nibName: "ImageSizeDetailTableViewCell", bundle: nil)
         self.imageSizeDetailTableView.register(nib, forCellReuseIdentifier: "ImageSizeDetailTableViewCell")
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
 }
 extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
     
@@ -54,7 +54,7 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = UIColor.white
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let v = UITableViewHeaderFooterView()
@@ -72,7 +72,7 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
         self.view.removeFromSuperview()
         
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
@@ -119,11 +119,11 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     
+    
+    
+}
 
-    
-    }
-    
-    
+
     
     
 

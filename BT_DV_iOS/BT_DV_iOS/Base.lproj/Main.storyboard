@@ -629,7 +629,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <segue destination="01N-Mm-4dy" kind="show" id="Oab-Es-82O"/>
+                        <segue destination="01N-Mm-4dy" kind="show" identifier="toConnecting" id="Oab-Es-82O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Uq-kD-knN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -691,7 +691,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hoo-k2-xTc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2252" y="-499"/>
+            <point key="canvasLocation" x="2524" y="-501"/>
         </scene>
         <!--Sence View Controller-->
         <scene sceneID="Wrd-Cu-wV4">
@@ -1266,7 +1266,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10M-4Z-Q3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2978" y="-500"/>
+            <point key="canvasLocation" x="3263" y="-502"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="VJ4-te-2T3">
@@ -1322,7 +1322,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6D5-bT-7ke" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1533.75" y="179.57746478873239"/>
+            <point key="canvasLocation" x="2524" y="193"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="l0u-bK-XZs">
@@ -1383,10 +1383,10 @@
             </objects>
             <point key="canvasLocation" x="811.875" y="282.04225352112678"/>
         </scene>
-        <!--View Controller-->
+        <!--Get Blue Tooth Info View Controller-->
         <scene sceneID="bnz-cf-7OS">
             <objects>
-                <viewController id="01N-Mm-4dy" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GetBlueToothInfoViewController" id="01N-Mm-4dy" customClass="GetBlueToothInfoViewController" customModule="BT_DV_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cf5-xo-oYQ"/>
                         <viewControllerLayoutGuide type="bottom" id="KQR-zD-byV"/>
@@ -1425,7 +1425,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ykf-UK-6ef" firstAttribute="centerX" secondItem="fIA-ma-qpa" secondAttribute="centerX" id="9sk-jC-gDT"/>
                             <constraint firstItem="ykf-UK-6ef" firstAttribute="centerY" secondItem="fIA-ma-qpa" secondAttribute="centerY" id="Vri-Wm-oSK"/>
@@ -1434,7 +1434,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NWJ-xm-oRZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1496" y="-529"/>
+            <point key="canvasLocation" x="1751" y="-501"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="TBj-HH-XQ4">

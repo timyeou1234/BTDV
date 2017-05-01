@@ -29,16 +29,7 @@ var senceNameArray = ["自動","行進中","人像","風景","夜間","夜間人
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
 
 extension senceViewController: UITableViewDataSource,UITableViewDelegate{
@@ -88,15 +79,10 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.willMove(toParentViewController: self)
-//        self.removeFromParentViewController()
-//        self.view.removeFromSuperview()
         let appl = UIApplication.shared.delegate as! AppDelegate
         appl.indexPath = indexPath
 
         NotificationCenter.default.post(name: NSNotification.Name("postSence"), object: indexPath)
-       // print(indexPath.row)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         performSegue(withIdentifier: "unwindToVC", sender: Any?.self)
 
