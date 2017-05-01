@@ -1663,7 +1663,7 @@ print("ERRRRRROR")
         
         
         BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
-        BLEprotocol.connectStateDelegate = self as! ConnectStateDelegate
+        BLEprotocol.connectStateDelegate = self as ConnectStateDelegate
 //        BLEprotocol.dataResponseDelegate = self
 
         

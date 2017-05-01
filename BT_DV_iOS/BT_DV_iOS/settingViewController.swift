@@ -16,7 +16,7 @@ class settingViewController: UIViewController {
 
     var senceSetting = "自動"
     var whiteBalanceSetting = "自動ＡＷＢ"
-    var evValue = ""
+    var evValue = "0 EV"
     
     var imageSize = "800萬(3264*2448)"
     var powerstatus = "2分鐘自動關機"

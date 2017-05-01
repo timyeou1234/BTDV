@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAh-dS-hmX">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAh-dS-hmX">
                         <rect key="frame" x="0.0" y="0.0" width="118" height="44"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="WTC-v3-usf"/>
@@ -28,21 +28,21 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IrU-Qs-TUa">
-                        <rect key="frame" x="263" y="5" width="51" height="31"/>
+                        <rect key="frame" x="263" y="6.5" width="51" height="31"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="49" id="DVf-d1-pYE"/>
-                            <constraint firstAttribute="height" constant="31" id="wXV-xn-hfd"/>
+                            <constraint firstAttribute="height" constant="31" id="70v-Ih-kEF"/>
                         </constraints>
                     </switch>
                 </subviews>
                 <color key="backgroundColor" red="0.004659739847715727" green="0.004659739847715727" blue="0.004659739847715727" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstItem="IrU-Qs-TUa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="03r-Ux-Pcj"/>
-                    <constraint firstAttribute="bottom" secondItem="IrU-Qs-TUa" secondAttribute="bottom" constant="8" id="21W-dG-Hvp"/>
+                    <constraint firstItem="IrU-Qs-TUa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6.5" id="82o-Iw-DBG"/>
                     <constraint firstItem="DAh-dS-hmX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Cx1-7V-RVX"/>
+                    <constraint firstItem="IrU-Qs-TUa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="D8B-uE-IkG"/>
                     <constraint firstItem="DAh-dS-hmX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="EI8-k7-a66"/>
+                    <constraint firstAttribute="trailing" secondItem="IrU-Qs-TUa" secondAttribute="trailing" constant="8" id="IHe-Jp-i9F"/>
                     <constraint firstAttribute="bottom" secondItem="DAh-dS-hmX" secondAttribute="bottom" id="OMX-wG-Ec8"/>
-                    <constraint firstAttribute="trailing" secondItem="IrU-Qs-TUa" secondAttribute="trailing" constant="8" id="tkz-0z-5Zu"/>
+                    <constraint firstAttribute="bottom" secondItem="IrU-Qs-TUa" secondAttribute="bottom" constant="6" id="h8d-Tg-01z"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

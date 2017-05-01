@@ -28,6 +28,7 @@ class SetEVViewController: UIViewController {
 
     
     @IBAction func backAndSendData(_ sender: Any) {
+        performSegue(withIdentifier: "unwindFromEV", sender: Any?.self)
         self.willMove(toParentViewController: self)
         self.removeFromParentViewController()
         self.view.removeFromSuperview()
@@ -60,6 +61,7 @@ class SetEVViewController: UIViewController {
             
                 if let vc = segue.destination as? settingViewController{
                     vc.evValue = String(Int(floor(sliderForEV.value)))
+                    print("EEEEVVVVV",String(Int(floor(sliderForEV.value))))
                     vc.settingTableView.reloadData()
                 }
             
