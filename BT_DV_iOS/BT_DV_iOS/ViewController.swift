@@ -21,10 +21,11 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
      * 開啟設備BLE事件
      * @param isEnable 藍牙是否開啟
      */
-    
+    var blueDataArray = [String(),String(),Int32()] as [Any]
+
     func onConnectionState(_ state: ConnectState) {
         print("onConnectionState-----state = \(state)")
-        if state == Connected {
+        if state == ScanFinish {
             print("connection status Connected")
         }
         else if state == Disconnect {
@@ -35,6 +36,13 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
 
  
     func onBtStateChanged(_ isEnable: Bool) {
+        if isEnable == false{
+        print("ＯＰＥＮＢＬＥ")
+        
+        }else {
+        
+        print("ALREADYHere")
+        }
 //        onConnectionState(ConnectState.init(2))
 //        if isEnable == false{
 //        
@@ -53,12 +61,15 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
      * @param name 名稱
      * @param rssi 訊號強度
      */
- /*
+
+    
+ 
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
-        
+        print("藍芽",uuid,name,rssi)
+    
     }
  
-*/
+
     /**
      * 開啟設備BLE事件
      * @param isEnable 藍牙是否開啟
@@ -187,15 +198,15 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
 //    }
 //    
 
-    func onScanResultUUID(_ uuid: String, name: String, rssi: Int32) {
-        
-
-        let id = uuid
-        let n = name
-        let rs = rssi
-        print("藍牙狀態",(id,n,rs))
-
-    }
+//    func onScanResultUUID(_ uuid: String, name: String, rssi: Int32) {
+//        
+//
+//        let id = uuid
+//        let n = name
+//        let rs = rssi
+//        print("藍牙狀態",(id,n,rs))
+//
+//    }
 //    func onConnectionState(_ state: ConnectState) {
 //        print(state)
 //    }
@@ -1692,9 +1703,18 @@ print("ERRRRRROR")
         BLEprotocol.connectStateDelegate = self as! ConnectStateDelegate
  //     BLEprotocol.dataResponseDelegate = self as! DataResponseDelegate
         BLEprotocol.startScanTimeout(1)
-        print("好煩啊啊啊啊啊",BLEprotocol.startScanTimeout(1))
+//        func startScanTimeout(_ timeout: Int) {
+//            let app =  onScanResultUUID(_:String, name: String, rssi: Int)
+//            print(app)
+//                   }
 
 
+        func connectUUID(_ uuid: String) {
+            if uuid == "Power Grip"{
+            print("有連接到唷")
+            
+            }
+        }
         
         func onScanResultUUID(_ uuid: String, name: String, rssi: Int) {
             print("onScanResultUUID-----uuid = \(uuid) , name = \(name) , rssi = \(rssi)")
@@ -1706,7 +1726,6 @@ print("ERRRRRROR")
         
         
         
- //       BLEprotocol.connectUUID("Power Grip")
 
         
         
