@@ -18,8 +18,10 @@ class SenceFromSettingViewController: UIViewController {
 
         self.senceFormSettingTableView.dataSource = self
         self.senceFormSettingTableView.delegate = self
+        //註冊xib
         let nib = UINib(nibName: "senceTableViewCell", bundle: nil)
         self.senceFormSettingTableView.register(nib, forCellReuseIdentifier: "senceTableViewCell")
+        //tableView取消分隔線
         self.senceFormSettingTableView.separatorStyle = .none
     }
 

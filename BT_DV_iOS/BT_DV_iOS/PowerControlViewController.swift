@@ -19,7 +19,7 @@ class PowerControlViewController: UIViewController {
         self.powerControlDetailTableView.dataSource = self
         self.powerControlDetailTableView.separatorStyle = .none
         
-        
+        //註冊xib
         let nib = UINib(nibName: "ImageSizeDetailTableViewCell", bundle: nil)
         self.powerControlDetailTableView.register(nib, forCellReuseIdentifier: "ImageSizeDetailTableViewCell")
         

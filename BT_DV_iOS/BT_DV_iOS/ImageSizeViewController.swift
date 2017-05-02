@@ -20,7 +20,7 @@ class ImageSizeViewController: UIViewController {
         self.imageSizeDetailTableView.dataSource = self
         self.imageSizeDetailTableView.separatorStyle = .none
         
-        
+        //註冊xib
         let nib = UINib(nibName: "ImageSizeDetailTableViewCell", bundle: nil)
         self.imageSizeDetailTableView.register(nib, forCellReuseIdentifier: "ImageSizeDetailTableViewCell")
     }
@@ -110,7 +110,7 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
         }
         
         
-        
+        //因為本身是childView，以下三行是移除自己的方法
         self.willMove(toParentViewController: self)
         self.removeFromParentViewController()
         self.view.removeFromSuperview()

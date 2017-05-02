@@ -25,6 +25,7 @@ class flashLightViewController: UIViewController {
         
         self.flashLightTableViewDetail.separatorStyle = .none
 
+        //註冊xib
         let nib = UINib(nibName: "flashtLightTableViewCell", bundle: nil)
         self.flashLightTableViewDetail.register(nib, forCellReuseIdentifier: "flashLightTableViewCell")
     }

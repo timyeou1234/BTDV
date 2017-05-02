@@ -21,13 +21,14 @@ class SetEVViewController: UIViewController {
         evlabel.text = String(Int(floor(sliderForEV.value)))
         let appl = UIApplication.shared.delegate as! AppDelegate
         appl.valueFromEV = Int(floor(sliderForEV.value))
-        
+        //透過notification傳值給ViewController
         NotificationCenter.default.post(name: NSNotification.Name("postEV"), object: Int(floor(sliderForEV.value)))
         
     }
 
     
     @IBAction func backAndSendData(_ sender: Any) {
+        //移除自己並傳值
         performSegue(withIdentifier: "unwindFromEV", sender: Any?.self)
         self.willMove(toParentViewController: self)
         self.removeFromParentViewController()

@@ -33,7 +33,6 @@
 		0487AA3C1E8A3138009822EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3A1E8A3138009822EE /* Main.storyboard */; };
 		0487AA3E1E8A3138009822EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3D1E8A3138009822EE /* Assets.xcassets */; };
 		0487AA411E8A3138009822EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */; };
-		04C1E8641EB2F57000EE3299 /* functionForSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1E8631EB2F57000EE3299 /* functionForSetting.swift */; };
 		04C1E8681EB754DA00EE3299 /* GetBlueToothInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1E8671EB754DA00EE3299 /* GetBlueToothInfoViewController.swift */; };
 		04D03CBD1EB03CC50040C5B0 /* SenceFromSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CBC1EB03CC50040C5B0 /* SenceFromSettingViewController.swift */; };
 		04D03CBF1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CBE1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift */; };
@@ -77,7 +76,6 @@
 		0487AA3D1E8A3138009822EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0487AA401E8A3138009822EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0487AA421E8A3138009822EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04C1E8631EB2F57000EE3299 /* functionForSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = functionForSetting.swift; sourceTree = "<group>"; };
 		04C1E8671EB754DA00EE3299 /* GetBlueToothInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBlueToothInfoViewController.swift; sourceTree = "<group>"; };
 		04D03CBC1EB03CC50040C5B0 /* SenceFromSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenceFromSettingViewController.swift; sourceTree = "<group>"; };
 		04D03CBE1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteBalanceSettingViewController.swift; sourceTree = "<group>"; };
@@ -164,7 +162,6 @@
 				0487AA3A1E8A3138009822EE /* Main.storyboard */,
 				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
 				04C1E8671EB754DA00EE3299 /* GetBlueToothInfoViewController.swift */,
-				04C1E8631EB2F57000EE3299 /* functionForSetting.swift */,
 			);
 			path = BT_DV_iOS;
 			sourceTree = "<group>";
@@ -271,7 +268,6 @@
 				04D03CC71EB0789B0040C5B0 /* PowerControlViewController.swift in Sources */,
 				04C1E8681EB754DA00EE3299 /* GetBlueToothInfoViewController.swift in Sources */,
 				04D03CBD1EB03CC50040C5B0 /* SenceFromSettingViewController.swift in Sources */,
-				04C1E8641EB2F57000EE3299 /* functionForSetting.swift in Sources */,
 				042B63FC1EADA11000B2E1A8 /* Function.m in Sources */,
 				04D03CC11EB0708F0040C5B0 /* ImageSizeViewController.swift in Sources */,
 			);

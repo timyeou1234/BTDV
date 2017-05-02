@@ -72,7 +72,7 @@ class settingViewController: UIViewController {
         self.settingTableView.dataSource = self
         self.settingTableView.separatorStyle = .none
 
-        
+        //註冊所有的xib
         let nib = UINib(nibName: "MainSettingTableViewCell", bundle: nil)
         self.settingTableView.register(nib, forCellReuseIdentifier: "MainSettingTableViewCell")
         
@@ -121,7 +121,7 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         }
         return 4
     }
-    
+    //透過sendTag及indexPath.row決定哪一科按鈕的tableView顯示內容
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch (sendTag){

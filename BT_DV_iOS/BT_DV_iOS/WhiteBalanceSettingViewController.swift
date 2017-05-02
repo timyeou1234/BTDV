@@ -112,7 +112,6 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let appl = UIApplication.shared.delegate as! AppDelegate
         appl.valueFromWhiteBalance = indexPath

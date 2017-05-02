@@ -9,7 +9,7 @@
 import UIKit
 
 class StartScanBLEViewController: UIViewController {
-
+/*
     func toConnect(){
         let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as! GetBlueToothInfoViewController
         self.addChildViewController(popOverVC)
@@ -18,11 +18,11 @@ class StartScanBLEViewController: UIViewController {
         popOverVC.didMove(toParentViewController: self)
 
     }
-
+*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.perform(#selector(toConnect), with: nil, afterDelay: 2)
+//        self.perform(#selector(toConnect), with: nil, afterDelay: 2)
 
     }
 

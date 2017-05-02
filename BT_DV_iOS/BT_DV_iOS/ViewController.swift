@@ -117,7 +117,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     @IBOutlet var setSenceBtn: UIButton!
     
     
-//    @IBOutlet weak var batteryStatus: UIImageView!
     
     var captureSession = AVCaptureSession()
     var captureDevice: AVCaptureDevice?
@@ -134,17 +133,12 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     var currentOrientation: UIDeviceOrientation = UIDevice.current.orientation
     
     
-    
     var format = AVCaptureDeviceFormat()
-//    MARK:-FORTOP
+    // MARK:-FORTOP
     var counter = 0
     var counterForFlashLight = 0
     var counterForSetting = 0
     var videoCounter = 0
-    //待驗證
-    var tapOrNot = false
-    var flashToMain = "btn_flash_auto_1"
-    var beSelect = Bool()
     
     //設定錄影或拍照用
     var captureMode: Int = CaptureModePhoto
@@ -157,7 +151,11 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     var deviceIsChange: Bool = false
     
-    
+    //待驗證
+    var tapOrNot = false
+    var flashToMain = "btn_flash_auto_1"
+    var beSelect = Bool()
+
     //MARK:-BLE
     var BLEprotocol = FuelProtocol()
 
@@ -213,9 +211,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     
     
-    func toConnect(){
-    self.performSegue(withIdentifier: "toConnecting", sender: self)
-    }
 
 
 //MARK:-ContainerView
@@ -354,6 +349,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
     }
     
+    // 藍牙連接的function
     @IBAction func connectBlueTooth(_ sender: Any) {
         
 //       let value =  BLEProtocol?.getInstanceSimulation(true, printLog: true)
@@ -405,7 +401,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 
                 let image = UIImage(data: imageDate!)
                 
-                print("take image: \(image)")
                 self.savePhotoToLibrary(image!)
                 self.rotated()
                 
@@ -641,19 +636,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
     }
     
-    //ADD layer to custom view. 重新調整後這個沒有用了  ？？確認設定前後鏡頭的func
-/*
-    func beginSession() {
-        print("有沒有在這裡耶")
-        captureSession.startRunning() //啟動captureSession 太白癡居然卡在這邊
-        //set up output Image format
-        stillImageOutput.outputSettings = [AVVideoCodecKey : AVVideoCodecJPEG] //這段程式碼在更新後放在serSession裡頭
-        if captureSession.canAddOutput(stillImageOutput){
-            captureSession.addOutput(stillImageOutput)
-        }
-        
-    }
- */
     func startSession() {
         if !captureSession.isRunning {
             videoQueue().async {
@@ -914,7 +896,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     
     //MARK: ISO_Shutter Setting
-    
+    //設置場景
     func settingAuto(){
         let device = activeInput.device
         do{
@@ -1273,12 +1255,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }catch{
             print("ＮＯＮＯ")
         }
-        
-//        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
-//        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-        
-        
-
     }
     
     func setWBDark(){
@@ -1624,8 +1600,6 @@ print("ERRRRRROR")
 
     //MARK:-SET UPPER UI
     
-//    func setHighlighted(_ highlighted: Bool) {
-//    }
     func buttonClick(_ button: UIButton) {
         // swith
         switch (beSelect){
@@ -1652,8 +1626,6 @@ print("ERRRRRROR")
     
     
     func tapToPhoto(){
-    
-        
             //tap to capture
             
             let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
@@ -1671,7 +1643,7 @@ print("ERRRRRROR")
             self.view.addGestureRecognizer(singleFinger)
 
     }
-    
+    //關閉上方狀態列
     override var prefersStatusBarHidden: Bool{
         return true
     }
@@ -1728,14 +1700,14 @@ print("ERRRRRROR")
         
 
         
-        
+ //白平衡初始化
         let whiteBalanceGains = self.captureDevice?.deviceWhiteBalanceGains ?? AVCaptureWhiteBalanceGains()
-        let whiteBalanceTemperatureAndTint = self.captureDevice?.temperatureAndTintValues(forDeviceWhiteBalanceGains: whiteBalanceGains) ?? AVCaptureWhiteBalanceTemperatureAndTintValues()
+        _ = self.captureDevice?.temperatureAndTintValues(forDeviceWhiteBalanceGains: whiteBalanceGains) ?? AVCaptureWhiteBalanceTemperatureAndTintValues()
 
         print(whiteBalanceGains)
         
         
-//self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_2"), for: UIControlState.selected)
+        //self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_2"), for: UIControlState.selected)
         self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
         self.setSenceBtn.addTarget(self, action: #selector(self.buttonClick), for: .touchUpInside)
         
@@ -1748,7 +1720,7 @@ print("ERRRRRROR")
         let appl = UIApplication.shared.delegate as! AppDelegate
 
         
-        //
+        //手勢縮放功能
         
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
         
@@ -1757,7 +1729,7 @@ print("ERRRRRROR")
         
         
 
-
+//啟動相機預覽及臉部偵測
         if setupSession(){
 
             setPreview()
@@ -1777,7 +1749,7 @@ print("ERRRRRROR")
         
         NotificationCenter.default.addObserver(self, selector: #selector(getter: flashToMain), name: NSNotification.Name(rawValue: "FlshMode"), object: nil)
         
-        
+        //觸發手勢關閉與否
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postTapOrNot"), object:appl.tapToTakePhoto, queue: nil) { notification in
             if ((appl.tapToTakePhoto)!) == true{
                 print("觸碰手勢啟動！！！")
@@ -1796,37 +1768,22 @@ print("ERRRRRROR")
                 self.view.addGestureRecognizer(singleFinger)
             }else{
                 print("觸碰關閉！！")
-                
+                //清除所有手勢
                 if let recognizers = self.view.gestureRecognizers {
                     for singleFinger in recognizers {
                         self.view.removeGestureRecognizer(singleFinger as! UIGestureRecognizer)
                     }
+                    //重新加入手勢縮放
                     let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
                     
                     
                     self.view.addGestureRecognizer(pinchGesture)
 
                 }
-
-                /*
-                let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
-                
-                // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
-                singleFinger.numberOfTapsRequired = 2
-                
-                
-                // 幾根指頭觸發
-                singleFinger.numberOfTouchesRequired = 1
-                
-                // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
-                
-                // 為視圖加入監聽手勢
-                self.view.removeGestureRecognizer(singleFinger)
- */
             }
         }
 
-
+//接收senceViewController的值，並觸發對應的方法，且更改上方ＵＩ圖示
       NotificationCenter.default.addObserver(forName: NSNotification.Name("postSence"), object:appl.indexPath, queue: nil) { notification in
         print((appl.indexPath?.row)!)
         switch ((appl.indexPath?.row)!){
@@ -1918,6 +1875,9 @@ print("ERRRRRROR")
         print(appl.indexPath!)
         }
         
+        
+        //接收FlashLightViewController的值。並觸發各自的方法，更改閃光燈設置，且變更上方ＵＩ的圖示
+
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postFlash"), object:appl.valueFromFlash, queue: nil) { notification in
             
             switch((appl.valueFromFlash?.row)!){
@@ -1955,6 +1915,8 @@ print("ERRRRRROR")
         
         
         }
+        //接收WhiteBalanceSettingViewController的值。並觸發各自的方法
+
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postWhiteBalance"), object:appl.valueFromFlash, queue: nil) {notification in
             switch((appl.valueFromWhiteBalance?.row)!){
             case 0:
@@ -1990,7 +1952,8 @@ print("ERRRRRROR")
 
         
         }
-        
+        //接收SetEVViewController的值，並觸發對應的方法，更改畫面ＥＶ值
+
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postEV"), object:appl.valueFromEV, queue: nil) { notification in
             let device = self.activeInput.device
             do {
@@ -2004,6 +1967,8 @@ print("ERRRRRROR")
         print(appl.valueFromEV!)
             
         }
+        
+        //接收ImageSizeViewController的值，並觸發對應的方法，改變影像尺寸
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postSize"), object:appl.valueFromFlash, queue: nil) { notification in
             switch ((appl.valueFromSize?.row)!){
                 

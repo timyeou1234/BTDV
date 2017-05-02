@@ -45,11 +45,7 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return senceNameArray.count
     }
-    /*
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-    }
-    */
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "場景選擇"
         
@@ -60,10 +56,7 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "senceTableViewCell", for: indexPath) as? senceTableViewCell
         cell?.senceName.text = senceNameArray[indexPath.row]
-        let go = UIImage(named: sencePicArray[indexPath.row])
        cell?.senceIcon.image = UIImage(named: sencePicArray[indexPath.row])
-        print(go)
-        print(sencePicArray[indexPath.row])
             return cell!
         
     }
@@ -90,26 +83,9 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindToVC"{
             let vca: ViewController? = (segue.destination as? ViewController)
- //           let selectedPath: IndexPath? = senceTableViewDetail.indexPath(for: sender as! UITableViewCell)
             vca?.senceTableView.isHidden = true
             vca?.beSelect = true
-//            vca?.setSenceBtn.setImage(UIImage(named:"btn_sence_auto_1"), for: UIControlState.normal)
-//            vca?.setSenceBtn.setImage(UIImage(named:"btn_sence_auto_2"), for: UIControlState.selected)
-//            vca?.setSenceBtn.addTarget(self, action: #selector(vca?.buttonClick(_:)), for: .touchUpInside)
-
- //           vca?.buttonClick()
         }
-        /*
-        if let seletRow = senceTableViewDetail.indexPathForSelectedRow?.row{
-        let sendThis = senceNameArray[seletRow]
-            if segue.identifier == "showDetail"{}
-            if let detail = segue.destination as? ViewController{
-                
-                
-            
-            }
-        }
-    */
- }
+    }
  
 }
