@@ -9,21 +9,64 @@
 import UIKit
 import AVFoundation
 import Photos
+import CoreBluetooth
 
 
 let CaptureModePhoto = 0
 let CaptureModeMovie = 1
 
 
-
+//protocol PowerGripViewControllerDelegate{
+//    func didClosed()
+//
+//
+//}
 class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate,ConnectStateDelegate {
     /**
      * 開啟設備BLE事件
      * @param isEnable 藍牙是否開啟
      */
-    var blueDataArray = [String(),String(),Int32()] as [Any]
-
+//    var thelastController:PowerGripStatusViewController!
+//    var delegate:PowerGripViewControllerDelegate!
+//    
+//    var vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as! GetBlueToothInfoViewController
+//    
+//
+//    func didClosed() {
+//        self.thelastController.dismiss(animated: true, completion: nil)
+//        
+//    }
     func onConnectionState(_ state: ConnectState) {
+        switch state {
+            
+        case ScanFinish:
+            
+            print("結束")
+            break
+        case Connected:
+            let appl = UIApplication.shared.delegate as! AppDelegate
+
+         let batterry =  BLEprotocol.getBattery()
+         print("電量",batterry)
+         let version = BLEprotocol.getHwVersion()
+         print("版本",version)
+         let softVersion = BLEprotocol.getFwVersion()
+         print("韌體版本",softVersion)
+         
+            var vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PowerGripStatusViewController") as! PowerGripStatusViewController
+            vc.hwVersionValue = "1"
+            vc.softVersionValue = "1"
+
+            break
+        case Disconnect:
+            print("")
+            break
+        case ConnectTimeout:
+            break
+        default:
+            break
+            
+        }
         print("onConnectionState-----state = \(state)")
         if state == ScanFinish {
             print("connection status Connected")
@@ -37,19 +80,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
  
     func onBtStateChanged(_ isEnable: Bool) {
         if isEnable == false{
+            
+        self.bleIsOn = false
         print("ＯＰＥＮＢＬＥ")
         
         }else {
-        
+        self.bleIsOn = true
         print("ALREADYHere")
         }
-//        onConnectionState(ConnectState.init(2))
-//        if isEnable == false{
-//        
-//        }else{
-//            BLEProtocol?.connectUUID("Power Grip")
-//            print("安安")
-//        }
     }
 
   
@@ -65,10 +103,18 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
  
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
-        print("藍芽",uuid,name,rssi)
-    
+        let appl = UIApplication.shared.delegate as! AppDelegate
+       appl.bleUUID.append(uuid)
+        print("ＵＵＤＤＤＤＤＤＤＤ",uuid)
+        appl.bleName.append(name)
+        appl.bleRssi.append(rssi)
+      
+        if name == "Power Grip"{
+            BLEprotocol.connectUUID(uuid)
+        }
     }
- 
+
+    
 
     /**
      * 開啟設備BLE事件
@@ -158,7 +204,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
 
     //MARK:-BLE
     var BLEprotocol = FuelProtocol()
-
+    var mBtManager : BtManager!
+    var bleIsOn:Bool!
 
 //
 //    func onBtStateChanged(_ isEnable: Bool) {
@@ -349,48 +396,37 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
     }
     
+    
     // 藍牙連接的function
     @IBAction func connectBlueTooth(_ sender: Any) {
-        
-//       let value =  BLEProtocol?.getInstanceSimulation(true, printLog: true)
-//        print("藍芽勒",value)
-//        
-//        func onBtStateEnable(_ isEnable: Bool) {
-//            if isEnable == true{
-//            print("連接到了")
-//            }else{
-//            print("沒有·什麼都沒有")
-//            }
-//        }
-//        
-//        if BLEProtocol?.onBtStateEnable{
-//        print("真的")
-//        
-//        }else{
-//         print("喔喔")
-//        }
-//        BLEProtocol?.onScanResultUUID(<#T##uuid: String!##String!#>, name: <#T##String!#>, rssi: <#T##Int32#>)
-        
-//        func onConnectionState(_ state: ConnectState) {
-//            print("onConnectionState-----state = \(state)")
-//            if state == Connected {
-//                print("connection status Connected")
-//            }
-//            else if state == Disconnect {
-//                print("connection status Disconnected")
-//            }
-//            
-//        }
+        if self.bleIsOn == true {
+                BLEprotocol.startScanTimeout(2)
+                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
+                self.addChildViewController(popOverVC)
+                popOverVC.view.frame = self.view.frame
+                self.view.addSubview(popOverVC.view)
+                popOverVC.didMove(toParentViewController: self)
+            
 
-    /*
-        func openBluetooth(){
-            let url = URL(string: "App-Prefs:root=Bluetooth") //for bluetooth setting
-            let app = UIApplication.shared
-            app.openURL(url!)
-        }
-*/
+
+            }else{
+            print("我警告你要打開")
+            }
         
-    }
+        
+        
+        }
+        
+        
+        
+
+    
+        
+        
+
+        
+    
+    
     
 //MARK:- CapturePhoto
     func capturePhoto(){
@@ -1663,7 +1699,8 @@ print("ERRRRRROR")
         self.flashLightTableView.isHidden = true
         self.settingTableView.isHidden = true
         self.connectAndBatteryTableView.isHidden = true
-        
+        mBtManager = BtManager()
+
 
 //        let name = BLEProtocol?.getBattery()
 //        print("電池電量",name)
@@ -1674,7 +1711,7 @@ print("ERRRRRROR")
         
         BLEprotocol.connectStateDelegate = self as! ConnectStateDelegate
  //     BLEprotocol.dataResponseDelegate = self as! DataResponseDelegate
-        BLEprotocol.startScanTimeout(1)
+ //       BLEprotocol.startScanTimeout(5)
 //        func startScanTimeout(_ timeout: Int) {
 //            let app =  onScanResultUUID(_:String, name: String, rssi: Int)
 //            print(app)

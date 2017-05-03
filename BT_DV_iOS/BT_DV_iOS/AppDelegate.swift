@@ -18,6 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var valueFromWhiteBalance:IndexPath?
     var valueFromEV:Int?
     var valueFromSize:IndexPath?
+    
+    var bleUUID:[String] = []
+    var bleName:[String] = []
+    var bleRssi:[Int32] = []
+
+    var baterryInfo:Int?
+    var hwInfo:Float?
+    var softInfo:Float?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

@@ -643,10 +643,10 @@
             </objects>
             <point key="canvasLocation" x="812" y="-502"/>
         </scene>
-        <!--View Controller-->
+        <!--Connect View Controller-->
         <scene sceneID="r7u-Pv-9WN">
             <objects>
-                <viewController id="U4x-5d-9Dl" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BLEConnectViewController" id="U4x-5d-9Dl" customClass="BLEConnectViewController" customModule="BT_DV_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PX0-h1-46O"/>
                         <viewControllerLayoutGuide type="bottom" id="QiX-ep-7kD"/>
@@ -695,6 +695,10 @@
                             <constraint firstItem="VgZ-Lb-smT" firstAttribute="centerY" secondItem="Y16-DT-1QW" secondAttribute="centerY" id="xyg-Rz-iyh"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="Rij-6r-jcZ" kind="show" id="0Aj-91-fv0"/>
+                        <segue destination="Eqi-A3-VGY" kind="show" id="TbT-WD-KZW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hoo-k2-xTc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1168,10 +1172,10 @@
             </objects>
             <point key="canvasLocation" x="1751.25" y="1695.4225352112676"/>
         </scene>
-        <!--View Controller-->
+        <!--Power Grip Status View Controller-->
         <scene sceneID="dKh-s9-xAp">
             <objects>
-                <viewController id="Rij-6r-jcZ" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PowerGripStatusViewController" id="Rij-6r-jcZ" customClass="PowerGripStatusViewController" customModule="BT_DV_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b5u-Ip-hjM"/>
                         <viewControllerLayoutGuide type="bottom" id="bXr-Pb-Tit"/>
@@ -1270,6 +1274,11 @@
                             <constraint firstItem="QGu-gJ-czb" firstAttribute="centerX" secondItem="AFA-3W-7nx" secondAttribute="centerX" id="gNQ-FN-7rV"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="hwVersion" destination="nW6-50-9oP" id="DzI-A3-1fH"/>
+                        <outlet property="powerGripNameLabel" destination="L2P-Uf-1Fe" id="Ymj-vx-rej"/>
+                        <outlet property="softVersionLabel" destination="ZzS-bF-GRe" id="MFn-rt-Vf1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10M-4Z-Q3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1329,7 +1338,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6D5-bT-7ke" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2259" y="167"/>
+            <point key="canvasLocation" x="2259" y="464"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="l0u-bK-XZs">
@@ -1415,10 +1424,15 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="In5-R5-6ug"/>
                                         </constraints>
-                                        <state key="normal" title="Button"/>
+                                        <state key="normal" title="再次掃描">
+                                            <color key="titleColor" red="0.0033708756345177671" green="0.0016917517855299692" blue="0.0020245113980728747" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="scanAgain:" destination="01N-Mm-4dy" eventType="touchUpInside" id="Qir-3L-rvt"/>
+                                        </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.019228819760000002" green="0.01404672809" blue="0.00821310546" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="240" id="Kal-EU-rkT"/>
                                     <constraint firstAttribute="bottom" secondItem="doZ-XK-Ppt" secondAttribute="bottom" constant="-1" id="Mjj-c8-URQ"/>
@@ -1438,6 +1452,10 @@
                             <constraint firstItem="ykf-UK-6ef" firstAttribute="centerY" secondItem="fIA-ma-qpa" secondAttribute="centerY" id="Vri-Wm-oSK"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="blueToothListTableView" destination="Sq5-9X-VyP" id="y1B-6O-FPj"/>
+                        <segue destination="U4x-5d-9Dl" kind="show" identifier="GetBlueToothInfoViewController" id="Si1-S1-iwK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NWJ-xm-oRZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1457,7 +1475,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fe8-o6-e6Q">
                                 <rect key="frame" x="0.0" y="0.0" width="260" height="259"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.021970177664974666" green="0.021970177664974666" blue="0.021970177664974666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="259" id="PbW-Yc-V6J"/>
                                 </constraints>
