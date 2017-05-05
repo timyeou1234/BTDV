@@ -17,19 +17,25 @@ class PowerGripStatusViewController: UIViewController {
     var hwVersionValue : String!
     var softVersionValue :String!
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        
-        if let viewWithTag = self.view.viewWithTag(100){
-        viewWithTag.removeFromSuperview()
-        }
-//        for subView: UIView in view.subviews {
-//            if (subView is UIView) {
-//                // Condition
-//                subView.removeFromSuperview()
-//            }
-//        }
+
+        self.willMove(toParentViewController: nil)
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
+
     }
     
+    
+    
+    
+    /*
+     let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
+     DispatchQueue.main.asyncAfter(deadline: when) {
+     self.willMove(toParentViewController: nil)
+     self.view.removeFromSuperview()
+     self.removeFromParentViewController()
+     }
+
+ */
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,10 +45,14 @@ class PowerGripStatusViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        
         let appl = UIApplication.shared.delegate as! AppDelegate
-           softVersionLabel.text = softVersionValue
-//        powerGripNameLabel.text = String(describing: appl.bleName)
-        hwVersion.text = hwVersionValue
+
+        softVersionLabel.text = appl.softInfo
+        powerGripNameLabel.text = String(describing: appl.bleName)
+        hwVersion.text = appl.hwInfo
+        print("硬體值",hwVersionValue)
+
 
     }
     override func didReceiveMemoryWarning() {

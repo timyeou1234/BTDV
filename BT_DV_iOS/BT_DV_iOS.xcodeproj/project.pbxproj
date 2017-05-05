@@ -27,12 +27,15 @@
 		042B642E1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042B642C1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib */; };
 		042B64311EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042B642F1EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift */; };
 		042B64321EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042B64301EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib */; };
+		044BF5051EBA89510031E92B /* FailToConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044BF5041EBA89510031E92B /* FailToConnectViewController.swift */; };
+		044BF5071EBA8CCC0031E92B /* FailToScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044BF5061EBA8CCC0031E92B /* FailToScanViewController.swift */; };
 		0455AB171EAC95730087C14D /* senceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0455AB151EAC95730087C14D /* senceViewController.swift */; };
 		0455AB1B1EAC966A0087C14D /* senceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0455AB191EAC966A0087C14D /* senceTableViewCell.swift */; };
 		0455AB1C1EAC966A0087C14D /* senceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0455AB1A1EAC966A0087C14D /* senceTableViewCell.xib */; };
 		046C581A1EAD26C800192290 /* flashLightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046C58191EAD26C800192290 /* flashLightViewController.swift */; };
 		046C581D1EAD26F200192290 /* flashtLightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046C581B1EAD26F200192290 /* flashtLightTableViewCell.swift */; };
 		046C581E1EAD26F200192290 /* flashtLightTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 046C581C1EAD26F200192290 /* flashtLightTableViewCell.xib */; };
+		04823DF21EBB0F120024AE17 /* Bleprotoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04823DF11EBB0F120024AE17 /* Bleprotoc.swift */; };
 		0487AA371E8A3138009822EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487AA361E8A3138009822EE /* AppDelegate.swift */; };
 		0487AA391E8A3138009822EE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487AA381E8A3138009822EE /* ViewController.swift */; };
 		0487AA3C1E8A3138009822EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0487AA3A1E8A3138009822EE /* Main.storyboard */; };
@@ -73,12 +76,15 @@
 		042B642C1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageSizeTableViewCell.xib; sourceTree = "<group>"; };
 		042B642F1EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerControlTableViewCell.swift; sourceTree = "<group>"; };
 		042B64301EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PowerControlTableViewCell.xib; sourceTree = "<group>"; };
+		044BF5041EBA89510031E92B /* FailToConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FailToConnectViewController.swift; sourceTree = "<group>"; };
+		044BF5061EBA8CCC0031E92B /* FailToScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FailToScanViewController.swift; sourceTree = "<group>"; };
 		0455AB151EAC95730087C14D /* senceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = senceViewController.swift; sourceTree = "<group>"; };
 		0455AB191EAC966A0087C14D /* senceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = senceTableViewCell.swift; sourceTree = "<group>"; };
 		0455AB1A1EAC966A0087C14D /* senceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = senceTableViewCell.xib; sourceTree = "<group>"; };
 		046C58191EAD26C800192290 /* flashLightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flashLightViewController.swift; sourceTree = "<group>"; };
 		046C581B1EAD26F200192290 /* flashtLightTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flashtLightTableViewCell.swift; sourceTree = "<group>"; };
 		046C581C1EAD26F200192290 /* flashtLightTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = flashtLightTableViewCell.xib; sourceTree = "<group>"; };
+		04823DF11EBB0F120024AE17 /* Bleprotoc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bleprotoc.swift; sourceTree = "<group>"; };
 		0487AA331E8A3138009822EE /* BT_DV_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BT_DV_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0487AA361E8A3138009822EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0487AA381E8A3138009822EE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -168,11 +174,14 @@
 				04249AC81EB080010051454B /* SetEVViewController.swift */,
 				042B641D1EAF3FF000B2E1A8 /* settingViewController.swift */,
 				0487AA381E8A3138009822EE /* ViewController.swift */,
+				04823DF11EBB0F120024AE17 /* Bleprotoc.swift */,
 				04276A691EB91B1A00F224B7 /* CBlueClass.swift */,
 				04D03CBE1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift */,
 				0487AA3D1E8A3138009822EE /* Assets.xcassets */,
 				0487AA3A1E8A3138009822EE /* Main.storyboard */,
 				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
+				044BF5061EBA8CCC0031E92B /* FailToScanViewController.swift */,
+				044BF5041EBA89510031E92B /* FailToConnectViewController.swift */,
 				04249ACB1EB08A9A0051454B /* StartScanBLEViewController.swift */,
 				04276A6B1EB979AF00F224B7 /* PowerGripStatusViewController.swift */,
 				04276A671EB904C900F224B7 /* BLEConnectViewController.swift */,
@@ -279,12 +288,15 @@
 				042B641E1EAF3FF000B2E1A8 /* settingViewController.swift in Sources */,
 				042B64251EAFD1F100B2E1A8 /* MainSettingTableViewCell.swift in Sources */,
 				04D03CC41EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift in Sources */,
+				04823DF21EBB0F120024AE17 /* Bleprotoc.swift in Sources */,
+				044BF5051EBA89510031E92B /* FailToConnectViewController.swift in Sources */,
 				042B642D1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift in Sources */,
 				042B64291EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.swift in Sources */,
 				0487AA371E8A3138009822EE /* AppDelegate.swift in Sources */,
 				042B63F71EAD9D7900B2E1A8 /* FuelProtocol.m in Sources */,
 				042B63F81EAD9D7900B2E1A8 /* MyBluetoothLE.m in Sources */,
 				04276A6A1EB91B1A00F224B7 /* CBlueClass.swift in Sources */,
+				044BF5071EBA8CCC0031E92B /* FailToScanViewController.swift in Sources */,
 				04D03CC71EB0789B0040C5B0 /* PowerControlViewController.swift in Sources */,
 				04C1E8681EB754DA00EE3299 /* GetBlueToothInfoViewController.swift in Sources */,
 				04D03CBD1EB03CC50040C5B0 /* SenceFromSettingViewController.swift in Sources */,
@@ -413,12 +425,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CXUFWEZT6B;
 				INFOPLIST_FILE = BT_DV_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Victor.BT-DV-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BT_DV_iOS/BT_DV_iOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -430,12 +444,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CXUFWEZT6B;
 				INFOPLIST_FILE = BT_DV_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Victor.BT-DV-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BT_DV_iOS/BT_DV_iOS-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

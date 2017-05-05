@@ -10,14 +10,25 @@ import UIKit
 
 class GetBlueToothInfoViewController: UIViewController {
 
+
+    
     @IBOutlet weak var blueToothListTableView: UITableView!
 
     @IBAction func scanAgain(_ sender: Any) {
-        var vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        print("HHHHHHHHHHH")
         vc.BLEprotocol.startScanTimeout(5)
         self.blueToothListTableView.reloadData()
         
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.willMove(toParentViewController: nil)
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
+        
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -112,12 +123,32 @@ extension GetBlueToothInfoViewController:UITableViewDelegate,UITableViewDataSour
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let appl = UIApplication.shared.delegate as! AppDelegate
+
+        Bleprotoc.BLE.shardBleprotocol?.connectUUID(appl.bleUUID[indexPath.row])
+
+        
+//       Bleprotoc.shardBleprotocol.onConnectionState(Connected)
+//        Bleprotoc.shardBleprotocol.onScanResultUUID(appl.bleUUID[indexPath.row], name: appl.bleName[indexPath.row], rssi: appl.bleRssi[indexPath.row])
+        
+        print("uuuuuuid",appl.bleUUID[indexPath.row])
+
         let vc = storyboard?.instantiateViewController(withIdentifier: "BLEConnectViewController")
+        
+
         self.addChildViewController(vc!)
         vc?.didMove(toParentViewController: self)
         vc?.view.frame = self.view.frame
         vc?.view.viewWithTag(100)
         self.view.addSubview((vc?.view)!)
+        
+//        let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
+//        DispatchQueue.main.asyncAfter(deadline: when) {
+//            self.willMove(toParentViewController: nil)
+//            self.view.removeFromSuperview()
+//            self.removeFromParentViewController()
+//        }
+
         
 
         

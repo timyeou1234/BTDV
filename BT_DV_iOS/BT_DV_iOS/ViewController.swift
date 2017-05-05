@@ -15,53 +15,111 @@ import CoreBluetooth
 let CaptureModePhoto = 0
 let CaptureModeMovie = 1
 
-
-//protocol PowerGripViewControllerDelegate{
-//    func didClosed()
-//
-//
-//}
-class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate,ConnectStateDelegate {
-    /**
-     * 開啟設備BLE事件
-     * @param isEnable 藍牙是否開啟
-     */
-//    var thelastController:PowerGripStatusViewController!
-//    var delegate:PowerGripViewControllerDelegate!
-//    
-//    var vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as! GetBlueToothInfoViewController
-//    
-//
-//    func didClosed() {
-//        self.thelastController.dismiss(animated: true, completion: nil)
+protocol MainViewControllerDelegate {
+    func didButton()
+}
+class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate,ConnectStateDelegate,DataResponseDelegate {
+    
+    func didButton() {
+//        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToScanViewController") as! FailToScanViewController
 //        
-//    }
+//        VC.delegate = self as! MainViewControllerDelegate
+
+        if self.bleIsOn == true {
+            let appl = UIApplication.shared.delegate as! AppDelegate
+            appl.bleUUID.removeAll()
+            appl.bleName.removeAll()
+            
+            appl.bleRssi.removeAll()
+            print("apppppp",appl.bleRssi)
+            BLEprotocol.startScanTimeout(2)
+            
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
+            
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.didMove(toParentViewController: self)
+        }else{
+            print("我警告你要打開")
+        }
+    }
+
+var test = "測試中"
+    
+    
+    
+    var arrayForView = [String]()
+
+    var viewArray = UserDefaults.standard.object(forKey: "subView")
+    
+    var isConnected :Bool?
+    
     func onConnectionState(_ state: ConnectState) {
+        let appl = UIApplication.shared.delegate as! AppDelegate
+
         switch state {
             
         case ScanFinish:
+            if appl.bleUUID.count != 0{
+                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as! GetBlueToothInfoViewController
+                self.addChildViewController(popOverVC)
+                popOverVC.view.frame = self.view.frame
+                self.view.addSubview(popOverVC.view)
+                popOverVC.didMove(toParentViewController: self)
+
+            }else{
+                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToScanViewController") as! FailToScanViewController
+                self.addChildViewController(popOverVC)
+                popOverVC.view.frame = self.view.frame
+                self.view.addSubview(popOverVC.view)
+                popOverVC.didMove(toParentViewController: self)
+
             
+            }
             print("結束")
             break
         case Connected:
-            let appl = UIApplication.shared.delegate as! AppDelegate
+            isConnected = true
+            
 
          let batterry =  BLEprotocol.getBattery()
-         print("電量",batterry)
          let version = BLEprotocol.getHwVersion()
-         print("版本",version)
          let softVersion = BLEprotocol.getFwVersion()
-         print("韌體版本",softVersion)
          
+            
+            appl.hwInfo = version
+            appl.softInfo = softVersion
+            appl.batteryInfo = batterry
+            print("電量",appl.batteryInfo)
+            NotificationCenter.default.post(name: NSNotification.Name("postBattery"), object: appl.batteryInfo)
+
+            /*
             var vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PowerGripStatusViewController") as! PowerGripStatusViewController
-            vc.hwVersionValue = "1"
-            vc.softVersionValue = "1"
+            vc.hwVersionValue = version
+            print("硬體",vc.hwVersionValue)
+            vc.softVersionValue = softVersion
+            print("軟體",vc.softVersionValue)
+ */
 
             break
         case Disconnect:
-            print("")
+
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToConnectViewController") as! FailToConnectViewController
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.didMove(toParentViewController: self)
+
             break
         case ConnectTimeout:
+            
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToConnectViewController") as! FailToConnectViewController
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.didMove(toParentViewController: self)
+
             break
         default:
             break
@@ -90,58 +148,165 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }
     }
 
-  
-//    var isConnect:Bool?
-//    var BLEProtocol: FuelProtocol?
-    /**
-     * 返回掃描到的藍牙
-     * @param uuid mac address
-     * @param name 名稱
-     * @param rssi 訊號強度
-     */
+    var newUuid:String?
+    
 
     
  
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
         let appl = UIApplication.shared.delegate as! AppDelegate
-       appl.bleUUID.append(uuid)
-        print("ＵＵＤＤＤＤＤＤＤＤ",uuid)
-        appl.bleName.append(name)
-        appl.bleRssi.append(rssi)
-      
+        newUuid = uuid
         if name == "Power Grip"{
-            BLEprotocol.connectUUID(uuid)
+            
+            appl.bleUUID.append(uuid)
+            appl.bleName.append(name)
+            appl.bleRssi.append(rssi)
+            
+            
+        }
+        
+//       Bleprotoc.shardBleprotocol.connectUUID(uuid)
+
+//        if name == "Power Grip" || name == "DfuTarg"{
+//            
+//            BLEprotocol.connectUUID(uuid)
+//        }
+    }
+    
+    
+    func onResponsePressed(_ keyboardCode: Int32){
+        switch (keyboardCode){
+        case 2:
+            if captureMode == CaptureModePhoto {
+                capturePhoto()
+            } else {
+                captureMovie()
+            }
+
+            break
+        case 4:
+            self.zoomOut()
+            
+//            guard let device = activeInput.device else { return }
+//            func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+//                return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+//            }
+//
+//            func update(scale factor: CGFloat) {
+//                do {
+//                    try device.lockForConfiguration()
+//                    defer { device.unlockForConfiguration() }
+//                    device.videoZoomFactor = factor
+//                } catch {
+//                    print("\(error.localizedDescription)")
+//                }
+//            }
+//
+            test = "我要跟你測試"
+            self.printTest()
+            break
+        case 1:
+            
+            test = "誰要跟你測試"
+            
+            self.printTest()
+            self.zoomIn()
+
+
+
+            
+            
+           
+            
+            break
+        default:
+            break
+            
+        }
+    
+    }
+    
+    var i :CGFloat = 1.0
+
+    func zoomIn() {
+        guard let device = activeInput.device else { return }
+        
+        // Return zoom value between the minimum and maximum zoom values
+        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        }
+        
+        func update(scale factor: CGFloat) {
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.videoZoomFactor = factor
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+        }
+        
+        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
+        i += 0.1
+        print("跟你說這是ＩＩＩＩ",i)
+        switch i {
+        case  1.0: fallthrough
+        case 1.1...2.9: update(scale: newScaleFactor)
+        case 3.0:
+            
+            lastZoomFactor = minMaxZoom(newScaleFactor)
+            update(scale: lastZoomFactor)
+        default:
+            
+            if i > 3.0 {
+                i = 3.0
+            }
+            if i < 1.0{
+            i = 1.0
+            }
         }
     }
 
     
-
-    /**
-     * 開啟設備BLE事件
-     * @param isEnable 藍牙是否開啟
-     */
-    
-
-//    protocol DataResponseDelegate: class {
-//        //KeyCode:4(Zoom in)
-//        //KeyCode:1(Zoom out)
-//        //KeyCode:2(拍照/錄影)
-//        func onResponsePressed(_ keyboardCode: Int)
-//    }
-//    //測試用---
-//    protocol ProtocolTestDelegate: class {
-//        func onWriteCommand(_ command: String)
-//        
-//        func onNotifyCommand(_ command: String)
-//    }
-    
- /*
-    self.manager.loadLastImageThumb { [weak self] (image) in
-    DispatchQueue.main.async {
-    self?.galleryButton.setImage(image, for: .normal)
+    func zoomOut() {
+        guard let device = activeInput.device else { return }
+        
+        // Return zoom value between the minimum and maximum zoom values
+        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        }
+        
+        func update(scale factor: CGFloat) {
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.videoZoomFactor = factor
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+        }
+        
+        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
+        i -= 0.1
+        print("跟你說這是ＩＩＩＩ",i)
+        switch i {
+        case  1.0: fallthrough
+        case 1.1...2.9: update(scale: newScaleFactor)
+        case 3.0:
+            lastZoomFactor = minMaxZoom(newScaleFactor)
+            update(scale: lastZoomFactor)
+        default: break
+        }
     }
+
+    
+    var num = 1
+
+    func printTest(){
+        num += 1
+    print("天啊快點來測試",test,num)
     }
- */
+
 
     @IBOutlet weak var cameraView: UIView!
     
@@ -163,6 +328,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     @IBOutlet var setSenceBtn: UIButton!
     
     
+    @IBOutlet weak var setBattertAndConnectBtn: UIButton!
     
     var captureSession = AVCaptureSession()
     var captureDevice: AVCaptureDevice?
@@ -207,54 +373,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     var mBtManager : BtManager!
     var bleIsOn:Bool!
 
-//
-//    func onBtStateChanged(_ isEnable: Bool) {
-//        if isEnable == true{
-//            BLEProtocol.
-//            print("有沒有準備來藍牙這邊")
-//            if BLEProtocol?.connectUUID("Power Grip"){
-//            print("有連到唷")
-//            }else{
-//            
-//            }
-//            func onScanResultUUID(_ uuid: String, name: String, rssi: Int32) {
-//                let id = uuid
-//                let n = name
-//                let rs = rssi
-//                print("藍牙狀態",(id,n,rs))
-//                
-//            }
-//
-////            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
-////            self.addChildViewController(popOverVC)
-////            popOverVC.view.frame = self.view.frame
-////            self.view.addSubview(popOverVC.view)
-////            popOverVC.didMove(toParentViewController: self)
-//            
-//            
-//            print("成功連線")
-//            isConnect = isEnable
-//            
-//            
-//        }else{
-//            print("oo")
-//            
-//        }
-//    }
-//    
-
-//    func onScanResultUUID(_ uuid: String, name: String, rssi: Int32) {
-//        
-//
-//        let id = uuid
-//        let n = name
-//        let rs = rssi
-//        print("藍牙狀態",(id,n,rs))
-//
-//    }
-//    func onConnectionState(_ state: ConnectState) {
-//        print(state)
-//    }
     
     
     
@@ -400,23 +518,32 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     // 藍牙連接的function
     @IBAction func connectBlueTooth(_ sender: Any) {
         if self.bleIsOn == true {
-                BLEprotocol.startScanTimeout(2)
-                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
-                self.addChildViewController(popOverVC)
-                popOverVC.view.frame = self.view.frame
-                self.view.addSubview(popOverVC.view)
-                popOverVC.didMove(toParentViewController: self)
+            let appl = UIApplication.shared.delegate as! AppDelegate
+            appl.bleUUID.removeAll()
+            appl.bleName.removeAll()
             
-
-
-            }else{
+            appl.bleRssi.removeAll()
+print("apppppp",appl.bleRssi)
+           BLEprotocol.startScanTimeout(2)
+            
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
+            
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.didMove(toParentViewController: self)
+            
+            
+            
+        }else{
             print("我警告你要打開")
-            }
-        
-        
-        
+            
         }
         
+        
+        
+    }
+    
         
         
 
@@ -866,10 +993,13 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         switch pinch.state {
         case .began: fallthrough
+            print("開始了1")
         case .changed: update(scale: newScaleFactor)
+            print("有變化了唷2")
         case .ended:
             lastZoomFactor = minMaxZoom(newScaleFactor)
             update(scale: lastZoomFactor)
+            print("最新版3")
         default: break
         }
     }
@@ -1700,37 +1830,30 @@ print("ERRRRRROR")
         self.settingTableView.isHidden = true
         self.connectAndBatteryTableView.isHidden = true
         mBtManager = BtManager()
-
+        
+//        
+//        self.topView.isUserInteractionEnabled = false
+//
+//        self.settingBtn.isUserInteractionEnabled = true
+        
 
 //        let name = BLEProtocol?.getBattery()
-//        print("電池電量",name)
+        print("---------")
 //        let version  = BLEProtocol?.getFwVersion()
         
         
        BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
-        
+        Bleprotoc.BLE.shardBleprotocol = BLEprotocol
         BLEprotocol.connectStateDelegate = self as! ConnectStateDelegate
- //     BLEprotocol.dataResponseDelegate = self as! DataResponseDelegate
+     BLEprotocol.dataResponseDelegate = self as! DataResponseDelegate
  //       BLEprotocol.startScanTimeout(5)
 //        func startScanTimeout(_ timeout: Int) {
 //            let app =  onScanResultUUID(_:String, name: String, rssi: Int)
 //            print(app)
 //                   }
-
-
-        func connectUUID(_ uuid: String) {
-            if uuid == "Power Grip"{
-            print("有連接到唷")
-            
-            }
-        }
+//        let defaults = UserDefaults.standard
+//        defaults.setValue(BLEprotocol, forKey: "BLEProtocol")
         
-        func onScanResultUUID(_ uuid: String, name: String, rssi: Int) {
-            print("onScanResultUUID-----uuid = \(uuid) , name = \(name) , rssi = \(rssi)")
-            if name.contains("Power Grip") {
-            }
-        }
-
         
         
         
@@ -1785,6 +1908,64 @@ print("ERRRRRROR")
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(getter: flashToMain), name: NSNotification.Name(rawValue: "FlshMode"), object: nil)
+        
+//        NotificationCenter.default.addObserver(forName: NSNotification.Name("postUp"), object:keyboardCode, queue: nil) { notification in }
+
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postBattery"), object:appl.batteryInfo, queue: nil) { notification in
+            switch (Int32(appl.batteryInfo!)){
+            case 100:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_04"), for: UIControlState.normal)
+
+                break
+            case 91...99:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_05"), for: UIControlState.normal)
+
+                break
+            case 81...90:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_06"), for: UIControlState.normal)
+
+                break
+            case 71...80:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_07"), for: UIControlState.normal)
+
+                break
+            case 61...70:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_08"), for: UIControlState.normal)
+
+                break
+            case 51...60:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_09"), for: UIControlState.normal)
+
+                break
+            case 41...50:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_10"), for: UIControlState.normal)
+
+                break
+            case 31...40:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_11"), for: UIControlState.normal)
+
+                break
+            case 21...30:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_12"), for: UIControlState.normal)
+
+                break
+            case 11...30:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_13"), for: UIControlState.normal)
+
+                break
+            default:
+                break
+                
+            
+            
+                
+            
+            
+            }
+        
+        }
+
+ 
         
         //觸發手勢關閉與否
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postTapOrNot"), object:appl.tapToTakePhoto, queue: nil) { notification in

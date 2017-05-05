@@ -19,54 +19,28 @@ class BLEConnectViewController: UIViewController {
         popOverVC.didMove(toParentViewController: self)
         
         
+        
+        
 //                    popOverVC.willMove(toParentViewController: nil)
 //                    popOverVC.view.removeFromSuperview()
 //                    popOverVC.removeFromParentViewController()
 
         
     }
-
-    /**
-     * 連線狀態
-     * ScanFinish,			//掃描結束
-     * Connected,			//連線成功
-     * Disconnected,		//斷線
-     * ConnectTimeout,		//連線超時
-     */
     
-/*
-    func onBtStateChanged(_ isEnable: Bool) {
-        if isEnable == false{
-            print("ＯＰＥＮＢＬＥ")
-            
-        }else {
-            
-            print("ALREADYHere")
-        }
-    }
-    func onConnectionState(_ state: ConnectState) {
-        print("誒誒")
-    }
-
-    var BLEprotocol = FuelProtocol()
     
-    func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
-        if name == "Power Grip"{
-            BLEprotocol.connectUUID(uuid)
-          //  BLEprotocol.stopScan()
-        }
-        
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.willMove(toParentViewController: nil)
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
         
     }
-*/
-    override func viewDidLoad() {
+
+
+      override func viewDidLoad() {
         super.viewDidLoad()
         self.perform(#selector(toConnect), with: nil, afterDelay: 3)
 
-//        BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
-//        
-//        BLEprotocol.connectStateDelegate = self as! ConnectStateDelegate
- //       BLEprotocol.dataResponseDelegate = self as! DataResponseDelegate
         
     }
 
@@ -76,14 +50,5 @@ class BLEConnectViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -23,9 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var bleName:[String] = []
     var bleRssi:[Int32] = []
 
-    var baterryInfo:Int?
-    var hwInfo:Float?
-    var softInfo:Float?
+    var batteryInfo:Int32?
+    var hwInfo:String?
+    var softInfo:String?
+    var BLEprotocol = FuelProtocol()
+
+
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
