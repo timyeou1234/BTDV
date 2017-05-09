@@ -10,6 +10,9 @@ import UIKit
 
 class StartScanBLEViewController: UIViewController {
 
+    @IBAction func dismiss(_ sender: Any) {
+        self.dismiss(animated: false, completion: nil)
+    }
 
     func toConnect(){
         

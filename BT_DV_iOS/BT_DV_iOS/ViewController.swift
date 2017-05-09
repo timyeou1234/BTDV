@@ -20,294 +20,26 @@ protocol MainViewControllerDelegate {
 }
 class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate,ConnectStateDelegate,DataResponseDelegate {
     
-    func didButton() {
-//        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToScanViewController") as! FailToScanViewController
-//        
-//        VC.delegate = self as! MainViewControllerDelegate
-
-        if self.bleIsOn == true {
-            let appl = UIApplication.shared.delegate as! AppDelegate
-            appl.bleUUID.removeAll()
-            appl.bleName.removeAll()
-            
-            appl.bleRssi.removeAll()
-            print("apppppp",appl.bleRssi)
-            BLEprotocol.startScanTimeout(2)
-            
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
-            
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
-        }else{
-            print("我警告你要打開")
-        }
-    }
-
-var test = "測試中"
-    
-    
+    var test = "測試中"
     
     var arrayForView = [String]()
-
+    
     var viewArray = UserDefaults.standard.object(forKey: "subView")
     
     var isConnected :Bool?
     
-    func onConnectionState(_ state: ConnectState) {
-        let appl = UIApplication.shared.delegate as! AppDelegate
-
-        switch state {
-            
-        case ScanFinish:
-            if appl.bleUUID.count != 0{
-                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as! GetBlueToothInfoViewController
-                self.addChildViewController(popOverVC)
-                popOverVC.view.frame = self.view.frame
-                self.view.addSubview(popOverVC.view)
-                popOverVC.didMove(toParentViewController: self)
-
-            }else{
-                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToScanViewController") as! FailToScanViewController
-                self.addChildViewController(popOverVC)
-                popOverVC.view.frame = self.view.frame
-                self.view.addSubview(popOverVC.view)
-                popOverVC.didMove(toParentViewController: self)
-
-            
-            }
-            print("結束")
-            break
-        case Connected:
-            isConnected = true
-            
-
-         let batterry =  BLEprotocol.getBattery()
-         let version = BLEprotocol.getHwVersion()
-         let softVersion = BLEprotocol.getFwVersion()
-         
-            
-            appl.hwInfo = version
-            appl.softInfo = softVersion
-            appl.batteryInfo = batterry
-            print("電量",appl.batteryInfo)
-            NotificationCenter.default.post(name: NSNotification.Name("postBattery"), object: appl.batteryInfo)
-
-            /*
-            var vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PowerGripStatusViewController") as! PowerGripStatusViewController
-            vc.hwVersionValue = version
-            print("硬體",vc.hwVersionValue)
-            vc.softVersionValue = softVersion
-            print("軟體",vc.softVersionValue)
- */
-
-            break
-        case Disconnect:
-
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToConnectViewController") as! FailToConnectViewController
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
-
-            break
-        case ConnectTimeout:
-            
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToConnectViewController") as! FailToConnectViewController
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
-
-            break
-        default:
-            break
-            
-        }
-        print("onConnectionState-----state = \(state)")
-        if state == ScanFinish {
-            print("connection status Connected")
-        }
-        else if state == Disconnect {
-            print("connection status Disconnected")
-        }
-        
-    }
-
- 
-    func onBtStateChanged(_ isEnable: Bool) {
-        if isEnable == false{
-            
-        self.bleIsOn = false
-        print("ＯＰＥＮＢＬＥ")
-        
-        }else {
-        self.bleIsOn = true
-        print("ALREADYHere")
-        }
-    }
-
+    var i :CGFloat = 1.0
+    
     var newUuid:String?
     
-
-    
- 
-    func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
-        let appl = UIApplication.shared.delegate as! AppDelegate
-        newUuid = uuid
-        if name == "Power Grip"{
-            
-            appl.bleUUID.append(uuid)
-            appl.bleName.append(name)
-            appl.bleRssi.append(rssi)
-            
-            
-        }
-        
-//       Bleprotoc.shardBleprotocol.connectUUID(uuid)
-
-//        if name == "Power Grip" || name == "DfuTarg"{
-//            
-//            BLEprotocol.connectUUID(uuid)
-//        }
-    }
-    
-    
-    func onResponsePressed(_ keyboardCode: Int32){
-        switch (keyboardCode){
-        case 2:
-            if captureMode == CaptureModePhoto {
-                capturePhoto()
-            } else {
-                captureMovie()
-            }
-
-            break
-        case 4:
-            self.zoomOut()
-            
-//            guard let device = activeInput.device else { return }
-//            func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-//                return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
-//            }
-//
-//            func update(scale factor: CGFloat) {
-//                do {
-//                    try device.lockForConfiguration()
-//                    defer { device.unlockForConfiguration() }
-//                    device.videoZoomFactor = factor
-//                } catch {
-//                    print("\(error.localizedDescription)")
-//                }
-//            }
-//
-            test = "我要跟你測試"
-            self.printTest()
-            break
-        case 1:
-            
-            test = "誰要跟你測試"
-            
-            self.printTest()
-            self.zoomIn()
-
-
-
-            
-            
-           
-            
-            break
-        default:
-            break
-            
-        }
-    
-    }
-    
-    var i :CGFloat = 1.0
-
-    func zoomIn() {
-        guard let device = activeInput.device else { return }
-        
-        // Return zoom value between the minimum and maximum zoom values
-        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
-        }
-        
-        func update(scale factor: CGFloat) {
-            do {
-                try device.lockForConfiguration()
-                defer { device.unlockForConfiguration() }
-                device.videoZoomFactor = factor
-            } catch {
-                print("\(error.localizedDescription)")
-            }
-        }
-        
-        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
-        i += 0.1
-        print("跟你說這是ＩＩＩＩ",i)
-        switch i {
-        case  1.0: fallthrough
-        case 1.1...2.9: update(scale: newScaleFactor)
-        case 3.0:
-            
-            lastZoomFactor = minMaxZoom(newScaleFactor)
-            update(scale: lastZoomFactor)
-        default:
-            
-            if i > 3.0 {
-                i = 3.0
-            }
-            if i < 1.0{
-            i = 1.0
-            }
-        }
-    }
-
-    
-    func zoomOut() {
-        guard let device = activeInput.device else { return }
-        
-        // Return zoom value between the minimum and maximum zoom values
-        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
-        }
-        
-        func update(scale factor: CGFloat) {
-            do {
-                try device.lockForConfiguration()
-                defer { device.unlockForConfiguration() }
-                device.videoZoomFactor = factor
-            } catch {
-                print("\(error.localizedDescription)")
-            }
-        }
-        
-        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
-        i -= 0.1
-        print("跟你說這是ＩＩＩＩ",i)
-        switch i {
-        case  1.0: fallthrough
-        case 1.1...2.9: update(scale: newScaleFactor)
-        case 3.0:
-            lastZoomFactor = minMaxZoom(newScaleFactor)
-            update(scale: lastZoomFactor)
-        default: break
-        }
-    }
-
-    
     var num = 1
-
+    
     func printTest(){
         num += 1
-    print("天啊快點來測試",test,num)
+        print("天啊快點來測試",test,num)
     }
-
-
+    
+    
     @IBOutlet weak var cameraView: UIView!
     
     @IBOutlet weak var thumbnail: UIButton!
@@ -330,6 +62,11 @@ var test = "測試中"
     
     @IBOutlet weak var setBattertAndConnectBtn: UIButton!
     
+    //MARK:-ZoomInOut
+    let minimumZoom: CGFloat = 1.0
+    let maximumZoom: CGFloat = 3.0
+    var lastZoomFactor: CGFloat = 1.0
+    
     var captureSession = AVCaptureSession()
     var captureDevice: AVCaptureDevice?
     var previewLayer : AVCaptureVideoPreviewLayer?
@@ -340,7 +77,7 @@ var test = "測試中"
     
     let movieOutput = AVCaptureMovieFileOutput()
     var activeInput: AVCaptureDeviceInput!
-
+    
     
     var currentOrientation: UIDeviceOrientation = UIDevice.current.orientation
     
@@ -367,18 +104,18 @@ var test = "測試中"
     var tapOrNot = false
     var flashToMain = "btn_flash_auto_1"
     var beSelect = Bool()
-
+    
     //MARK:-BLE
     var BLEprotocol = FuelProtocol()
     var mBtManager : BtManager!
     var bleIsOn:Bool!
-
     
     
     
-
-
-//MARK:-ContainerView
+    
+    
+    
+    //MARK:-ContainerView
     @IBOutlet weak var senceTableView: UIView!
     
     @IBOutlet weak var flashLightTableView: UIView!
@@ -394,8 +131,8 @@ var test = "測試中"
     @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
     
     @IBAction func unwindFromFlash(segue:UIStoryboardSegue) { }
-
-//MARK:-Button
+    
+    //MARK:-Button
     
     @IBAction func capturePhotoOrMovie(_ sender: Any) {
         if captureMode == CaptureModePhoto {
@@ -418,21 +155,21 @@ var test = "測試中"
             
             videoCounter += 1
             photoOrMovieBtn.setImage(image, for: UIControlState.normal)
-
+            
             print("Photo")
             
         }
         
-
+        
     }
     
     
     @IBAction func tumbnailOpenLibrary(_ sender: Any) {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
-      //  imagePicker.delegate = self
+        //  imagePicker.delegate = self
         self.present(imagePicker, animated: true, completion: nil)
-
+        
     }
     
     @IBAction func setCamera(_ sender: Any) {
@@ -479,64 +216,885 @@ var test = "測試中"
                 print("Error switching cameras: \(error)")
             }
         }
-
+        
     }
     
     @IBAction func setFlash(_ sender: Any) {
         
         if  flashLightTableView.isHidden == true {
-        flashLightTableView.isHidden = false
-            self.buttopTap()
+            hideOtherSubView(view: flashLightTableView)
+            self.setFlashBtn.setImage(UIImage(named:("btn_flash_auto_1")), for: UIControlState.normal)
+            
         }else{
-        flashLightTableView.isHidden = true
+            flashLightTableView.isHidden = true
         }
         
     }
     
     @IBAction func setSence(_ sender: Any) {
         if senceTableView.isHidden == true{
-        senceTableView.isHidden = false
-
+            hideOtherSubView(view: senceTableView)
         }else{
-        senceTableView.isHidden = true
+            senceTableView.isHidden = true
         }
-        
         
     }
     
     @IBAction func settingCamera(_ sender: Any) {
-        if self.settingTableView.isHidden == true
-{
-        self.settingTableView.isHidden = false
+        if self.settingTableView.isHidden == true{
+            hideOtherSubView(view: settingTableView)
         }else{
+            self.settingTableView.isHidden = true
+        }
+        
+    }
+    
+    func hideOtherSubView(view:UIView){
+        senceTableView.isHidden = true
+        settingTableView.isHidden = true
+        flashLightTableView.isHidden = true
+        view.isHidden = false
+    }
+    
+    func pinch(_ pinch: UIPinchGestureRecognizer) {
+        guard let device = activeInput.device else { return }
+        
+        // Return zoom value between the minimum and maximum zoom values
+        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        }
+        
+        func update(scale factor: CGFloat) {
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.videoZoomFactor = factor
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+        }
+        
+        let newScaleFactor = minMaxZoom(pinch.scale * lastZoomFactor)
+        
+        switch pinch.state {
+        case .began: fallthrough
+        print("開始了1")
+        case .changed: update(scale: newScaleFactor)
+        print("有變化了唷2")
+        case .ended:
+            lastZoomFactor = minMaxZoom(newScaleFactor)
+            update(scale: lastZoomFactor)
+            print("最新版3")
+        default: break
+        }
+    }
+    
+    //MARK:-單點拍攝
+    func tapCapture(_ tap: UIPinchGestureRecognizer){
+        
+        if captureMode == CaptureModePhoto {
+            capturePhoto()
+        } else {
+            captureMovie()
+        }
+        
+    }
+    
+    //前置相機
+    func frontCamera(_ front: Bool){
+        let devices = AVCaptureDevice.devices()
+        do{
+            
+            try captureSession.removeInput(AVCaptureDeviceInput(device: captureDevice))
+            
+        }catch{
+            print("error",error.localizedDescription)
+            
+        }
+        
+        
+        
+        for device in devices!{
+            
+            if((device as AnyObject).hasMediaType(AVMediaTypeVideo)){
+                if front{
+                    if (device as AnyObject).position == AVCaptureDevicePosition.front{
+                        captureDevice = device as? AVCaptureDevice
+                        do{
+                            try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice))
+                        }catch{
+                            
+                        }
+                        break
+                    }
+                }else{
+                    if (device as AnyObject).position == AVCaptureDevicePosition.back{
+                        captureDevice = device as? AVCaptureDevice
+                        do{
+                            try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice))
+                        }catch{
+                            
+                        }
+                        break
+                    }
+                }
+                
+                
+            }
+            
+        }
+    }
+    
+    func setting (){
+        try! captureDevice?.lockForConfiguration()
+        /*
+         if (captureDevice?.isExposureModeSupported(.continuousAutoExposure))!{
+         captureDevice?.exposurePointOfInterest = CGPoint(x: 0.5, y: 0.5)
+         captureDevice?.exposureMode = .continuousAutoExposure
+         
+         }
+         */
+        
+        //設定快門1/30分之一秒  iso 50
+        //        print((captureDevice?.activeFormat.maxISO)!)
+        do{
+            //        captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 500), iso: 200, completionHandler: nil)
+            let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 3000,tint: 15)
+            self.setWhiteBalanceGains(self.captureDevice!.deviceWhiteBalanceGains(for: temperatureAndTint))
+            captureDevice?.unlockForConfiguration()
+        }catch{
+            print("ERRRRRROR")
+        }
+        /*
+         if ((captureDevice?.lockForConfiguration) != nil){
+         let maxISO = captureDevice?.activeFormat.maxISO
+         let minISO = captureDevice?.activeFormat.minISO
+         let newISO = maxISO! - minISO!
+         captureDevice?.setExposureModeCustomWithDuration(AVCaptureExposureDurationCurrent, iso: newISO, completionHandler: nil)
+         captureDevice?.unlockForConfiguration()
+         print("iso 100")
+         }
+         */
+    }
+    
+    //設定白平衡增益
+    func setWhiteBalanceGains(_ gains: AVCaptureWhiteBalanceGains) {
+        let device = activeInput.device
+        do {
+            try device?.lockForConfiguration()
+            let normalizedGains = self.normalizedGains(gains) // Conversion can yield out-of-bound values, cap to limits
+            device?.setWhiteBalanceModeLockedWithDeviceWhiteBalanceGains(normalizedGains, completionHandler: nil)
+            device?.unlockForConfiguration()
+        } catch let error {
+            NSLog("Could not lock device for configuration: \(error)")
+        }
+    }
+    
+    // 初始化增益值
+    private func normalizedGains(_ gains: AVCaptureWhiteBalanceGains) -> AVCaptureWhiteBalanceGains {
+        
+        let device = activeInput.device
+        var g = gains
+        
+        g.redGain = max(1.0, g.redGain)
+        g.greenGain = max(1.0, g.greenGain)
+        g.blueGain = max(1.0, g.blueGain)
+        
+        g.redGain = min((device?.maxWhiteBalanceGain)!, g.redGain)
+        g.greenGain = min((device?.maxWhiteBalanceGain)!, g.greenGain)
+        g.blueGain = min((device?.maxWhiteBalanceGain)!, g.blueGain)
+        
+        return g
+    }
+    
+    //偵測畫面旋轉
+    func rotated() {
+        switch UIDevice.current.orientation {
+        case .landscapeLeft:
+            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeRight
+            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            
+            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            
+            
+            print("landscape")
+        case .landscapeRight:
+            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeLeft
+            
+            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            //            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            
+            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            
+            
+            
+        case .portraitUpsideDown:
+            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portraitUpsideDown
+            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            
+            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            
+            print("上下顛倒")
+        
+        default:
+            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portrait
+            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            
+            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            
+            print("Portrait")
+        }
+    }
+    
+    
+    
+    //MARK:- Rotated
+    
+    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
+        
+        layer.videoOrientation = orientation
+        
+        previewLayer?.frame = self.view.bounds
+        
+    }
+    
+    
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let connection =  self.previewLayer?.connection  {
+            
+            let currentDevice: UIDevice = UIDevice.current
+            
+            let orientation: UIDeviceOrientation = currentDevice.orientation
+            
+            let previewLayerConnection : AVCaptureConnection = connection
+            
+            if previewLayerConnection.isVideoOrientationSupported {
+                
+                switch (orientation) {
+                case .portrait: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                    
+                case .landscapeRight: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                print("右邊橫躺")
+                
+                    break
+                    
+                case .landscapeLeft: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                    
+                case .portraitUpsideDown: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                    
+                default: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                }
+            }
+        }
+    }
+    
+    //MARK:-SET UPPER UI
+    
+    func buttonClick(_ button: UIButton) {
+        // swith
+        switch (beSelect){
+        case true :
+            setSenceBtn.isSelected = !setSenceBtn.isSelected
+            beSelect = false
+            
+        default:
+            setSenceBtn.isSelected = !setSenceBtn.isSelected
+            beSelect = true
+        }
+        print("真假",setSenceBtn.isSelected)
+    }
+    
+    func tapToPhoto(){
+        //tap to capture
+        
+        let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
+        
+        // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
+        singleFinger.numberOfTapsRequired = 2
+        
+        
+        // 幾根指頭觸發
+        singleFinger.numberOfTouchesRequired = 1
+        
+        // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
+        
+        // 為視圖加入監聽手勢
+        self.view.addGestureRecognizer(singleFinger)
+        
+    }
+    
+    //關閉上方狀態列
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
+    
+    override func viewWillLayoutSubviews() {
+        
+    }
+    
+    //MARK:-ViewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.senceTableView.isHidden = true
+        self.flashLightTableView.isHidden = true
         self.settingTableView.isHidden = true
+        self.connectAndBatteryTableView.isHidden = true
+        mBtManager = BtManager()
+        
+        
+        BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
+        Bleprotoc.BLE.shardBleprotocol = BLEprotocol
+        BLEprotocol.connectStateDelegate = self as ConnectStateDelegate
+        BLEprotocol.dataResponseDelegate = self as DataResponseDelegate
+        
+        //白平衡初始化
+        let whiteBalanceGains = self.captureDevice?.deviceWhiteBalanceGains ?? AVCaptureWhiteBalanceGains()
+        _ = self.captureDevice?.temperatureAndTintValues(forDeviceWhiteBalanceGains: whiteBalanceGains) ?? AVCaptureWhiteBalanceTemperatureAndTintValues()
+        
+        print(whiteBalanceGains)
+        
+        
+        self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
+        self.setSenceBtn.addTarget(self, action: #selector(self.buttonClick), for: .touchUpInside)
+        
+        
+        
+        //       self.setFlashBtn.addTarget(self, action: #selector(self.buttopTap), for: UIControlEvents.allEvents)
+        
+        
+        //MARK:-TAP_TAKE_Photo
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        
+        
+        //手勢縮放功能
+        
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
+        
+        
+        self.view.addGestureRecognizer(pinchGesture)
+        
+        
+        
+        //啟動相機預覽及臉部偵測
+        if setupSession(){
+            
+            setPreview()
+            setupFace()
+            startSession()
+            
+            
+        }
+        
+        //去觀察畫面是否轉向
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(getter: flashToMain), name: NSNotification.Name(rawValue: "FlshMode"), object: nil)
+        
+        //        NotificationCenter.default.addObserver(forName: NSNotification.Name("postUp"), object:keyboardCode, queue: nil) { notification in }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postBattery"), object:appl.batteryInfo, queue: nil) { notification in
+            switch (Int32(appl.batteryInfo!)){
+            case 100:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_04"), for: UIControlState.normal)
+                
+                break
+            case 91...99:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_05"), for: UIControlState.normal)
+                
+                break
+            case 81...90:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_06"), for: UIControlState.normal)
+                
+                break
+            case 71...80:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_07"), for: UIControlState.normal)
+                
+                break
+            case 61...70:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_08"), for: UIControlState.normal)
+                
+                break
+            case 51...60:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_09"), for: UIControlState.normal)
+                
+                break
+            case 41...50:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_10"), for: UIControlState.normal)
+                
+                break
+            case 31...40:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_11"), for: UIControlState.normal)
+                
+                break
+            case 21...30:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_12"), for: UIControlState.normal)
+                
+                break
+            case 11...30:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_13"), for: UIControlState.normal)
+                
+                break
+            default:
+                break
+                
+            }
+            
+        }
+        
+        //觸發手勢關閉與否
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postTapOrNot"), object:appl.tapToTakePhoto, queue: nil) { notification in
+            if ((appl.tapToTakePhoto)!) == true{
+                print("觸碰手勢啟動！！！")
+                let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
+                
+                // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
+                singleFinger.numberOfTapsRequired = 2
+                
+                
+                // 幾根指頭觸發
+                singleFinger.numberOfTouchesRequired = 1
+                
+                // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
+                
+                // 為視圖加入監聽手勢
+                self.view.addGestureRecognizer(singleFinger)
+            }else{
+                print("觸碰關閉！！")
+                //清除所有手勢
+                if let recognizers = self.view.gestureRecognizers {
+                    for singleFinger in recognizers {
+                        self.view.removeGestureRecognizer(singleFinger as! UIGestureRecognizer)
+                    }
+                    //重新加入手勢縮放
+                    let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
+                    
+                    
+                    self.view.addGestureRecognizer(pinchGesture)
+                    
+                }
+            }
+        }
+        
+        //接收senceViewController的值，並觸發對應的方法，且更改上方ＵＩ圖示
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postSence"), object:appl.indexPath, queue: nil) { notification in
+            print((appl.indexPath?.row)!)
+            switch ((appl.indexPath?.row)!){
+                
+            case 0:
+                
+                self.settingAuto()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
+                
+                break
+            case 1:
+                self.settingAction()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_action_1"), for: UIControlState.normal)
+                break
+            case 2:
+                self.settingHuman()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_portrait_1"), for: UIControlState.normal)
+                
+                break
+            case 3:
+                
+                self.settingLandScape()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_landscape_1"), for: UIControlState.normal)
+                
+                break
+            case 4:
+                self.settingNight()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_1"), for: UIControlState.normal)
+                
+                break
+            case 5:
+                self.settingNightHuman()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_portrait_1"), for: UIControlState.normal)
+                
+                break
+            case 6:
+                self.settingThreater()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_theatre_1"), for: UIControlState.normal)
+                
+                break
+            case 7:
+                self.settingBeach()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_beach_1"), for: UIControlState.normal)
+                
+                break
+            case 8:
+                self.settingSnow()
+                
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_snow_1"), for: UIControlState.normal)
+                
+                break
+            case 9:
+                
+                self.settingSunset()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_sunset_1"), for: UIControlState.normal)
+                
+                break
+            case 10:
+                self.settingNotshaking()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_steady_photo_1"), for: UIControlState.normal)
+                
+                break
+            case 11:
+                self.settingFireWork()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_firework_1"), for: UIControlState.normal)
+                
+                break
+            case 12:
+                self.settingSport()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_sports_1"), for: UIControlState.normal)
+                
+                break
+            case 13:
+                self.settingParty()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_party_1"), for: UIControlState.normal)
+                
+                break
+            case 14:
+                self.settingCandle()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_candlelight_1"), for: UIControlState.normal)
+                
+                break
+                
+                
+                
+            default: break
+                break
+            }
+            print(appl.indexPath!)
+        }
+        
+        
+        //接收FlashLightViewController的值。並觸發各自的方法，更改閃光燈設置，且變更上方ＵＩ的圖示
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postFlash"), object:appl.valueFromFlash, queue: nil) { notification in
+            
+            switch((appl.valueFromFlash?.row)!){
+            case 0:
+                
+                //["btn_flash_auto_1","btn_flash_on_1","btn_flash_redeye_1","btn_flash_off_1","btn_flash_light_1"]
+                self.setFlashAuto()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_auto_1"), for: UIControlState.normal)
+                
+                break
+            case 1:
+                self.setFlashOn()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_on_1"), for: UIControlState.normal)
+                
+                break
+            case 2:
+                self.setFlashOn()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_redeye_1"), for: UIControlState.normal)
+                
+                break
+            case 3:
+                self.setFlashOff()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_off_1"), for: UIControlState.normal)
+                
+                break
+            case 4:
+                self.setTorchOn()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_light_1"), for: UIControlState.normal)
+                
+                break
+            default:
+                break
+                
+            }
+            
+            
+        }
+        //接收WhiteBalanceSettingViewController的值。並觸發各自的方法
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postWhiteBalance"), object:appl.valueFromFlash, queue: nil) {notification in
+            switch((appl.valueFromWhiteBalance?.row)!){
+            case 0:
+                self.setWBAuto()
+                break
+            case 1:
+                self.setWBDark()
+                break
+            case 2:
+                self.setWBCloudy()
+                break
+            case 3:
+                self.setWBSunny()
+                break
+            case 4:
+                self.setWBLight()
+                
+                break
+            case 5:
+                self.setWBYellowLight()
+                break
+            case 6:
+                self.setWBSunset()
+                break
+            case 7:
+                self.setWBWormLight()
+                break
+            default:
+                break
+                
+                
+            }
+            
+            
+        }
+        //接收SetEVViewController的值，並觸發對應的方法，更改畫面ＥＶ值
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postEV"), object:appl.valueFromEV, queue: nil) { notification in
+            let device = self.activeInput.device
+            do {
+                try device?.lockForConfiguration()
+                device?.setExposureTargetBias((Float(appl.valueFromEV!)), completionHandler: nil)
+                device?.unlockForConfiguration()
+            } catch let error {
+                NSLog("Could not lock device for configuration: \(error)")
+            }
+            
+            print(appl.valueFromEV!)
+            
+        }
+        
+        //接收ImageSizeViewController的值，並觸發對應的方法，改變影像尺寸
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postSize"), object:appl.valueFromFlash, queue: nil) { notification in
+            switch ((appl.valueFromSize?.row)!){
+                
+            case 0:
+                self.captureSession.sessionPreset = AVCaptureSessionPreset1280x720
+                
+                break
+            case 1:
+                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
+                
+                break
+                
+            case 2:
+                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
+                
+                break
+            case 3:
+                self.captureSession.sessionPreset = AVCaptureSessionPreset1920x1080
+                
+                break
+            case 4:
+                
+                self.captureSession.sessionPreset = AVCaptureSessionPresetHigh
+                
+                break
+            default:
+                break
+                
+                
+            }
+            
+            
+        }
+        
+        
+        
+    }
+}
+
+//MARK:相機功能
+extension ViewController{
+    
+    //MARK: ISO_Shutter Setting
+    //設置場景
+    func settingAuto(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = AVCaptureExposureMode.autoExpose
+            
+            //       captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 3), iso: 100, completionHandler: nil)
+            device?.unlockForConfiguration()
+        }catch{
+        }
+    }
+    
+    func settingAction(){
+        
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 4000), iso: 400, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+    }
+    func settingHuman(){
+        
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 25), iso: 400, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+    }
+    
+    func settingLandScape(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 100), iso: 100, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+        }catch{
+        }
+    }
+    
+    
+    func settingNight(){
+        
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            device?.flashMode = .auto
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 25), iso: 500, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+        
+    }
+    
+    func settingNightHuman(){
+        
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            device?.flashMode = .auto
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 20), iso: 400, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
         }
         
     }
     
     
-    // 藍牙連接的function
-    @IBAction func connectBlueTooth(_ sender: Any) {
-        if self.bleIsOn == true {
-            let appl = UIApplication.shared.delegate as! AppDelegate
-            appl.bleUUID.removeAll()
-            appl.bleName.removeAll()
+    
+    func settingThreater(){
+        let device = activeInput.device
+        do{
             
-            appl.bleRssi.removeAll()
-print("apppppp",appl.bleRssi)
-           BLEprotocol.startScanTimeout(2)
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            device?.flashMode = .auto
             
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
-            
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 800), iso: 500, completionHandler: nil)
+            device?.unlockForConfiguration()
             
             
+        }catch{
             
-        }else{
-            print("我警告你要打開")
+            
+        }
+        
+        
+    }
+    
+    
+    func settingBeach(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 1000), iso: 200, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+    }
+    
+    func settingSnow(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 1500), iso: 50, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
             
         }
         
@@ -544,18 +1102,368 @@ print("apppppp",appl.bleRssi)
         
     }
     
+    func settingSunset(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 2500), iso: 400, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
         
         
+    }
+    func settingNotshaking(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 1500), iso: 300, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+        
+    }
+    
+    
+    
+    func settingFireWork(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 2), iso: 500, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+        
+    }
+    
+    func settingSport(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            device?.flashMode = .auto
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 2000), iso: 100, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+        
+    }
+    
+    func settingParty(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 800), iso: 500, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+        
+    }
+    
+    func settingCandle(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 30), iso: 500, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+        
+    }
+    
+    //MARK:-SETTINGFlash
+    
+    
+    func setFlashAuto(){
+        
+        let device = activeInput.device
+        if (device?.hasFlash)!{
+            do{
+                try device?.lockForConfiguration()
+                device?.flashMode = .auto
+                device?.unlockForConfiguration()
+            }catch{
+                print("喔")
+            }
+        }
+    }
+    
+    
+    func setTorchOn(){
+        
+        let device = activeInput.device
+        if (device?.hasFlash)!{
+            
+            do{
+                try device?.lockForConfiguration()
+                if device?.torchMode == .off{
+                    device?.torchMode = .on
+                }else{
+                    device?.torchMode = .off
+                }
+                device?.unlockForConfiguration()
+            }catch{
+                print("喔")
+            }
+        }
+    }
+    
+    func setFlashOn(){
+        let device = activeInput.device
+        if (device?.hasFlash)!{
+            
+            do{
+                try device?.lockForConfiguration()
+                device?.flashMode = .on
+                device?.unlockForConfiguration()
+            }catch{
+                print("喔")
+            }
+        }
+        
+    }
+    
+    func setRedEye(){
+        let device = activeInput.device
+        if (device?.hasFlash)!{
+            
+            do{
+                try device?.lockForConfiguration()
+                device?.flashMode = .on
+                device?.unlockForConfiguration()
+            }catch{
+                print("喔")
+            }
+            
+        }
+    }
+    
+    func setFlashOff(){
+        let device = activeInput.device
+        if (device?.hasFlash)!{
+            
+            do{
+                try device?.lockForConfiguration()
+                device?.flashMode = .off
+                device?.unlockForConfiguration()
+            }catch{
+                print("喔")
+            }
+        }
+    }
+    
+    //MARK:- SETWhiteBalance
+    func setWBAuto(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .continuousAutoWhiteBalance
+            device?.unlockForConfiguration()
+        }catch{
+            print("ＮＯＮＯ")
+        }
+    }
+    
+    func setWBDark(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 3500,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+        
+        
+    }
+    
+    func setWBCloudy(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+        
+    }
+    
+    func setWBSunny(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5500,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+        
+        
+    }
+    
+    func setWBLight(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 6800,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+        
+    }
+    
+    func setWBYellowLight(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+        
+    }
+    
+    func setWBSunset(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 7500,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+        
+    }
+    
+    func setWBWormLight(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("Error")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 9000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+        
+    }
+    func setting4(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.exposureMode = .custom
+            device?.flashMode = .off
+            
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 2), iso: 500, completionHandler: nil)
+            device?.unlockForConfiguration()
+            
+            
+        }catch{
+            
+            
+        }
+        
+    }
+    
+    
+    func setting3(){
+        let device = activeInput.device
+        do{
+            try device!.lockForConfiguration()
+            device?.whiteBalanceMode = .locked
+            device?.unlockForConfiguration()
+        }catch{
+            print("ＮＯＮＯ")
+        }
+        
+        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
+        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+        
+        
+    }
+    
+    
+    func seting2 (){
+        let device = activeInput.device
+        
+        do{
+            try! device?.lockForConfiguration()
+            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 5), iso: 800, completionHandler: nil)
+            
+            let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5000,tint: 15)
+            //       self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
+            device?.unlockForConfiguration()
+        }catch{
+            
+            print("error")
+        }
+        
+        
+    }
 
-    
-        
-        
-
-        
-    
-    
-    
-//MARK:- CapturePhoto
+    //MARK:- CapturePhoto
     func capturePhoto(){
         
         if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo){
@@ -569,13 +1477,13 @@ print("apppppp",appl.bleRssi)
                 
                 //底下的小縮圖
                 self.cameraView.backgroundColor = UIColor(patternImage: image!)
-//                self.imageThundernil.image = image
+                //                self.imageThundernil.image = image
             })
         }
         
         
     }
-
+    
     
     //存入相簿
     func savePhotoToLibrary(_ image: UIImage) {
@@ -622,7 +1530,7 @@ print("apppppp",appl.bleRssi)
     //MARK: CaptureVideo
     func captureMovie() {
         if movieOutput.isRecording == false {
-  
+            
             captureBtn.setImage(UIImage(named: "btn_stop"), for: UIControlState())
             
             topView.isHidden = true
@@ -727,14 +1635,14 @@ print("apppppp",appl.bleRssi)
         
         return nil
     }
-
+    
     //MARK:-BeginSession
     
     //設定Session
     func setupSession() -> Bool {
         
-
-   //     captureSession.sessionPreset = AVCaptureSessionPresetHigh
+        
+        //     captureSession.sessionPreset = AVCaptureSessionPresetHigh
         
         // Setup Camera
         let camera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
@@ -818,8 +1726,8 @@ print("apppppp",appl.bleRssi)
     func videoQueue() -> DispatchQueue {
         return DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default)
     }
-
-//MARK:-SettingFlashAndTourch
+    
+    //MARK:-SettingFlashAndTourch
     
     func currentFlashOrTorchMode() -> (mode: Int, name: String) {
         var currentMode: Int = 0
@@ -898,7 +1806,7 @@ print("apppppp",appl.bleRssi)
             }
         }
     }
-//MARK:-FaceDetect
+    //MARK:-FaceDetect
     
     func setupFace(){
         print("人臉偵測耶，拜託快來")
@@ -964,14 +1872,8 @@ print("apppppp",appl.bleRssi)
         
     }
     
-    
-    
-    //MARK:-ZoomInOut
-    let minimumZoom: CGFloat = 1.0
-    let maximumZoom: CGFloat = 3.0
-    var lastZoomFactor: CGFloat = 1.0
-    
-    func pinch(_ pinch: UIPinchGestureRecognizer) {
+    //MARK:拉近
+    func zoomIn() {
         guard let device = activeInput.device else { return }
         
         // Return zoom value between the minimum and maximum zoom values
@@ -989,1241 +1891,280 @@ print("apppppp",appl.bleRssi)
             }
         }
         
-        let newScaleFactor = minMaxZoom(pinch.scale * lastZoomFactor)
-        
-        switch pinch.state {
-        case .began: fallthrough
-            print("開始了1")
-        case .changed: update(scale: newScaleFactor)
-            print("有變化了唷2")
-        case .ended:
+        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
+        i += 0.1
+        print("跟你說這是ＩＩＩＩ",i)
+        switch i {
+        case  1.0: fallthrough
+        case 1.1...2.9: update(scale: newScaleFactor)
+        case 3.0:
+            
             lastZoomFactor = minMaxZoom(newScaleFactor)
             update(scale: lastZoomFactor)
-            print("最新版3")
+        default:
+            
+            if i > 3.0 {
+                i = 3.0
+            }
+            if i < 1.0{
+                i = 1.0
+            }
+        }
+    }
+    
+    //MARK:拉遠
+    func zoomOut() {
+        guard let device = activeInput.device else { return }
+        
+        // Return zoom value between the minimum and maximum zoom values
+        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        }
+        
+        func update(scale factor: CGFloat) {
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.videoZoomFactor = factor
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+        }
+        
+        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
+        i -= 0.1
+        print("跟你說這是ＩＩＩＩ",i)
+        switch i {
+        case  1.0: fallthrough
+        case 1.1...2.9: update(scale: newScaleFactor)
+        case 3.0:
+            lastZoomFactor = minMaxZoom(newScaleFactor)
+            update(scale: lastZoomFactor)
         default: break
         }
     }
-    
-    //MARK:-單點拍攝
-    func tapCapture(_ tap: UIPinchGestureRecognizer){
-    
-        if captureMode == CaptureModePhoto {
-            capturePhoto()
-        } else {
-            captureMovie()
-        }
-
-    }
-    
-    //前置相機
-    func frontCamera(_ front: Bool){
-        let devices = AVCaptureDevice.devices()
-        do{
-            
-            try captureSession.removeInput(AVCaptureDeviceInput(device: captureDevice))
-            
-        }catch{
-            print("error",error.localizedDescription)
-            
-        }
-        
-        
-        
-        for device in devices!{
-            
-            if((device as AnyObject).hasMediaType(AVMediaTypeVideo)){
-                if front{
-                    if (device as AnyObject).position == AVCaptureDevicePosition.front{
-                        captureDevice = device as? AVCaptureDevice
-                        do{
-                            try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice))
-                        }catch{
-                            
-                        }
-                        break
-                    }
-                }else{
-                    if (device as AnyObject).position == AVCaptureDevicePosition.back{
-                        captureDevice = device as? AVCaptureDevice
-                        do{
-                            try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice))
-                        }catch{
-                            
-                        }
-                        break
-                    }
-                }
-                
-                
-            }
-            
-        }
-    }
-    
-    
-    //MARK: ISO_Shutter Setting
-    //設置場景
-    func settingAuto(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = AVCaptureExposureMode.autoExpose
-            
-     //       captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 3), iso: 100, completionHandler: nil)
-            device?.unlockForConfiguration()
-        }catch{
-        }
-    }
-    
-    func settingAction(){
-    
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 4000), iso: 400, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    }
-    func settingHuman(){
-    
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 25), iso: 400, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    }
-    
-    func settingLandScape(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 100), iso: 100, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-        }catch{
-        }
-    }
-    
-    
-    func settingNight(){
-    
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            device?.flashMode = .auto
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 25), iso: 500, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    
-    }
-    
-    func settingNightHuman(){
-    
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            device?.flashMode = .auto
-
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 20), iso: 400, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    }
-    
-    
-    
-    func settingThreater(){
-        let device = activeInput.device
-        do{
-
-        try device!.lockForConfiguration()
-        device?.exposureMode = .custom
-        device?.flashMode = .auto
-        
-        captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 800), iso: 500, completionHandler: nil)
-        device?.unlockForConfiguration()
-
-            
-        }catch{
-            
-            
-        }
-        
-
-    }
-    
-    
-    func settingBeach(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 1000), iso: 200, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    }
-    
-    func settingSnow(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 1500), iso: 50, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-        
-
-    
-    }
-    
-    func settingSunset(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 2500), iso: 400, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-        
-
-    }
-    func settingNotshaking(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 1500), iso: 300, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    
-    }
-    
-    
-    
-    func settingFireWork(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 2), iso: 500, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    
-    }
-    
-    func settingSport(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            device?.flashMode = .auto
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 2000), iso: 100, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    
-    }
-    
-    func settingParty(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 800), iso: 500, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    
-    }
-    
-    func settingCandle(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 30), iso: 500, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-
-    
-    }
-    
- //MARK:-SETTINGFlash
-    
-    
-    func setFlashAuto(){
-        
-        let device = activeInput.device
-        if (device?.hasFlash)!{
-        do{
-            try device?.lockForConfiguration()
-            device?.flashMode = .auto
-            device?.unlockForConfiguration()
-        }catch{
-            print("喔")
-        }
-        }
-    }
-
-    
-    func setTorchOn(){
-        
-        let device = activeInput.device
-        if (device?.hasFlash)!{
-
-        do{
-            try device?.lockForConfiguration()
-           if device?.torchMode == .off{
-            device?.torchMode = .on
-            }else{
-            device?.torchMode = .off
-            }
-            device?.unlockForConfiguration()
-        }catch{
-            print("喔")
-        }
-        }
-    }
-    
-    func setFlashOn(){
-        let device = activeInput.device
-        if (device?.hasFlash)!{
-
-        do{
-            try device?.lockForConfiguration()
-            device?.flashMode = .on
-            device?.unlockForConfiguration()
-        }catch{
-            print("喔")
-        }
-        }
-    
-    }
-    
-    func setRedEye(){
-        let device = activeInput.device
-        if (device?.hasFlash)!{
-
-        do{
-            try device?.lockForConfiguration()
-            device?.flashMode = .on
-            device?.unlockForConfiguration()
-        }catch{
-            print("喔")
-        }
-
-        }
-    }
-    
-    func setFlashOff(){
-        let device = activeInput.device
-        if (device?.hasFlash)!{
-
-        do{
-            try device?.lockForConfiguration()
-            device?.flashMode = .off
-            device?.unlockForConfiguration()
-        }catch{
-            print("喔")
-        }
-        }
-    }
-    
-    //MARK:- SETWhiteBalance
-    func setWBAuto(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.whiteBalanceMode = .continuousAutoWhiteBalance
-            device?.unlockForConfiguration()
-        }catch{
-            print("ＮＯＮＯ")
-        }
-    }
-    
-    func setWBDark(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.whiteBalanceMode = .locked
-            device?.unlockForConfiguration()
-        }catch{
-        }
-        
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 3500,tint: 15)
-        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-
-    
-    }
-    func setWBCloudy(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.whiteBalanceMode = .locked
-            device?.unlockForConfiguration()
-        }catch{
-            print("Error")
-        }
-        
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5000,tint: 15)
-        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-
-    }
-    func setWBSunny(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.whiteBalanceMode = .locked
-            device?.unlockForConfiguration()
-        }catch{
-            print("Error")
-        }
-        
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5500,tint: 15)
-        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-
-    
-    }
-    func setWBLight(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.whiteBalanceMode = .locked
-            device?.unlockForConfiguration()
-        }catch{
-            print("Error")
-        }
-        
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 6800,tint: 15)
-        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-
-    }
-    func setWBYellowLight(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.whiteBalanceMode = .locked
-            device?.unlockForConfiguration()
-        }catch{
-            print("Error")
-        }
-        
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
-        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-
-    }
-    
-    func setWBSunset(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.whiteBalanceMode = .locked
-            device?.unlockForConfiguration()
-        }catch{
-            print("Error")
-        }
-        
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 7500,tint: 15)
-        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-
-    }
-    
-    func setWBWormLight(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.whiteBalanceMode = .locked
-            device?.unlockForConfiguration()
-        }catch{
-            print("Error")
-        }
-        
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 9000,tint: 15)
-        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-
-    }
-    func setting4(){
-        let device = activeInput.device
-        do{
-            try device!.lockForConfiguration()
-            device?.exposureMode = .custom
-            device?.flashMode = .off
-            
-            captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 2), iso: 500, completionHandler: nil)
-            device?.unlockForConfiguration()
-            
-            
-        }catch{
-            
-            
-        }
-        
-    }
-
-    
-    func setting3(){
-        let device = activeInput.device
-        do{
-           try device!.lockForConfiguration()
-        device?.whiteBalanceMode = .locked
-            device?.unlockForConfiguration()
-        }catch{
-        print("ＮＯＮＯ")
-        }
-        
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 8000,tint: 15)
-        self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-
-        
-        }
-    
-    
-    func seting2 (){
-        let device = activeInput.device
-
-        do{
-        try! device?.lockForConfiguration()
-        captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 5), iso: 800, completionHandler: nil)
-            
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5000,tint: 15)
- //       self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
-        device?.unlockForConfiguration()
-        }catch{
-        
-        print("error")
-        }
-        
-        
-    }
-    func setting (){
-        try! captureDevice?.lockForConfiguration()
-        /*
-         if (captureDevice?.isExposureModeSupported(.continuousAutoExposure))!{
-         captureDevice?.exposurePointOfInterest = CGPoint(x: 0.5, y: 0.5)
-         captureDevice?.exposureMode = .continuousAutoExposure
-         
-         }
-         */
-        
-        //設定快門1/30分之一秒  iso 50
-        //        print((captureDevice?.activeFormat.maxISO)!)
-do{
-//        captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 500), iso: 200, completionHandler: nil)
-        let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 3000,tint: 15)
-        self.setWhiteBalanceGains(self.captureDevice!.deviceWhiteBalanceGains(for: temperatureAndTint))
-        captureDevice?.unlockForConfiguration()
-        }catch{
-print("ERRRRRROR")
 }
-        /*
-         if ((captureDevice?.lockForConfiguration) != nil){
-         let maxISO = captureDevice?.activeFormat.maxISO
-         let minISO = captureDevice?.activeFormat.minISO
-         let newISO = maxISO! - minISO!
-         captureDevice?.setExposureModeCustomWithDuration(AVCaptureExposureDurationCurrent, iso: newISO, completionHandler: nil)
-         captureDevice?.unlockForConfiguration()
-         print("iso 100")
-         }
-         */
-    }
-    //設定白平衡增益
-    private func setWhiteBalanceGains(_ gains: AVCaptureWhiteBalanceGains) {
-        let device = activeInput.device
-        do {
-            try device?.lockForConfiguration()
-            let normalizedGains = self.normalizedGains(gains) // Conversion can yield out-of-bound values, cap to limits
-            device?.setWhiteBalanceModeLockedWithDeviceWhiteBalanceGains(normalizedGains, completionHandler: nil)
-            device?.unlockForConfiguration()
-        } catch let error {
-            NSLog("Could not lock device for configuration: \(error)")
+
+//MARK:疑似為藍牙
+extension ViewController{
+    
+    // 藍牙連接的function
+    @IBAction func connectBlueTooth(_ sender: Any) {
+        if self.bleIsOn == true {
+            let appl = UIApplication.shared.delegate as! AppDelegate
+            appl.bleUUID.removeAll()
+            appl.bleName.removeAll()
+            
+            appl.bleRssi.removeAll()
+            print("apppppp",appl.bleRssi)
+            BLEprotocol.startScanTimeout(2)
+            
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
+            
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.didMove(toParentViewController: self)
+            
+        }else{
+            print("我警告你要打開")
+            
         }
+        
     }
     
-    // 初始化增益值
-    private func normalizedGains(_ gains: AVCaptureWhiteBalanceGains) -> AVCaptureWhiteBalanceGains {
+    func didButton() {
+        //        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToScanViewController") as! FailToScanViewController
+        //
+        //        VC.delegate = self as! MainViewControllerDelegate
         
-        let device = activeInput.device
-        var g = gains
-        
-        g.redGain = max(1.0, g.redGain)
-        g.greenGain = max(1.0, g.greenGain)
-        g.blueGain = max(1.0, g.blueGain)
-        
-        g.redGain = min((device?.maxWhiteBalanceGain)!, g.redGain)
-        g.greenGain = min((device?.maxWhiteBalanceGain)!, g.greenGain)
-        g.blueGain = min((device?.maxWhiteBalanceGain)!, g.blueGain)
-        
-        return g
-    }
-
-
-    
-    //偵測畫面旋轉
-    func rotated() {
-        switch UIDevice.current.orientation {
-        case .landscapeLeft:
-            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeRight
-            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+        if self.bleIsOn == true {
+            let appl = UIApplication.shared.delegate as! AppDelegate
+            appl.bleUUID.removeAll()
+            appl.bleName.removeAll()
             
-            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-
-
-            print("landscape")
-        case .landscapeRight:
-            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeLeft
+            appl.bleRssi.removeAll()
+            print("apppppp",appl.bleRssi)
+            BLEprotocol.startScanTimeout(2)
             
-            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-//            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
             
-            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-
-            
-            
-        case .portraitUpsideDown:
-            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portraitUpsideDown
-            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-
-            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-
-
-
-            print("上下顛倒啦")
-            
-            
-        default:
-            stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portrait
-            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-
-            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-
-            
-            print("Portrait")
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.didMove(toParentViewController: self)
+        }else{
+            print("我警告你要打開")
         }
     }
     
     
     
-//MARK:- Rotated
-    
-    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
-        
-        layer.videoOrientation = orientation
-        
-        previewLayer?.frame = self.view.bounds
-        
-    }
-    
-
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        if let connection =  self.previewLayer?.connection  {
-            
-            let currentDevice: UIDevice = UIDevice.current
-            
-            let orientation: UIDeviceOrientation = currentDevice.orientation
-            
-            let previewLayerConnection : AVCaptureConnection = connection
-            
-            if previewLayerConnection.isVideoOrientationSupported {
-                
-                switch (orientation) {
-                case .portrait: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-                
-                    break
-                    
-                case .landscapeRight: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-                print("右邊橫躺")
-                
-                    break
-                    
-                case .landscapeLeft: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-                
-                    break
-                    
-                case .portraitUpsideDown: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-                
-                    break
-                    
-                default: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-                
-                    break
-                }
-            }
-        }
-    }
-
-    //MARK:-SET UPPER UI
-    
-    func buttonClick(_ button: UIButton) {
-        // swith
-        switch (beSelect){
-        case true :
-            setSenceBtn.isSelected = !setSenceBtn.isSelected
-            beSelect = false
-
-        default:
-            setSenceBtn.isSelected = !setSenceBtn.isSelected
-            beSelect = true
-        }
-        print("真假",setSenceBtn.isSelected)
-    }
-    
-    func buttopTap(){
-        
-        let app = UIApplication.shared.delegate as! AppDelegate
-        let image = app.valueGetFromFlash
-        self.setFlashBtn.setImage(UIImage(named:(image)), for: UIControlState.normal)
-        print(image)
-        // print(app.valueGetFromFlash)
-        
-    }
-    
-    
-    func tapToPhoto(){
-            //tap to capture
-            
-            let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
-            
-            // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
-            singleFinger.numberOfTapsRequired = 2
-            
-            
-            // 幾根指頭觸發
-            singleFinger.numberOfTouchesRequired = 1
-            
-            // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
-            
-            // 為視圖加入監聽手勢
-            self.view.addGestureRecognizer(singleFinger)
-
-    }
-    //關閉上方狀態列
-    override var prefersStatusBarHidden: Bool{
-        return true
-    }
-    
-    
-    
-
- 
-    override func viewWillLayoutSubviews() {
-        
-            }
-    
-    //MAEK:-ViewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.senceTableView.isHidden = true
-        self.flashLightTableView.isHidden = true
-        self.settingTableView.isHidden = true
-        self.connectAndBatteryTableView.isHidden = true
-        mBtManager = BtManager()
-        
-//        
-//        self.topView.isUserInteractionEnabled = false
-//
-//        self.settingBtn.isUserInteractionEnabled = true
-        
-
-//        let name = BLEProtocol?.getBattery()
-        print("---------")
-//        let version  = BLEProtocol?.getFwVersion()
-        
-        
-       BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
-        Bleprotoc.BLE.shardBleprotocol = BLEprotocol
-        BLEprotocol.connectStateDelegate = self as! ConnectStateDelegate
-     BLEprotocol.dataResponseDelegate = self as! DataResponseDelegate
- //       BLEprotocol.startScanTimeout(5)
-//        func startScanTimeout(_ timeout: Int) {
-//            let app =  onScanResultUUID(_:String, name: String, rssi: Int)
-//            print(app)
-//                   }
-//        let defaults = UserDefaults.standard
-//        defaults.setValue(BLEprotocol, forKey: "BLEProtocol")
-        
-        
-        
-        
-        
-
-        
- //白平衡初始化
-        let whiteBalanceGains = self.captureDevice?.deviceWhiteBalanceGains ?? AVCaptureWhiteBalanceGains()
-        _ = self.captureDevice?.temperatureAndTintValues(forDeviceWhiteBalanceGains: whiteBalanceGains) ?? AVCaptureWhiteBalanceTemperatureAndTintValues()
-
-        print(whiteBalanceGains)
-        
-        
-        //self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_2"), for: UIControlState.selected)
-        self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
-        self.setSenceBtn.addTarget(self, action: #selector(self.buttonClick), for: .touchUpInside)
-        
-        
-        
- //       self.setFlashBtn.addTarget(self, action: #selector(self.buttopTap), for: UIControlEvents.allEvents)
-        
-
-        //MARK:-TAP_TAKE_Photo
+    func onConnectionState(_ state: ConnectState) {
         let appl = UIApplication.shared.delegate as! AppDelegate
-
         
-        //手勢縮放功能
-        
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
-        
- 
-        self.view.addGestureRecognizer(pinchGesture)
-        
-        
-
-//啟動相機預覽及臉部偵測
-        if setupSession(){
-
-            setPreview()
-            setupFace()
-            startSession()
+        switch state {
             
-            
-        }
-
- 
-      
- 
-
-        
-        //去觀察畫面是否轉向
-        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(getter: flashToMain), name: NSNotification.Name(rawValue: "FlshMode"), object: nil)
-        
-//        NotificationCenter.default.addObserver(forName: NSNotification.Name("postUp"), object:keyboardCode, queue: nil) { notification in }
-
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postBattery"), object:appl.batteryInfo, queue: nil) { notification in
-            switch (Int32(appl.batteryInfo!)){
-            case 100:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_04"), for: UIControlState.normal)
-
-                break
-            case 91...99:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_05"), for: UIControlState.normal)
-
-                break
-            case 81...90:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_06"), for: UIControlState.normal)
-
-                break
-            case 71...80:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_07"), for: UIControlState.normal)
-
-                break
-            case 61...70:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_08"), for: UIControlState.normal)
-
-                break
-            case 51...60:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_09"), for: UIControlState.normal)
-
-                break
-            case 41...50:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_10"), for: UIControlState.normal)
-
-                break
-            case 31...40:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_11"), for: UIControlState.normal)
-
-                break
-            case 21...30:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_12"), for: UIControlState.normal)
-
-                break
-            case 11...30:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_13"), for: UIControlState.normal)
-
-                break
-            default:
-                break
+        case ScanFinish:
+            if appl.bleUUID.count != 0{
+                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as! GetBlueToothInfoViewController
+                self.addChildViewController(popOverVC)
+                popOverVC.view.frame = self.view.frame
+                self.view.addSubview(popOverVC.view)
+                popOverVC.didMove(toParentViewController: self)
                 
-            
-            
-                
-            
-            
-            }
-        
-        }
-
- 
-        
-        //觸發手勢關閉與否
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postTapOrNot"), object:appl.tapToTakePhoto, queue: nil) { notification in
-            if ((appl.tapToTakePhoto)!) == true{
-                print("觸碰手勢啟動！！！")
-                let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
-                
-                // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
-                singleFinger.numberOfTapsRequired = 2
-                
-                
-                // 幾根指頭觸發
-                singleFinger.numberOfTouchesRequired = 1
-                
-                // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
-                
-                // 為視圖加入監聽手勢
-                self.view.addGestureRecognizer(singleFinger)
             }else{
-                print("觸碰關閉！！")
-                //清除所有手勢
-                if let recognizers = self.view.gestureRecognizers {
-                    for singleFinger in recognizers {
-                        self.view.removeGestureRecognizer(singleFinger as! UIGestureRecognizer)
-                    }
-                    //重新加入手勢縮放
-                    let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
-                    
-                    
-                    self.view.addGestureRecognizer(pinchGesture)
-
-                }
+                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToScanViewController") as! FailToScanViewController
+                self.addChildViewController(popOverVC)
+                popOverVC.view.frame = self.view.frame
+                self.view.addSubview(popOverVC.view)
+                popOverVC.didMove(toParentViewController: self)
+                
+                
             }
+            print("結束")
+            break
+        case Connected:
+            isConnected = true
+            
+            
+            let batterry =  BLEprotocol.getBattery()
+            let version = BLEprotocol.getHwVersion()
+            let softVersion = BLEprotocol.getFwVersion()
+            
+            
+            appl.hwInfo = version
+            appl.softInfo = softVersion
+            appl.batteryInfo = batterry
+            print("電量",appl.batteryInfo)
+            NotificationCenter.default.post(name: NSNotification.Name("postBattery"), object: appl.batteryInfo)
+            
+            /*
+             var vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PowerGripStatusViewController") as! PowerGripStatusViewController
+             vc.hwVersionValue = version
+             print("硬體",vc.hwVersionValue)
+             vc.softVersionValue = softVersion
+             print("軟體",vc.softVersionValue)
+             */
+            
+            break
+        case Disconnect:
+            
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToConnectViewController") as! FailToConnectViewController
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.didMove(toParentViewController: self)
+            
+            break
+        case ConnectTimeout:
+            
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToConnectViewController") as! FailToConnectViewController
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.didMove(toParentViewController: self)
+            
+            break
+        default:
+            break
+            
         }
-
-//接收senceViewController的值，並觸發對應的方法，且更改上方ＵＩ圖示
-      NotificationCenter.default.addObserver(forName: NSNotification.Name("postSence"), object:appl.indexPath, queue: nil) { notification in
-        print((appl.indexPath?.row)!)
-        switch ((appl.indexPath?.row)!){
+        print("onConnectionState-----state = \(state)")
+        if state == ScanFinish {
+            print("connection status Connected")
+        }
+        else if state == Disconnect {
+            print("connection status Disconnected")
+        }
+        
+    }
+    
+    
+    func onBtStateChanged(_ isEnable: Bool) {
+        if isEnable == false{
             
-        case 0:
+            self.bleIsOn = false
+            print("ＯＰＥＮＢＬＥ")
             
-            self.settingAuto()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
-
-            break
-        case 1:
-            self.settingAction()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_action_1"), for: UIControlState.normal)
-        break
+        }else {
+            self.bleIsOn = true
+            print("ALREADYHere")
+        }
+    }
+    
+    
+    
+    
+    
+    
+    func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        newUuid = uuid
+        if name == "Power Grip"{
+            
+            appl.bleUUID.append(uuid)
+            appl.bleName.append(name)
+            appl.bleRssi.append(rssi)
+            
+            
+        }
+        
+        //       Bleprotoc.shardBleprotocol.connectUUID(uuid)
+        
+        //        if name == "Power Grip" || name == "DfuTarg"{
+        //
+        //            BLEprotocol.connectUUID(uuid)
+        //        }
+    }
+    
+    
+    func onResponsePressed(_ keyboardCode: Int32){
+        switch (keyboardCode){
         case 2:
-            self.settingHuman()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_portrait_1"), for: UIControlState.normal)
-
-            break
-        case 3:
+            if captureMode == CaptureModePhoto {
+                capturePhoto()
+            } else {
+                captureMovie()
+            }
             
-            self.settingLandScape()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_landscape_1"), for: UIControlState.normal)
-
             break
         case 4:
-            self.settingNight()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_1"), for: UIControlState.normal)
-
-            break
-        case 5:
-            self.settingNightHuman()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_portrait_1"), for: UIControlState.normal)
-
-            break
-        case 6:
-            self.settingThreater()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_theatre_1"), for: UIControlState.normal)
-
-            break
-        case 7:
-            self.settingBeach()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_beach_1"), for: UIControlState.normal)
-
-            break
-        case 8:
-            self.settingSnow()
+            self.zoomOut()
             
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_snow_1"), for: UIControlState.normal)
-
+            //            guard let device = activeInput.device else { return }
+            //            func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+            //                return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+            //            }
+            //
+            //            func update(scale factor: CGFloat) {
+            //                do {
+            //                    try device.lockForConfiguration()
+            //                    defer { device.unlockForConfiguration() }
+            //                    device.videoZoomFactor = factor
+            //                } catch {
+            //                    print("\(error.localizedDescription)")
+            //                }
+            //            }
+            //
+            test = "我要跟你測試"
+            self.printTest()
             break
-        case 9:
+        case 1:
             
-            self.settingSunset()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_sunset_1"), for: UIControlState.normal)
-
-            break
-        case 10:
-            self.settingNotshaking()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_steady_photo_1"), for: UIControlState.normal)
-
-            break
-        case 11:
-            self.settingFireWork()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_firework_1"), for: UIControlState.normal)
-
-            break
-        case 12:
-            self.settingSport()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_sports_1"), for: UIControlState.normal)
-
-            break
-        case 13:
-            self.settingParty()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_party_1"), for: UIControlState.normal)
-
-            break
-        case 14:
-            self.settingCandle()
-            self.setSenceBtn.setImage(UIImage(named:"btn_scene_candlelight_1"), for: UIControlState.normal)
-
-            break
-
+            test = "誰要跟你測試"
             
+            self.printTest()
+            self.zoomIn()
             
-        default: break
             break
-        }
-        print(appl.indexPath!)
-        }
-        
-        
-        //接收FlashLightViewController的值。並觸發各自的方法，更改閃光燈設置，且變更上方ＵＩ的圖示
-
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postFlash"), object:appl.valueFromFlash, queue: nil) { notification in
-            
-            switch((appl.valueFromFlash?.row)!){
-            case 0:
-                
-                //["btn_flash_auto_1","btn_flash_on_1","btn_flash_redeye_1","btn_flash_off_1","btn_flash_light_1"]
-                self.setFlashAuto()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_auto_1"), for: UIControlState.normal)
-
-                break
-            case 1:
-                self.setFlashOn()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_on_1"), for: UIControlState.normal)
-
-                break
-            case 2:
-                self.setFlashOn()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_redeye_1"), for: UIControlState.normal)
-
-                break
-            case 3:
-                self.setFlashOff()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_off_1"), for: UIControlState.normal)
-
-                break
-            case 4:
-                self.setTorchOn()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_light_1"), for: UIControlState.normal)
-
-                break
-            default:
-                break
-            
-            }
-        
-        
-        }
-        //接收WhiteBalanceSettingViewController的值。並觸發各自的方法
-
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postWhiteBalance"), object:appl.valueFromFlash, queue: nil) {notification in
-            switch((appl.valueFromWhiteBalance?.row)!){
-            case 0:
-                self.setWBAuto()
-                break
-            case 1:
-                self.setWBDark()
-                break
-            case 2:
-                self.setWBCloudy()
-                break
-            case 3:
-                self.setWBSunny()
-                break
-            case 4:
-                self.setWBLight()
-                
-                break
-            case 5:
-                self.setWBYellowLight()
-                break
-            case 6:
-                self.setWBSunset()
-                break
-            case 7:
-                self.setWBWormLight()
-                break
-            default:
-                break
-                
-            
-            }
-
-        
-        }
-        //接收SetEVViewController的值，並觸發對應的方法，更改畫面ＥＶ值
-
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postEV"), object:appl.valueFromEV, queue: nil) { notification in
-            let device = self.activeInput.device
-            do {
-                try device?.lockForConfiguration()
-                device?.setExposureTargetBias((Float(appl.valueFromEV!)), completionHandler: nil)
-                device?.unlockForConfiguration()
-            } catch let error {
-                NSLog("Could not lock device for configuration: \(error)")
-            }
-
-        print(appl.valueFromEV!)
+        default:
+            break
             
         }
         
-        //接收ImageSizeViewController的值，並觸發對應的方法，改變影像尺寸
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postSize"), object:appl.valueFromFlash, queue: nil) { notification in
-            switch ((appl.valueFromSize?.row)!){
-                
-            case 0:
-                self.captureSession.sessionPreset = AVCaptureSessionPreset1280x720
-
-                break
-            case 1:
-                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
-
-                break
-                
-            case 2:
-                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
-
-                break
-            case 3:
-                self.captureSession.sessionPreset = AVCaptureSessionPreset1920x1080
-
-                break
-            case 4:
-                
-                self.captureSession.sessionPreset = AVCaptureSessionPresetHigh
-
-                break
-            default:
-                break
-            
-            
-            }
-
-        
-        }
-
-
-    
     }
+    
 }
 
 extension ViewController: AVCaptureFileOutputRecordingDelegate {

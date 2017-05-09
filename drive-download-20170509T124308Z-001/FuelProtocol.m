@@ -1,6 +1,6 @@
 
 #import "FuelProtocol.h"
-//#import "CommandType.h"
+#import "CommandType.h"
 
 FuelProtocol *instance;
 
