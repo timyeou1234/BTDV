@@ -9,10 +9,16 @@
 import UIKit
 
 class WhiteBalanceSettingViewController: UIViewController {
-
-    @IBOutlet weak var whiteBalanceTableView: UITableView!
+    
     var whiteBalanceName = ["自動(AWB)","陰暗","陰天","晴天","日光燈","鎢絲燈","黃昏","暖光燈"]
     var whiteBalanceValue = ["btn_wb_awb_2","btn_wb_shade_1","btn_wb_cloudy_1","btn_wb_daylight_1","btn_wb_fluorescent_1","btn_wb_incandescent_1","btn_wb_twilight_1","btn_wb_warm_fluorescent_1"]
+
+    @IBOutlet weak var whiteBalanceTableView: UITableView!
+    @IBAction func backAction(_ sender: Any) {
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +26,6 @@ class WhiteBalanceSettingViewController: UIViewController {
         self.whiteBalanceTableView.delegate = self
         self.whiteBalanceTableView.dataSource = self
         self.whiteBalanceTableView.separatorStyle = .none
-        
         
         let nib = UINib(nibName: "senceTableViewCell", bundle: nil)
         self.whiteBalanceTableView.register(nib, forCellReuseIdentifier: "senceTableViewCell")
@@ -82,21 +87,26 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
     }
     
     
-    func handleTap(gestureRecognizer: UIGestureRecognizer)
-    {
+    func handleTap(gestureRecognizer: UIGestureRecognizer){
         
         self.willMove(toParentViewController: self)
         self.removeFromParentViewController()
         self.view.removeFromSuperview()
         
-        //      self.view.endEditing(true)
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "senceTableViewCell", for: indexPath) as? senceTableViewCell
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        if appl.valueFromWhiteBalance == nil && indexPath.row == 0{
+            cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+        }else if appl.valueFromWhiteBalance == indexPath{
+            cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+        }else{
+            cell?.contentView.backgroundColor = UIColor.black
+        }
         cell?.senceName.text = whiteBalanceName[indexPath.row]
         cell?.senceIcon.image = UIImage(named: whiteBalanceValue[indexPath.row])
         return cell!
@@ -111,8 +121,6 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
-        
         let appl = UIApplication.shared.delegate as! AppDelegate
         appl.valueFromWhiteBalance = indexPath
         
@@ -122,6 +130,7 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
         performSegue(withIdentifier: "unwindFromnWBWithSegue", sender: Any?.self)
         
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindFromnWBWithSegue"{
             if let indexPath = self.whiteBalanceTableView.indexPathForSelectedRow {

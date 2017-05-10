@@ -11,8 +11,8 @@ import UIKit
 class senceTableViewCell: UITableViewCell {
 
     @IBOutlet weak var senceName: UILabel!
-    
     @IBOutlet weak var senceIcon: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectedBackgroundView = UIView()

@@ -13,6 +13,7 @@ protocol cellModelChanged {
 
 class settingViewController: UIViewController {
     
+    var getTapOrNot = false
     var sendTag = 10
     let settingNameArrayOne = ["場景選擇","白平衡","曝光補償"]
     var settingNameArrayTwo = ["觸碰拍攝"]
@@ -37,40 +38,48 @@ class settingViewController: UIViewController {
     @IBAction func unwindFromPower(segue:UIStoryboardSegue) { }
     @IBAction func unwindFromEV(segue:UIStoryboardSegue) { }
 
-
-
-    var getTapOrNot = false
-    
-    
-
+    @IBOutlet weak var cameraSettingButton: UIButton!
+    @IBOutlet weak var qualitySettingButton: UIButton!
+    @IBOutlet weak var powerSettingButton: UIButton!
     @IBOutlet weak var settingTableView: UITableView!
-    @IBAction func buttonForSetting(_ sender: UIButton) {
-        switch (sender.tag){
-        case 10:
-            sendTag = sender.tag
-            self.settingTableView.reloadData()
-            break
-        case 20:
-            sendTag = sender.tag
-            self.settingTableView.reloadData()
-
-            break
-        case 30:
-            sendTag = sender.tag
-            self.settingTableView.reloadData()
-
-            break
-        default:
-            break
-        
-        }
-        
+    
+    @IBAction func cameraAction(_ sender: Any) {
+        setSelectedButton(sender as! UIButton)
+        sendTag = 10
+        self.settingTableView.reloadData()
     }
+    
+    @IBAction func qualityAction(_ sender: Any) {
+        setSelectedButton(sender as! UIButton)
+        sendTag = 20
+        self.settingTableView.reloadData()
+    }
+    
+    @IBAction func powerAction(_ sender: Any) {
+        setSelectedButton(sender as! UIButton)
+        sendTag = 30
+        self.settingTableView.reloadData()
+    }
+    
+    func setSelectedButton(_ button:UIButton){
+        cameraSettingButton.isSelected = false
+        qualitySettingButton.isSelected = false
+        powerSettingButton.isSelected = false
+        button.isSelected = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.settingTableView.delegate = self
         self.settingTableView.dataSource = self
         self.settingTableView.separatorStyle = .none
+        
+        cameraSettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting1_1"), for: .normal)
+        cameraSettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting1_2"), for: .selected)
+        qualitySettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting2_1"), for: .normal)
+        qualitySettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting2_2"), for: .selected)
+        powerSettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting3_1"), for: .normal)
+        powerSettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting3_2"), for: .selected)
 
         //註冊所有的xib
         let nib = UINib(nibName: "MainSettingTableViewCell", bundle: nil)
@@ -99,9 +108,7 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
-   
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch (sendTag){
@@ -121,6 +128,7 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         }
         return 4
     }
+    
     //透過sendTag及indexPath.row決定哪一科按鈕的tableView顯示內容
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -158,9 +166,6 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
             
         default:
             break
-            
-            
-            
             
         }
         
@@ -219,9 +224,10 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         
         
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-            }
+    }
     
 
 }

@@ -73,7 +73,7 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let appl = UIApplication.shared.delegate as! AppDelegate
-        appl.indexPath = indexPath
+        appl.valueFromScene = indexPath
 
         NotificationCenter.default.post(name: NSNotification.Name("postSence"), object: indexPath)
         

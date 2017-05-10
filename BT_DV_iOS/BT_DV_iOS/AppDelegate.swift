@@ -15,9 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var valueGetFromFlash = "btn_flash_auto_1"
     var indexPath:IndexPath?
     var valueFromFlash:IndexPath?
+    //設定頁中白平衡選擇值
     var valueFromWhiteBalance:IndexPath?
     var valueFromEV:Int?
     var valueFromSize:IndexPath?
+    //設定頁中場景選擇值
+    var valueFromScene:IndexPath?
     
     var bleUUID:[String] = []
     var bleName:[String] = []

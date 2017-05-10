@@ -12,6 +12,9 @@ class SenceFromSettingViewController: UIViewController {
     var senceNameArray = ["自動","行進中","人像","風景","夜間","夜間人像","劇院","海灘","雪景","夕照","防震","煙火","運動","派對","燭光"]
     let sencePicArray = ["btn_scene_auto_3","btn_scene_action_1","btn_scene_portrait_1","btn_scene_landscape_1","btn_scene_night_1","btn_scene_night_portrait_1","btn_scene_theatre_1","btn_scene_beach_1","btn_scene_snow_1","btn_scene_sunset_1","btn_scene_steady_photo_1","btn_scene_firework_1","btn_scene_sports_1","btn_scene_party_1","btn_scene_candlelight_1"]
 
+    @IBAction func backAction(_ sender: Any) {
+        
+    }
     @IBOutlet weak var senceFormSettingTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +67,6 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
     }
 */
     
-    
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = UIColor.white
@@ -93,10 +95,17 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
         
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "senceTableViewCell", for: indexPath) as? senceTableViewCell
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        if appl.valueFromScene == nil && indexPath.row == 0{
+            cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+        }else if appl.valueFromScene == indexPath{
+            cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+        }else{
+            cell?.contentView.backgroundColor = UIColor.black
+        }
         cell?.senceName.text = senceNameArray[indexPath.row]
         cell?.senceIcon.image = UIImage(named: sencePicArray[indexPath.row])
         return cell!
-        
         
     }
     
@@ -107,13 +116,11 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
         let appl = UIApplication.shared.delegate as! AppDelegate
-        appl.indexPath = indexPath
+        appl.valueFromScene = indexPath
         
         NotificationCenter.default.post(name: NSNotification.Name("postSence"), object: indexPath)
 
-        
         performSegue(withIdentifier: "unwindFromSenceWithSegue", sender: Any?.self)
         
     }

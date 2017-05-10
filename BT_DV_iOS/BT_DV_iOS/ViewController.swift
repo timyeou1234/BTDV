@@ -81,13 +81,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     var currentOrientation: UIDeviceOrientation = UIDevice.current.orientation
     
-    
     var format = AVCaptureDeviceFormat()
-    // MARK:-FORTOP
-    var counter = 0
-    var counterForFlashLight = 0
-    var counterForSetting = 0
-    var videoCounter = 0
     
     //設定錄影或拍照用
     var captureMode: Int = CaptureModePhoto
@@ -110,11 +104,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     var mBtManager : BtManager!
     var bleIsOn:Bool!
     
-    
-    
-    
-    
-    
     //MARK:-ContainerView
     @IBOutlet weak var senceTableView: UIView!
     
@@ -136,37 +125,36 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     @IBAction func capturePhotoOrMovie(_ sender: Any) {
         if captureMode == CaptureModePhoto {
+            
             capturePhoto()
-        } else {
+        }else{
             captureMovie()
         }
     }
     
     @IBAction func setPhotoOrMovie(_ sender: Any) {
-        if videoCounter % 2 == 0{
+        if !photoOrMovieBtn.isSelected{
+            photoOrMovieBtn.isSelected = true
             captureMode = CaptureModeMovie
-            videoCounter += 1
-            let image = UIImage(named: "btn_video")
-            photoOrMovieBtn.setImage(image, for: UIControlState.normal)
-            print("Video")
+            
+            print("Video mode start")
         }else{
-            let image = UIImage(named: "btn_camera")
+            photoOrMovieBtn.isSelected = false
             captureMode = CaptureModePhoto
             
-            videoCounter += 1
-            photoOrMovieBtn.setImage(image, for: UIControlState.normal)
-            
-            print("Photo")
+            print("Photo mode start")
             
         }
         
         
     }
     
-    
+    //MARK:Open photo libary
     @IBAction func tumbnailOpenLibrary(_ sender: Any) {
         let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
+        //        imagePicker.sourceType = .photoLibrary
+        imagePicker.sourceType = .savedPhotosAlbum
+        imagePicker.allowsEditing = true
         //  imagePicker.delegate = self
         self.present(imagePicker, animated: true, completion: nil)
         
@@ -219,6 +207,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
     }
     
+    //MARK:閃光燈設定動作
     @IBAction func setFlash(_ sender: Any) {
         
         if  flashLightTableView.isHidden == true {
@@ -231,6 +220,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
     }
     
+    //MARK:場境設定動作
     @IBAction func setSence(_ sender: Any) {
         if senceTableView.isHidden == true{
             hideOtherSubView(view: senceTableView)
@@ -240,6 +230,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
     }
     
+    //MARK:設定動作
     @IBAction func settingCamera(_ sender: Any) {
         if self.settingTableView.isHidden == true{
             hideOtherSubView(view: settingTableView)
@@ -249,11 +240,401 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
     }
     
+    // 藍牙連接的function
+    @IBAction func connectBlueTooth(_ sender: Any) {
+        if self.bleIsOn == true {
+            let appl = UIApplication.shared.delegate as! AppDelegate
+            appl.bleUUID.removeAll()
+            appl.bleName.removeAll()
+            
+            appl.bleRssi.removeAll()
+            print("apppppp",appl.bleRssi)
+            BLEprotocol.startScanTimeout(2)
+            
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
+            
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.didMove(toParentViewController: self)
+            
+        }else{
+            print("我警告你要打開")
+            
+        }
+        
+    }
+    
+    //設定頁面切換
     func hideOtherSubView(view:UIView){
         senceTableView.isHidden = true
         settingTableView.isHidden = true
         flashLightTableView.isHidden = true
         view.isHidden = false
+    }
+    
+    
+    //MARK:ViewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.senceTableView.isHidden = true
+        self.flashLightTableView.isHidden = true
+        self.settingTableView.isHidden = true
+        self.connectAndBatteryTableView.isHidden = true
+        mBtManager = BtManager()
+        
+        //MARK: 畫面按鈕初始
+        captureBtn.setImage(#imageLiteral(resourceName: "btn_stop"), for: .highlighted)
+        photoOrMovieBtn.setImage(#imageLiteral(resourceName: "btn_camera"), for: .normal)
+        photoOrMovieBtn.setImage(#imageLiteral(resourceName: "btn_video"), for: .selected)
+        
+        BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
+        Bleprotoc.BLE.shardBleprotocol = BLEprotocol
+        BLEprotocol.connectStateDelegate = self as ConnectStateDelegate
+        BLEprotocol.dataResponseDelegate = self as DataResponseDelegate
+        
+        //白平衡初始化
+        let whiteBalanceGains = self.captureDevice?.deviceWhiteBalanceGains ?? AVCaptureWhiteBalanceGains()
+        _ = self.captureDevice?.temperatureAndTintValues(forDeviceWhiteBalanceGains: whiteBalanceGains) ?? AVCaptureWhiteBalanceTemperatureAndTintValues()
+        
+        print(whiteBalanceGains)
+        
+        
+        self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
+        self.setSenceBtn.addTarget(self, action: #selector(self.buttonClick), for: .touchUpInside)
+        
+        
+        
+        //       self.setFlashBtn.addTarget(self, action: #selector(self.buttopTap), for: UIControlEvents.allEvents)
+        
+        
+        //MARK:-TAP_TAKE_Photo
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        
+        
+        //手勢縮放功能
+        
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
+        
+        
+        self.view.addGestureRecognizer(pinchGesture)
+        
+        
+        
+        //啟動相機預覽及臉部偵測
+        if setupSession(){
+            
+            setPreview()
+            setupFace()
+            startSession()
+            
+        }
+        
+        //去觀察畫面是否轉向
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(getter: flashToMain), name: NSNotification.Name(rawValue: "FlshMode"), object: nil)
+        
+        //        NotificationCenter.default.addObserver(forName: NSNotification.Name("postUp"), object:keyboardCode, queue: nil) { notification in }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postBattery"), object:appl.batteryInfo, queue: nil) { notification in
+            switch (Int32(appl.batteryInfo!)){
+            case 100:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_04"), for: UIControlState.normal)
+                
+                break
+            case 91...99:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_05"), for: UIControlState.normal)
+                
+                break
+            case 81...90:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_06"), for: UIControlState.normal)
+                
+                break
+            case 71...80:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_07"), for: UIControlState.normal)
+                
+                break
+            case 61...70:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_08"), for: UIControlState.normal)
+                
+                break
+            case 51...60:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_09"), for: UIControlState.normal)
+                
+                break
+            case 41...50:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_10"), for: UIControlState.normal)
+                
+                break
+            case 31...40:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_11"), for: UIControlState.normal)
+                
+                break
+            case 21...30:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_12"), for: UIControlState.normal)
+                
+                break
+            case 11...30:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_13"), for: UIControlState.normal)
+                
+                break
+            default:
+                break
+                
+            }
+            
+        }
+        
+        //觸發手勢關閉與否
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postTapOrNot"), object:appl.tapToTakePhoto, queue: nil) { notification in
+            if ((appl.tapToTakePhoto)!) == true{
+                print("觸碰手勢啟動！！！")
+                let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
+                
+                // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
+                singleFinger.numberOfTapsRequired = 2
+                
+                
+                // 幾根指頭觸發
+                singleFinger.numberOfTouchesRequired = 1
+                
+                // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
+                
+                // 為視圖加入監聽手勢
+                self.view.addGestureRecognizer(singleFinger)
+            }else{
+                print("觸碰關閉！！")
+                //清除所有手勢
+                if let recognizers = self.view.gestureRecognizers {
+                    for singleFinger in recognizers {
+                        self.view.removeGestureRecognizer(singleFinger)
+                    }
+                    //重新加入手勢縮放
+                    let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
+                    
+                    
+                    self.view.addGestureRecognizer(pinchGesture)
+                    
+                }
+            }
+        }
+        
+        //接收senceViewController的值，並觸發對應的方法，且更改上方ＵＩ圖示
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postSence"), object:appl.valueFromScene, queue: nil) { notification in
+            switch ((appl.valueFromScene?.row)!){
+                
+            case 0:
+                
+                self.settingAuto()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
+                
+                break
+            case 1:
+                self.settingAction()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_action_1"), for: UIControlState.normal)
+                break
+            case 2:
+                self.settingHuman()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_portrait_1"), for: UIControlState.normal)
+                
+                break
+            case 3:
+                
+                self.settingLandScape()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_landscape_1"), for: UIControlState.normal)
+                
+                break
+            case 4:
+                self.settingNight()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_1"), for: UIControlState.normal)
+                
+                break
+            case 5:
+                self.settingNightHuman()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_portrait_1"), for: UIControlState.normal)
+                
+                break
+            case 6:
+                self.settingThreater()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_theatre_1"), for: UIControlState.normal)
+                
+                break
+            case 7:
+                self.settingBeach()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_beach_1"), for: UIControlState.normal)
+                
+                break
+            case 8:
+                self.settingSnow()
+                
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_snow_1"), for: UIControlState.normal)
+                
+                break
+            case 9:
+                
+                self.settingSunset()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_sunset_1"), for: UIControlState.normal)
+                
+                break
+            case 10:
+                self.settingNotshaking()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_steady_photo_1"), for: UIControlState.normal)
+                
+                break
+            case 11:
+                self.settingFireWork()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_firework_1"), for: UIControlState.normal)
+                
+                break
+            case 12:
+                self.settingSport()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_sports_1"), for: UIControlState.normal)
+                
+                break
+            case 13:
+                self.settingParty()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_party_1"), for: UIControlState.normal)
+                
+                break
+            case 14:
+                self.settingCandle()
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_candlelight_1"), for: UIControlState.normal)
+                
+                break
+                
+                
+                
+            default: break
+                break
+            }
+        }
+        
+        
+        //接收FlashLightViewController的值。並觸發各自的方法，更改閃光燈設置，且變更上方ＵＩ的圖示
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postFlash"), object:appl.valueFromFlash, queue: nil) { notification in
+            
+            switch((appl.valueFromFlash?.row)!){
+            case 0:
+                
+                //["btn_flash_auto_1","btn_flash_on_1","btn_flash_redeye_1","btn_flash_off_1","btn_flash_light_1"]
+                self.setFlashAuto()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_auto_1"), for: UIControlState.normal)
+                
+                break
+            case 1:
+                self.setFlashOn()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_on_1"), for: UIControlState.normal)
+                
+                break
+            case 2:
+                self.setFlashOn()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_redeye_1"), for: UIControlState.normal)
+                
+                break
+            case 3:
+                self.setFlashOff()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_off_1"), for: UIControlState.normal)
+                
+                break
+            case 4:
+                self.setTorchOn()
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_light_1"), for: UIControlState.normal)
+                
+                break
+            default:
+                break
+                
+            }
+            
+            
+        }
+        //接收WhiteBalanceSettingViewController的值。並觸發各自的方法
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postWhiteBalance"), object:appl.valueFromFlash, queue: nil) {notification in
+            switch((appl.valueFromWhiteBalance?.row)!){
+            case 0:
+                self.setWBAuto()
+                break
+            case 1:
+                self.setWBDark()
+                break
+            case 2:
+                self.setWBCloudy()
+                break
+            case 3:
+                self.setWBSunny()
+                break
+            case 4:
+                self.setWBLight()
+                
+                break
+            case 5:
+                self.setWBYellowLight()
+                break
+            case 6:
+                self.setWBSunset()
+                break
+            case 7:
+                self.setWBWormLight()
+                break
+            default:
+                break
+                
+                
+            }
+            
+            
+        }
+        //接收SetEVViewController的值，並觸發對應的方法，更改畫面ＥＶ值
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postEV"), object:appl.valueFromEV, queue: nil) { notification in
+            let device = self.activeInput.device
+            do {
+                try device?.lockForConfiguration()
+                device?.setExposureTargetBias((Float(appl.valueFromEV!)), completionHandler: nil)
+                device?.unlockForConfiguration()
+            } catch let error {
+                NSLog("Could not lock device for configuration: \(error)")
+            }
+            
+            print(appl.valueFromEV!)
+            
+        }
+        
+        //接收ImageSizeViewController的值，並觸發對應的方法，改變影像尺寸
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postSize"), object:appl.valueFromFlash, queue: nil) { notification in
+            switch ((appl.valueFromSize?.row)!){
+                
+            case 0:
+                self.captureSession.sessionPreset = AVCaptureSessionPreset1280x720
+                
+                break
+            case 1:
+                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
+                
+                break
+                
+            case 2:
+                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
+                
+                break
+            case 3:
+                self.captureSession.sessionPreset = AVCaptureSessionPreset1920x1080
+                
+                break
+            case 4:
+                
+                self.captureSession.sessionPreset = AVCaptureSessionPresetHigh
+                
+                break
+            default:
+                break
+                
+                
+            }
+        }
     }
     
     func pinch(_ pinch: UIPinchGestureRecognizer) {
@@ -278,16 +659,17 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         switch pinch.state {
         case .began: fallthrough
-        print("開始了1")
+        print("手勢開始")
         case .changed: update(scale: newScaleFactor)
-        print("有變化了唷2")
+        print("手勢變化")
         case .ended:
             lastZoomFactor = minMaxZoom(newScaleFactor)
             update(scale: lastZoomFactor)
-            print("最新版3")
+            print("手勢結束")
         default: break
         }
     }
+    
     
     //MARK:-單點拍攝
     func tapCapture(_ tap: UIPinchGestureRecognizer){
@@ -456,7 +838,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
             
             print("上下顛倒")
-        
+            
         default:
             stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portrait
             self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(0))
@@ -571,372 +953,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
     }
     
-    //MARK:-ViewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.senceTableView.isHidden = true
-        self.flashLightTableView.isHidden = true
-        self.settingTableView.isHidden = true
-        self.connectAndBatteryTableView.isHidden = true
-        mBtManager = BtManager()
-        
-        
-        BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
-        Bleprotoc.BLE.shardBleprotocol = BLEprotocol
-        BLEprotocol.connectStateDelegate = self as ConnectStateDelegate
-        BLEprotocol.dataResponseDelegate = self as DataResponseDelegate
-        
-        //白平衡初始化
-        let whiteBalanceGains = self.captureDevice?.deviceWhiteBalanceGains ?? AVCaptureWhiteBalanceGains()
-        _ = self.captureDevice?.temperatureAndTintValues(forDeviceWhiteBalanceGains: whiteBalanceGains) ?? AVCaptureWhiteBalanceTemperatureAndTintValues()
-        
-        print(whiteBalanceGains)
-        
-        
-        self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
-        self.setSenceBtn.addTarget(self, action: #selector(self.buttonClick), for: .touchUpInside)
-        
-        
-        
-        //       self.setFlashBtn.addTarget(self, action: #selector(self.buttopTap), for: UIControlEvents.allEvents)
-        
-        
-        //MARK:-TAP_TAKE_Photo
-        let appl = UIApplication.shared.delegate as! AppDelegate
-        
-        
-        //手勢縮放功能
-        
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
-        
-        
-        self.view.addGestureRecognizer(pinchGesture)
-        
-        
-        
-        //啟動相機預覽及臉部偵測
-        if setupSession(){
-            
-            setPreview()
-            setupFace()
-            startSession()
-            
-            
-        }
-        
-        //去觀察畫面是否轉向
-        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(getter: flashToMain), name: NSNotification.Name(rawValue: "FlshMode"), object: nil)
-        
-        //        NotificationCenter.default.addObserver(forName: NSNotification.Name("postUp"), object:keyboardCode, queue: nil) { notification in }
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postBattery"), object:appl.batteryInfo, queue: nil) { notification in
-            switch (Int32(appl.batteryInfo!)){
-            case 100:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_04"), for: UIControlState.normal)
-                
-                break
-            case 91...99:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_05"), for: UIControlState.normal)
-                
-                break
-            case 81...90:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_06"), for: UIControlState.normal)
-                
-                break
-            case 71...80:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_07"), for: UIControlState.normal)
-                
-                break
-            case 61...70:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_08"), for: UIControlState.normal)
-                
-                break
-            case 51...60:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_09"), for: UIControlState.normal)
-                
-                break
-            case 41...50:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_10"), for: UIControlState.normal)
-                
-                break
-            case 31...40:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_11"), for: UIControlState.normal)
-                
-                break
-            case 21...30:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_12"), for: UIControlState.normal)
-                
-                break
-            case 11...30:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_13"), for: UIControlState.normal)
-                
-                break
-            default:
-                break
-                
-            }
-            
-        }
-        
-        //觸發手勢關閉與否
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postTapOrNot"), object:appl.tapToTakePhoto, queue: nil) { notification in
-            if ((appl.tapToTakePhoto)!) == true{
-                print("觸碰手勢啟動！！！")
-                let singleFinger = UITapGestureRecognizer(target:self,action: #selector(ViewController.tapCapture(_:)))
-                
-                // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
-                singleFinger.numberOfTapsRequired = 2
-                
-                
-                // 幾根指頭觸發
-                singleFinger.numberOfTouchesRequired = 1
-                
-                // 雙指輕點沒有觸發時 才會檢測此手勢 以免手勢被蓋過
-                
-                // 為視圖加入監聽手勢
-                self.view.addGestureRecognizer(singleFinger)
-            }else{
-                print("觸碰關閉！！")
-                //清除所有手勢
-                if let recognizers = self.view.gestureRecognizers {
-                    for singleFinger in recognizers {
-                        self.view.removeGestureRecognizer(singleFinger as! UIGestureRecognizer)
-                    }
-                    //重新加入手勢縮放
-                    let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
-                    
-                    
-                    self.view.addGestureRecognizer(pinchGesture)
-                    
-                }
-            }
-        }
-        
-        //接收senceViewController的值，並觸發對應的方法，且更改上方ＵＩ圖示
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postSence"), object:appl.indexPath, queue: nil) { notification in
-            print((appl.indexPath?.row)!)
-            switch ((appl.indexPath?.row)!){
-                
-            case 0:
-                
-                self.settingAuto()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
-                
-                break
-            case 1:
-                self.settingAction()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_action_1"), for: UIControlState.normal)
-                break
-            case 2:
-                self.settingHuman()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_portrait_1"), for: UIControlState.normal)
-                
-                break
-            case 3:
-                
-                self.settingLandScape()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_landscape_1"), for: UIControlState.normal)
-                
-                break
-            case 4:
-                self.settingNight()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_1"), for: UIControlState.normal)
-                
-                break
-            case 5:
-                self.settingNightHuman()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_portrait_1"), for: UIControlState.normal)
-                
-                break
-            case 6:
-                self.settingThreater()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_theatre_1"), for: UIControlState.normal)
-                
-                break
-            case 7:
-                self.settingBeach()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_beach_1"), for: UIControlState.normal)
-                
-                break
-            case 8:
-                self.settingSnow()
-                
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_snow_1"), for: UIControlState.normal)
-                
-                break
-            case 9:
-                
-                self.settingSunset()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_sunset_1"), for: UIControlState.normal)
-                
-                break
-            case 10:
-                self.settingNotshaking()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_steady_photo_1"), for: UIControlState.normal)
-                
-                break
-            case 11:
-                self.settingFireWork()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_firework_1"), for: UIControlState.normal)
-                
-                break
-            case 12:
-                self.settingSport()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_sports_1"), for: UIControlState.normal)
-                
-                break
-            case 13:
-                self.settingParty()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_party_1"), for: UIControlState.normal)
-                
-                break
-            case 14:
-                self.settingCandle()
-                self.setSenceBtn.setImage(UIImage(named:"btn_scene_candlelight_1"), for: UIControlState.normal)
-                
-                break
-                
-                
-                
-            default: break
-                break
-            }
-            print(appl.indexPath!)
-        }
-        
-        
-        //接收FlashLightViewController的值。並觸發各自的方法，更改閃光燈設置，且變更上方ＵＩ的圖示
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postFlash"), object:appl.valueFromFlash, queue: nil) { notification in
-            
-            switch((appl.valueFromFlash?.row)!){
-            case 0:
-                
-                //["btn_flash_auto_1","btn_flash_on_1","btn_flash_redeye_1","btn_flash_off_1","btn_flash_light_1"]
-                self.setFlashAuto()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_auto_1"), for: UIControlState.normal)
-                
-                break
-            case 1:
-                self.setFlashOn()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_on_1"), for: UIControlState.normal)
-                
-                break
-            case 2:
-                self.setFlashOn()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_redeye_1"), for: UIControlState.normal)
-                
-                break
-            case 3:
-                self.setFlashOff()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_off_1"), for: UIControlState.normal)
-                
-                break
-            case 4:
-                self.setTorchOn()
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_light_1"), for: UIControlState.normal)
-                
-                break
-            default:
-                break
-                
-            }
-            
-            
-        }
-        //接收WhiteBalanceSettingViewController的值。並觸發各自的方法
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postWhiteBalance"), object:appl.valueFromFlash, queue: nil) {notification in
-            switch((appl.valueFromWhiteBalance?.row)!){
-            case 0:
-                self.setWBAuto()
-                break
-            case 1:
-                self.setWBDark()
-                break
-            case 2:
-                self.setWBCloudy()
-                break
-            case 3:
-                self.setWBSunny()
-                break
-            case 4:
-                self.setWBLight()
-                
-                break
-            case 5:
-                self.setWBYellowLight()
-                break
-            case 6:
-                self.setWBSunset()
-                break
-            case 7:
-                self.setWBWormLight()
-                break
-            default:
-                break
-                
-                
-            }
-            
-            
-        }
-        //接收SetEVViewController的值，並觸發對應的方法，更改畫面ＥＶ值
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postEV"), object:appl.valueFromEV, queue: nil) { notification in
-            let device = self.activeInput.device
-            do {
-                try device?.lockForConfiguration()
-                device?.setExposureTargetBias((Float(appl.valueFromEV!)), completionHandler: nil)
-                device?.unlockForConfiguration()
-            } catch let error {
-                NSLog("Could not lock device for configuration: \(error)")
-            }
-            
-            print(appl.valueFromEV!)
-            
-        }
-        
-        //接收ImageSizeViewController的值，並觸發對應的方法，改變影像尺寸
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("postSize"), object:appl.valueFromFlash, queue: nil) { notification in
-            switch ((appl.valueFromSize?.row)!){
-                
-            case 0:
-                self.captureSession.sessionPreset = AVCaptureSessionPreset1280x720
-                
-                break
-            case 1:
-                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
-                
-                break
-                
-            case 2:
-                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium
-                
-                break
-            case 3:
-                self.captureSession.sessionPreset = AVCaptureSessionPreset1920x1080
-                
-                break
-            case 4:
-                
-                self.captureSession.sessionPreset = AVCaptureSessionPresetHigh
-                
-                break
-            default:
-                break
-                
-                
-            }
-            
-            
-        }
-        
-        
-        
-    }
+    
+    
 }
 
 //MARK:相機功能
@@ -1462,7 +1480,7 @@ extension ViewController{
         
         
     }
-
+    
     //MARK:- CapturePhoto
     func capturePhoto(){
         
@@ -1948,31 +1966,6 @@ extension ViewController{
 //MARK:疑似為藍牙
 extension ViewController{
     
-    // 藍牙連接的function
-    @IBAction func connectBlueTooth(_ sender: Any) {
-        if self.bleIsOn == true {
-            let appl = UIApplication.shared.delegate as! AppDelegate
-            appl.bleUUID.removeAll()
-            appl.bleName.removeAll()
-            
-            appl.bleRssi.removeAll()
-            print("apppppp",appl.bleRssi)
-            BLEprotocol.startScanTimeout(2)
-            
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
-            
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
-            
-        }else{
-            print("我警告你要打開")
-            
-        }
-        
-    }
-    
     func didButton() {
         //        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToScanViewController") as! FailToScanViewController
         //
@@ -2093,11 +2086,6 @@ extension ViewController{
         }
     }
     
-    
-    
-    
-    
-    
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
         let appl = UIApplication.shared.delegate as! AppDelegate
         newUuid = uuid
@@ -2167,6 +2155,7 @@ extension ViewController{
     
 }
 
+//MARK: For movie recording存入
 extension ViewController: AVCaptureFileOutputRecordingDelegate {
     func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
     }
@@ -2176,7 +2165,7 @@ extension ViewController: AVCaptureFileOutputRecordingDelegate {
             print("Error recording movie: \(error!.localizedDescription)")
         } else {
             // Write video to library
-            saveMovieToLibrary((outputURL as? URL)!)
+            saveMovieToLibrary((outputURL)!)
         }
         outputURL = nil
     }
