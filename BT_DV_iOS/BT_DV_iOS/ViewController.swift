@@ -40,6 +40,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     }
     
     
+    @IBOutlet weak var topViewFirstItemLeadingIcon: NSLayoutConstraint!
+    @IBOutlet weak var topViewThirdItemTrailngIcon: NSLayoutConstraint!
     @IBOutlet weak var cameraView: UIView!
     
     @IBOutlet weak var thumbnail: UIButton!
@@ -327,6 +329,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             setPreview()
             setupFace()
             startSession()
+            setThumbNail()
             
         }
         
@@ -637,6 +640,12 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }
     }
     
+    //MARK:畫面設定
+    override func viewDidAppear(_ animated: Bool) {
+        topViewFirstItemLeadingIcon.constant = self.view.bounds.width/4.8
+        topViewThirdItemTrailngIcon.constant = self.view.bounds.width/4.8
+    }
+    
     func pinch(_ pinch: UIPinchGestureRecognizer) {
         guard let device = activeInput.device else { return }
         
@@ -670,6 +679,30 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }
     }
     
+    func setThumbNail(){
+        let imgManager = PHImageManager.default()
+        
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: true)]
+        let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: fetchOptions)
+        
+        // If the fetch result isn't empty,
+        // proceed with the image request
+        if fetchResult.count > 0 {
+            
+            // Perform the image request
+            
+            imgManager.requestImage(for: fetchResult.object(at: fetchResult.count - 1) as PHAsset, targetSize: self.thumbnail.frame.size, contentMode: PHImageContentMode.aspectFit, options: requestOptions, resultHandler: {
+                (image, _) in
+                
+                // Add the returned image to your array
+                self.setPhotoThumbnail(image!)
+            })
+        }
+    }
     
     //MARK:-單點拍攝
     func tapCapture(_ tap: UIPinchGestureRecognizer){
@@ -726,6 +759,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             
         }
     }
+    
+    
     
     func setting (){
         try! captureDevice?.lockForConfiguration()

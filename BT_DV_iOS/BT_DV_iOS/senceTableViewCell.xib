@@ -14,14 +14,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kpR-du-3GU">
-                        <rect key="frame" x="0.0" y="0.0" width="100" height="44"/>
+                        <rect key="frame" x="20" y="0.0" width="100" height="43"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="100" id="DLK-Au-emq"/>
-                            <constraint firstAttribute="height" constant="44" id="dG5-KK-YD2"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.9999127984046936" green="1" blue="0.99988144636154175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -39,7 +38,7 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="BCI-oU-qzC" secondAttribute="trailing" id="2Pc-iY-cs5"/>
                     <constraint firstAttribute="bottom" secondItem="kpR-du-3GU" secondAttribute="bottom" id="QLa-9w-sko"/>
-                    <constraint firstItem="kpR-du-3GU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="WwW-aM-WAI"/>
+                    <constraint firstItem="kpR-du-3GU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="WwW-aM-WAI"/>
                     <constraint firstItem="BCI-oU-qzC" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eka-Ar-WsV"/>
                     <constraint firstItem="BCI-oU-qzC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="exE-nf-hlE"/>
                     <constraint firstAttribute="bottom" secondItem="BCI-oU-qzC" secondAttribute="bottom" id="pZh-ah-hnI"/>

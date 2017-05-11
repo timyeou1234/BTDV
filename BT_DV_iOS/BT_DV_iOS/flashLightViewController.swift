@@ -67,6 +67,15 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
         
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "flashLightTableViewCell", for: indexPath) as? flashtLightTableViewCell
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        if appl.valueFromFlash == nil && indexPath.row == 0{
+            cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+        }else if appl.valueFromFlash == indexPath{
+            cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+        }else{
+            cell?.contentView.backgroundColor = UIColor.black
+        }
+
         cell?.flashLightPic.image = UIImage(named:flashLightPicArray[indexPath.row])
         cell?.flahLightName.text = flashLightNameArray[indexPath.row]
         
