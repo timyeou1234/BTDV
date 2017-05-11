@@ -29,6 +29,10 @@ class flashLightViewController: UIViewController {
         let nib = UINib(nibName: "flashtLightTableViewCell", bundle: nil)
         self.flashLightTableViewDetail.register(nib, forCellReuseIdentifier: "flashLightTableViewCell")
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -70,10 +74,13 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
         let appl = UIApplication.shared.delegate as! AppDelegate
         if appl.valueFromFlash == nil && indexPath.row == 0{
             cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+            cell?.flahLightName.textColor = UIColor.black
         }else if appl.valueFromFlash == indexPath{
             cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+            cell?.flahLightName.textColor = UIColor.black
         }else{
             cell?.contentView.backgroundColor = UIColor.black
+            cell?.flahLightName.textColor = UIColor.white
         }
 
         cell?.flashLightPic.image = UIImage(named:flashLightPicArray[indexPath.row])
@@ -96,7 +103,7 @@ extension flashLightViewController: UITableViewDelegate, UITableViewDataSource{
         
         NotificationCenter.default.post(name: NSNotification.Name("postFlash"), object: indexPath)
 
-        
+        flashLightTableViewDetail.reloadData()
         performSegue(withIdentifier: "unwindFromFlashWithSegue", sender: Any?.self)
         
     }

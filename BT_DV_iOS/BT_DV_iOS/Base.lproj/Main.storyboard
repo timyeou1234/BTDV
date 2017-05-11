@@ -1064,6 +1064,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="mqg-0n-Ukh"/>
                                         </constraints>
+                                        <color key="thumbTintColor" red="0.7387781739" green="1" blue="0.15915909410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <action selector="changeExposureTargetBias:" destination="Wbl-pC-FQM" eventType="valueChanged" id="AqY-CL-Avl"/>
                                         </connections>
@@ -1138,11 +1139,26 @@
                         <subviews>
                             <tableView clipsSubviews="YES" alpha="0.80000000000000004" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Qpw-JT-HE8">
                                 <rect key="frame" x="0.0" y="0.0" width="315" height="302"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8DR-EO-c3d">
+                                <rect key="frame" x="268" y="0.0" width="47" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="Ygi-Gi-rlI"/>
+                                    <constraint firstAttribute="height" constant="40" id="im2-2m-JAQ"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="btn_back_1"/>
+                                <connections>
+                                    <action selector="backAction:" destination="f7h-Xa-S2F" eventType="touchUpInside" id="y73-r2-zyR"/>
+                                    <action selector="backAndSendData:" destination="Wbl-pC-FQM" eventType="touchUpInside" id="bqb-KS-apc"/>
+                                    <action selector="dismissAction:" destination="ktb-hN-GCW" eventType="touchUpInside" id="Os6-Qn-MYI"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.020383883248730972" green="0.020383883248730972" blue="0.020383883248730972" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="8DR-EO-c3d" firstAttribute="top" secondItem="6km-cJ-w7f" secondAttribute="bottom" id="4PY-ay-Qzl"/>
+                            <constraint firstAttribute="trailing" secondItem="8DR-EO-c3d" secondAttribute="trailing" id="MBa-G4-E43"/>
                             <constraint firstItem="Qpw-JT-HE8" firstAttribute="leading" secondItem="2ST-En-Qq7" secondAttribute="leading" id="Po1-6s-Oqn"/>
                             <constraint firstItem="3YF-0Y-ZRx" firstAttribute="top" secondItem="Qpw-JT-HE8" secondAttribute="bottom" id="aCR-ZA-jh4"/>
                             <constraint firstItem="Qpw-JT-HE8" firstAttribute="top" secondItem="6km-cJ-w7f" secondAttribute="bottom" id="puL-bK-zbM"/>
@@ -1157,7 +1173,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VN9-8D-dUR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="SbK-Zn-aY7" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1106.25" y="1782.0422535211267"/>
+            <point key="canvasLocation" x="810" y="1444"/>
         </scene>
         <!--Power Control View Controller-->
         <scene sceneID="gus-0w-eOh">
@@ -1175,11 +1191,25 @@
                                 <rect key="frame" x="0.0" y="0.0" width="315" height="302"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wvX-nk-rjC">
+                                <rect key="frame" x="268" y="0.0" width="47" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Ag2-6f-5Fe"/>
+                                    <constraint firstAttribute="width" constant="47" id="QBI-iV-UiY"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="btn_back_1"/>
+                                <connections>
+                                    <action selector="backAction:" destination="f7h-Xa-S2F" eventType="touchUpInside" id="UWQ-0U-JUS"/>
+                                    <action selector="backAndSendData:" destination="Wbl-pC-FQM" eventType="touchUpInside" id="4Jq-Ut-DxU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6vg-du-6Sg" firstAttribute="top" secondItem="KJc-ld-ysZ" secondAttribute="bottom" id="Qdm-d1-kFj"/>
+                            <constraint firstAttribute="trailing" secondItem="wvX-nk-rjC" secondAttribute="trailing" id="RiL-Ak-npe"/>
                             <constraint firstItem="KJc-ld-ysZ" firstAttribute="leading" secondItem="wTX-yg-yCl" secondAttribute="leading" id="i9L-uN-Ydr"/>
+                            <constraint firstItem="wvX-nk-rjC" firstAttribute="top" secondItem="HWT-XN-H2n" secondAttribute="bottom" id="spZ-kw-ItS"/>
                             <constraint firstItem="KJc-ld-ysZ" firstAttribute="top" secondItem="HWT-XN-H2n" secondAttribute="bottom" id="u2S-qY-Vs4"/>
                             <constraint firstAttribute="trailing" secondItem="KJc-ld-ysZ" secondAttribute="trailing" id="uRF-MO-SIW"/>
                         </constraints>
@@ -1192,7 +1222,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xft-Tf-JdU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="8i5-l1-r9c" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1751.25" y="1695.4225352112676"/>
+            <point key="canvasLocation" x="1398" y="1444"/>
         </scene>
         <!--Power Grip Status View Controller-->
         <scene sceneID="dKh-s9-xAp">

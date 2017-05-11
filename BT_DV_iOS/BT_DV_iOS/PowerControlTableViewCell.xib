@@ -14,31 +14,31 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="akp-10-mDg">
-                        <rect key="frame" x="0.0" y="0.0" width="117" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="117" height="45"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="FXS-rj-xlJ"/>
                             <constraint firstAttribute="width" constant="117" id="st6-Dl-dCa"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.9999127984046936" green="1" blue="0.99988144636154175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsX-dT-ESi">
-                        <rect key="frame" x="160" y="0.0" width="160" height="44"/>
+                        <rect key="frame" x="160" y="0.0" width="160" height="45"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="160" id="7Cr-1Q-5ja"/>
                             <constraint firstAttribute="height" constant="44" id="Ok1-UK-mea"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.9999127984046936" green="1" blue="0.99988144636154175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" red="0.026629917512690393" green="0.026629917512690393" blue="0.026629917512690393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <color key="backgroundColor" red="0.7387781739" green="1" blue="0.15915909410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="tsX-dT-ESi" secondAttribute="trailing" id="74V-9i-BSe"/>
                     <constraint firstItem="akp-10-mDg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="8Kf-Rp-Isi"/>

@@ -11,6 +11,11 @@ import UIKit
 class ImageSizeViewController: UIViewController {
     
     @IBOutlet weak var imageSizeDetailTableView: UITableView!
+    @IBAction func dismissAction(_ sender: Any) {
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
+    }
     
     var imageSizeDetail = ["90萬(1280*720)","200萬(1920*1080)","300萬(2048*1536)","600萬(3264*1836)","800萬(3264*2448)"]
     override func viewDidLoad() {
@@ -77,6 +82,17 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
         
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ImageSizeDetailTableViewCell", for: indexPath) as? ImageSizeDetailTableViewCell
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        if appl.valueFromSize == nil && indexPath.row == 4{
+            cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+            cell?.imageSizeLabel.textColor = UIColor.black
+        }else if appl.valueFromSize == indexPath{
+            cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+            cell?.imageSizeLabel.textColor = UIColor.black
+        }else{
+            cell?.contentView.backgroundColor = UIColor.black
+            cell?.imageSizeLabel.textColor = UIColor.white
+        }
         cell?.imageSizeLabel.text = imageSizeDetail[indexPath.row]
         
         return cell!
@@ -98,6 +114,7 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
         performSegue(withIdentifier: "unwindFromSizeWithSegue", sender: Any?.self)
         
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindFromSizeWithSegue"{
             if let indexPath = self.imageSizeDetailTableView.indexPathForSelectedRow {

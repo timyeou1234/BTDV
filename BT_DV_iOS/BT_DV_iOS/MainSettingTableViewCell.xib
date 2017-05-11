@@ -14,11 +14,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdH-rd-7kf">
-                        <rect key="frame" x="0.0" y="0.0" width="118" height="44"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdH-rd-7kf">
+                        <rect key="frame" x="20" y="0.0" width="118" height="44"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="1Kk-7Q-LHh"/>
                             <constraint firstAttribute="width" constant="118" id="OML-j1-MUa"/>
@@ -27,8 +27,8 @@
                         <color key="textColor" red="0.99855250634517767" green="0.99855250634517767" blue="0.99855250634517767" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ba-8X-Y0s">
-                        <rect key="frame" x="200" y="0.0" width="120" height="44"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ba-8X-Y0s">
+                        <rect key="frame" x="180" y="0.0" width="120" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="120" id="lfg-vV-rkU"/>
                         </constraints>
@@ -42,8 +42,8 @@
                     <constraint firstItem="6ba-8X-Y0s" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="00T-Xf-S9A"/>
                     <constraint firstAttribute="bottom" secondItem="bdH-rd-7kf" secondAttribute="bottom" id="IGq-pB-4hH"/>
                     <constraint firstAttribute="bottom" secondItem="6ba-8X-Y0s" secondAttribute="bottom" id="QQv-xW-Kh5"/>
-                    <constraint firstAttribute="trailing" secondItem="6ba-8X-Y0s" secondAttribute="trailing" id="U0o-is-Ato"/>
-                    <constraint firstItem="bdH-rd-7kf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="iTM-ql-gYX"/>
+                    <constraint firstAttribute="trailing" secondItem="6ba-8X-Y0s" secondAttribute="trailing" constant="20" id="U0o-is-Ato"/>
+                    <constraint firstItem="bdH-rd-7kf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="iTM-ql-gYX"/>
                     <constraint firstItem="bdH-rd-7kf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="nvo-vf-jfo"/>
                     <constraint firstItem="6ba-8X-Y0s" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="qly-Rd-kad"/>
                 </constraints>

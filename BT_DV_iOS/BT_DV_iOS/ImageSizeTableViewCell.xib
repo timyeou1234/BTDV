@@ -14,36 +14,36 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FiO-Rt-YfM">
-                        <rect key="frame" x="0.0" y="0.0" width="120" height="44"/>
+                        <rect key="frame" x="10" y="0.0" width="120" height="45"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="120" id="Beo-zN-3Ks"/>
                             <constraint firstAttribute="height" constant="44" id="eKD-mT-kD4"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tFD-df-kE9">
-                        <rect key="frame" x="160" y="0.0" width="160" height="44"/>
+                        <rect key="frame" x="150" y="0.0" width="160" height="45"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="Fig-q3-mh8"/>
                             <constraint firstAttribute="width" constant="160" id="qBd-KW-9PQ"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" red="0.026629917512690393" green="0.026629917512690393" blue="0.026629917512690393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <color key="backgroundColor" red="0.7387781739" green="1" blue="0.15915909410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="FiO-Rt-YfM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6zq-du-HmX"/>
-                    <constraint firstItem="FiO-Rt-YfM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="R2Y-Jv-UcK"/>
+                    <constraint firstItem="FiO-Rt-YfM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="R2Y-Jv-UcK"/>
                     <constraint firstItem="tFD-df-kE9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Uw7-Bk-k1e"/>
-                    <constraint firstAttribute="trailing" secondItem="tFD-df-kE9" secondAttribute="trailing" id="pUJ-OQ-LWx"/>
+                    <constraint firstAttribute="trailing" secondItem="tFD-df-kE9" secondAttribute="trailing" constant="10" id="pUJ-OQ-LWx"/>
                     <constraint firstAttribute="bottom" secondItem="tFD-df-kE9" secondAttribute="bottom" id="q8x-mE-ybK"/>
                     <constraint firstAttribute="bottom" secondItem="FiO-Rt-YfM" secondAttribute="bottom" id="rML-dL-DJL"/>
                 </constraints>

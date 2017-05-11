@@ -13,6 +13,7 @@ protocol cellModelChanged {
 
 class settingViewController: UIViewController {
     
+    var selectedIndex:IndexPath?
     var getTapOrNot = false
     var sendTag = 10
     let settingNameArrayOne = ["場景選擇","白平衡","曝光補償"]
@@ -134,6 +135,9 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         
         switch (sendTag){
         case 10:
+            if selectedIndex == nil && indexPath.row == 0{
+                selectedIndex = indexPath
+            }
             if indexPath.row == 3{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTwoTableViewCell", for: indexPath) as! MainSettingTwoTableViewCell
                 
@@ -143,6 +147,15 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
                 return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTableViewCell", for: indexPath) as? MainSettingTableViewCell
+                if selectedIndex == indexPath{
+                    cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+                    cell?.settingNameLabel.textColor = UIColor.black
+                    cell?.settingValueLabel.textColor = UIColor.black
+                }else{
+                    cell?.contentView.backgroundColor = UIColor.black
+                    cell?.settingNameLabel.textColor = UIColor.white
+                    cell?.settingValueLabel.textColor = UIColor.white
+                }
                 cell?.settingNameLabel.text = settingNameArrayOne[indexPath.row]
                 let arr = [senceSetting,whiteBalanceSetting,evValue]
                 cell?.settingValueLabel.text = arr[indexPath.row]
@@ -181,6 +194,7 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if indexPath.row == 0 && sendTag == 10{
             let vc = storyboard?.instantiateViewController(withIdentifier: "SenceFromSettingViewController")
             self.addChildViewController(vc!)
@@ -222,7 +236,10 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
 
         }
         
-        
+        if sendTag == 10{
+            selectedIndex = indexPath
+            tableView.reloadData()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

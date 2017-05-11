@@ -14,11 +14,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYk-uC-n4M">
-                        <rect key="frame" x="0.0" y="0.0" width="206" height="44"/>
+                        <rect key="frame" x="20" y="0.0" width="206" height="43"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="206" id="ZJE-OX-uZV"/>
                         </constraints>
@@ -30,7 +30,7 @@
                 <color key="backgroundColor" red="0.00085263324873097179" green="0.00085263324873097179" blue="0.00085263324873097179" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="WYk-uC-n4M" secondAttribute="bottom" id="81i-hl-ESi"/>
-                    <constraint firstItem="WYk-uC-n4M" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="8nZ-9E-t1u"/>
+                    <constraint firstItem="WYk-uC-n4M" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="8nZ-9E-t1u"/>
                     <constraint firstItem="WYk-uC-n4M" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="V7a-NE-uBW"/>
                 </constraints>
             </tableViewCellContentView>

@@ -20,49 +20,11 @@ protocol MainViewControllerDelegate {
 }
 class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate,ConnectStateDelegate,DataResponseDelegate {
     
-    var test = "測試中"
-    
     var arrayForView = [String]()
-    
     var viewArray = UserDefaults.standard.object(forKey: "subView")
-    
     var isConnected :Bool?
-    
     var i :CGFloat = 1.0
-    
     var newUuid:String?
-    
-    var num = 1
-    
-    func printTest(){
-        num += 1
-        print("天啊快點來測試",test,num)
-    }
-    
-    
-    @IBOutlet weak var topViewFirstItemLeadingIcon: NSLayoutConstraint!
-    @IBOutlet weak var topViewThirdItemTrailngIcon: NSLayoutConstraint!
-    @IBOutlet weak var cameraView: UIView!
-    
-    @IBOutlet weak var thumbnail: UIButton!
-    
-    @IBOutlet weak var photoOrMovieBtn: UIButton!
-    
-    @IBOutlet weak var captureBtn: UIButton!
-    
-    @IBOutlet weak var topView: UIView!
-    
-    
-    @IBOutlet weak var settingBtn: UIButton!
-    
-    @IBOutlet weak var setCameraBtn: UIButton!
-    
-    @IBOutlet weak var setFlashBtn: UIButton!
-    
-    @IBOutlet var setSenceBtn: UIButton!
-    
-    
-    @IBOutlet weak var setBattertAndConnectBtn: UIButton!
     
     //MARK:-ZoomInOut
     let minimumZoom: CGFloat = 1.0
@@ -105,6 +67,33 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     var BLEprotocol = FuelProtocol()
     var mBtManager : BtManager!
     var bleIsOn:Bool!
+    
+    var flashButtonImgName:String?
+    
+    @IBOutlet weak var topViewFirstItemLeadingIcon: NSLayoutConstraint!
+    @IBOutlet weak var topViewThirdItemTrailngIcon: NSLayoutConstraint!
+    @IBOutlet weak var cameraView: UIView!
+    
+    @IBOutlet weak var thumbnail: UIButton!
+    
+    @IBOutlet weak var photoOrMovieBtn: UIButton!
+    
+    @IBOutlet weak var captureBtn: UIButton!
+    
+    @IBOutlet weak var topView: UIView!
+    
+    
+    @IBOutlet weak var settingBtn: UIButton!
+    
+    @IBOutlet weak var setCameraBtn: UIButton!
+    
+    @IBOutlet weak var setFlashBtn: UIButton!
+    
+    @IBOutlet var setSenceBtn: UIButton!
+    
+    @IBOutlet weak var setBattertAndConnectBtn: UIButton!
+    
+    
     
     //MARK:-ContainerView
     @IBOutlet weak var senceTableView: UIView!
@@ -213,11 +202,11 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     @IBAction func setFlash(_ sender: Any) {
         
         if  flashLightTableView.isHidden == true {
-            hideOtherSubView(view: flashLightTableView)
-            self.setFlashBtn.setImage(UIImage(named:("btn_flash_auto_1")), for: UIControlState.normal)
+            hideOtherSubView(view: flashLightTableView, button: setFlashBtn)
             
         }else{
             flashLightTableView.isHidden = true
+            setFlashBtn.isSelected = false
         }
         
     }
@@ -225,9 +214,10 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     //MARK:場境設定動作
     @IBAction func setSence(_ sender: Any) {
         if senceTableView.isHidden == true{
-            hideOtherSubView(view: senceTableView)
+            hideOtherSubView(view: senceTableView, button:setSenceBtn)
         }else{
             senceTableView.isHidden = true
+            setSenceBtn.isSelected = false
         }
         
     }
@@ -235,9 +225,10 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     //MARK:設定動作
     @IBAction func settingCamera(_ sender: Any) {
         if self.settingTableView.isHidden == true{
-            hideOtherSubView(view: settingTableView)
+            hideOtherSubView(view: settingTableView, button:settingBtn)
         }else{
             self.settingTableView.isHidden = true
+            settingBtn.isSelected = false
         }
         
     }
@@ -268,11 +259,15 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     }
     
     //設定頁面切換
-    func hideOtherSubView(view:UIView){
+    func hideOtherSubView(view:UIView, button:UIButton){
         senceTableView.isHidden = true
         settingTableView.isHidden = true
         flashLightTableView.isHidden = true
+        setFlashBtn.isSelected = false
+        setSenceBtn.isSelected = false
+        settingBtn.isSelected = false
         view.isHidden = false
+        button.isSelected = true
     }
     
     
@@ -290,6 +285,13 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         photoOrMovieBtn.setImage(#imageLiteral(resourceName: "btn_camera"), for: .normal)
         photoOrMovieBtn.setImage(#imageLiteral(resourceName: "btn_video"), for: .selected)
         
+        settingBtn.setImage(UIImage(named:"btn_setting_1"), for: .normal)
+        settingBtn.setImage(UIImage(named:"btn_setting_2"), for: .selected)
+        self.setFlashBtn.setImage(UIImage(named:"btn_flash_off_1"), for: UIControlState.normal)
+        self.setFlashBtn.setImage(UIImage(named:"btn_flash_off_2"), for: UIControlState.selected)
+        setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: .normal)
+        setSenceBtn.setImage(UIImage(named:"btn_scene_auto_2"), for: .selected)
+        
         BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
         Bleprotoc.BLE.shardBleprotocol = BLEprotocol
         BLEprotocol.connectStateDelegate = self as ConnectStateDelegate
@@ -298,16 +300,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         //白平衡初始化
         let whiteBalanceGains = self.captureDevice?.deviceWhiteBalanceGains ?? AVCaptureWhiteBalanceGains()
         _ = self.captureDevice?.temperatureAndTintValues(forDeviceWhiteBalanceGains: whiteBalanceGains) ?? AVCaptureWhiteBalanceTemperatureAndTintValues()
-        
-        print(whiteBalanceGains)
-        
-        
-        self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
-        self.setSenceBtn.addTarget(self, action: #selector(self.buttonClick), for: .touchUpInside)
-        
-        
-        
-        //       self.setFlashBtn.addTarget(self, action: #selector(self.buttopTap), for: UIControlEvents.allEvents)
         
         
         //MARK:-TAP_TAKE_Photo
@@ -431,78 +423,92 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 
                 self.settingAuto()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_auto_2"), for: UIControlState.selected)
                 
                 break
             case 1:
                 self.settingAction()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_action_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_action_2"), for: UIControlState.selected)
                 break
             case 2:
                 self.settingHuman()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_portrait_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_portrait_2"), for: UIControlState.selected)
                 
                 break
             case 3:
                 
                 self.settingLandScape()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_landscape_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_landscape_2"), for: UIControlState.selected)
                 
                 break
             case 4:
                 self.settingNight()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_1"), for: UIControlState.normal)
-                
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_2"), for: UIControlState.selected)
                 break
             case 5:
                 self.settingNightHuman()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_portrait_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_night_portrait_2"), for: UIControlState.selected)
                 
                 break
             case 6:
                 self.settingThreater()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_theatre_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_theatre_2"), for: UIControlState.selected)
                 
                 break
             case 7:
                 self.settingBeach()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_beach_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_beach_2"), for: UIControlState.selected)
                 
                 break
             case 8:
                 self.settingSnow()
                 
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_snow_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_snow_2"), for: UIControlState.selected)
                 
                 break
             case 9:
                 
                 self.settingSunset()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_sunset_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_sunset_2"), for: UIControlState.selected)
                 
                 break
             case 10:
                 self.settingNotshaking()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_steady_photo_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_steady_photo_2"), for: UIControlState.selected)
                 
                 break
             case 11:
                 self.settingFireWork()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_firework_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_firework_2"), for: UIControlState.selected)
                 
                 break
             case 12:
                 self.settingSport()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_sports_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_sports_2"), for: UIControlState.selected)
                 
                 break
             case 13:
                 self.settingParty()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_party_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_party_2"), for: UIControlState.selected)
                 
                 break
             case 14:
                 self.settingCandle()
                 self.setSenceBtn.setImage(UIImage(named:"btn_scene_candlelight_1"), for: UIControlState.normal)
+                self.setSenceBtn.setImage(UIImage(named:"btn_scene_candlelight_2"), for: UIControlState.selected)
                 
                 break
                 
@@ -523,27 +529,36 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 
                 //["btn_flash_auto_1","btn_flash_on_1","btn_flash_redeye_1","btn_flash_off_1","btn_flash_light_1"]
                 self.setFlashAuto()
+                self.flashButtonImgName = "btn_flash_auto_"
                 self.setFlashBtn.setImage(UIImage(named:"btn_flash_auto_1"), for: UIControlState.normal)
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_auto_2"), for: UIControlState.selected)
                 
                 break
             case 1:
                 self.setFlashOn()
+                self.flashButtonImgName = "btn_flash_on_"
                 self.setFlashBtn.setImage(UIImage(named:"btn_flash_on_1"), for: UIControlState.normal)
-                
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_on_2"), for: UIControlState.selected)
                 break
             case 2:
                 self.setFlashOn()
+                self.flashButtonImgName = "btn_flash_redeye_"
                 self.setFlashBtn.setImage(UIImage(named:"btn_flash_redeye_1"), for: UIControlState.normal)
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_redeye_2"), for: UIControlState.selected)
                 
                 break
             case 3:
                 self.setFlashOff()
+                self.flashButtonImgName = "btn_flash_off_"
                 self.setFlashBtn.setImage(UIImage(named:"btn_flash_off_1"), for: UIControlState.normal)
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_off_2"), for: UIControlState.selected)
                 
                 break
             case 4:
                 self.setTorchOn()
+                self.flashButtonImgName = "btn_flash_light_"
                 self.setFlashBtn.setImage(UIImage(named:"btn_flash_light_1"), for: UIControlState.normal)
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_light_2"), for: UIControlState.selected)
                 
                 break
             default:
@@ -2155,29 +2170,9 @@ extension ViewController{
         case 4:
             self.zoomOut()
             
-            //            guard let device = activeInput.device else { return }
-            //            func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            //                return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
-            //            }
-            //
-            //            func update(scale factor: CGFloat) {
-            //                do {
-            //                    try device.lockForConfiguration()
-            //                    defer { device.unlockForConfiguration() }
-            //                    device.videoZoomFactor = factor
-            //                } catch {
-            //                    print("\(error.localizedDescription)")
-            //                }
-            //            }
-            //
-            test = "我要跟你測試"
-            self.printTest()
+            
             break
         case 1:
-            
-            test = "誰要跟你測試"
-            
-            self.printTest()
             self.zoomIn()
             
             break

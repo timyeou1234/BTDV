@@ -98,10 +98,13 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
         let appl = UIApplication.shared.delegate as! AppDelegate
         if appl.valueFromScene == nil && indexPath.row == 0{
             cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+            cell?.senceName.textColor = UIColor.black
         }else if appl.valueFromScene == indexPath{
             cell?.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+            cell?.senceName.textColor = UIColor.black
         }else{
             cell?.contentView.backgroundColor = UIColor.black
+            cell?.senceName.textColor = UIColor.white
         }
         cell?.senceName.text = senceNameArray[indexPath.row]
         cell?.senceIcon.image = UIImage(named: sencePicArray[indexPath.row])
