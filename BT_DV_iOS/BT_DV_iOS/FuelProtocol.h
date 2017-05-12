@@ -3,6 +3,40 @@
 #import "MyBluetoothLE.h"
 #import "FuelProtocol.h"
 
+
+/**
+ 操作流程：
+ //Step 1初始化
+ protocol = [[FuelProtocol alloc] getInstanceSimulation:false PrintLog:true];
+ protocol.connectStateDelegate = self;
+ protocol.dataResponseDelegate = self;
+ 
+ //Step 2 判斷系統藍牙是否開啟
+ [protocol enableBluetooth]; -(delegate)> - (void) onBtStateChanged:(bool) isEnable;
+ 
+ //Step 3 開始掃描
+ [protocol startScanTimeout:10]; -(delegate)> - (void) onScanResultUUID:(NSString*) uuid Name:(NSString*) name RSSI:(int) rssi;
+ 
+ //Step 4 停止掃描
+ [protocol stopScan];
+ 
+ //Step 5 連線
+ [protocol connectUUID:uuid]; -(delegate)> - (void) onConnectionState:(ConnectState) state;
+ 
+ 
+ //Step 6 取得藍牙裝置資訊
+ - (NSString *) getFwVersion;
+ - (NSString *) getHwVersion;
+ - (int) getBattery;
+ 
+ //Step 7 拍照/錄影模式改變時call
+ [protocol setCameraMode:textStr2.intValue];
+ 
+ //Step 8 Delegate，藍牙裝置按鈕觸發事件
+ - (void) onResponsePressed:(int) keyboardCode;
+ 
+ */
+
 @protocol ConnectStateDelegate
 
 /**
@@ -32,9 +66,12 @@
 
 @protocol DataResponseDelegate
 
-//KeyCode:4(Zoom in)
-//KeyCode:1(Zoom out)
-//KeyCode:2(拍照/錄影)
+/**
+ * 藍牙裝置按鈕觸發事件
+ * KeyCode:4(Zoom in)
+ * KeyCode:1(Zoom out)
+ * KeyCode:2(拍照/錄影)
+ */
 - (void) onResponsePressed:(int) keyboardCode;
 
 @end
@@ -59,7 +96,7 @@
 //@param printLog 是否印出SDK Log
 - (id) getInstanceSimulation:(bool)simulation PrintLog:(bool)printLog;
 
-//檢查是否支援藍牙LE。如果是,彈出詢問使用者是否開啟藍牙視窗
+//檢查是否支援藍牙。如果未開啟藍牙,彈出詢問使用者是否開啟藍牙視窗
 - (void)enableBluetooth;
 
 //開始掃瞄,透過onScanResultMac傳回掃描到的藍牙資訊
