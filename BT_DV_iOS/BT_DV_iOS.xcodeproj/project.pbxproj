@@ -49,6 +49,7 @@
 		6B2F66EF1EC1F1ED003D775E /* Function.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66EB1EC1F1ED003D775E /* Function.m */; };
 		6B2F66F01EC1F1ED003D775E /* MyBluetoothLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66EC1EC1F1ED003D775E /* MyBluetoothLE.m */; };
 		6B2F66F41EC1F55C003D775E /* UserValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66F31EC1F55C003D775E /* UserValue.swift */; };
+		6B8124F21EC58EFC00A55421 /* BLEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8124F11EC58EFC00A55421 /* BLEViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,7 @@
 		6B2F66EC1EC1F1ED003D775E /* MyBluetoothLE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBluetoothLE.m; sourceTree = "<group>"; };
 		6B2F66F11EC1F209003D775E /* MyBluetoothLE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyBluetoothLE.h; sourceTree = "<group>"; };
 		6B2F66F31EC1F55C003D775E /* UserValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserValue.swift; sourceTree = "<group>"; };
+		6B8124F11EC58EFC00A55421 /* BLEViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,7 +164,7 @@
 				0487AA361E8A3138009822EE /* AppDelegate.swift */,
 				6B2F66F31EC1F55C003D775E /* UserValue.swift */,
 				6B2F66F51EC1FC40003D775E /* CameraController */,
-				04823DF11EBB0F120024AE17 /* Bleprotoc.swift */,
+				6B8124F31EC58F0900A55421 /* BLE Controller */,
 				04276A691EB91B1A00F224B7 /* CBlueClass.swift */,
 				0487AA3D1E8A3138009822EE /* Assets.xcassets */,
 				0487AA3A1E8A3138009822EE /* Main.storyboard */,
@@ -207,6 +209,15 @@
 				04249AC81EB080010051454B /* SetEVViewController.swift */,
 			);
 			name = CameraController;
+			sourceTree = "<group>";
+		};
+		6B8124F31EC58F0900A55421 /* BLE Controller */ = {
+			isa = PBXGroup;
+			children = (
+				04823DF11EBB0F120024AE17 /* Bleprotoc.swift */,
+				6B8124F11EC58EFC00A55421 /* BLEViewController.swift */,
+			);
+			name = "BLE Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,6 +306,7 @@
 				04249AC91EB080010051454B /* SetEVViewController.swift in Sources */,
 				046C581A1EAD26C800192290 /* flashLightViewController.swift in Sources */,
 				0455AB1B1EAC966A0087C14D /* senceTableViewCell.swift in Sources */,
+				6B8124F21EC58EFC00A55421 /* BLEViewController.swift in Sources */,
 				04249ACC1EB08A9A0051454B /* StartScanBLEViewController.swift in Sources */,
 				6B2F66F01EC1F1ED003D775E /* MyBluetoothLE.m in Sources */,
 				04276A681EB904C900F224B7 /* BLEConnectViewController.swift in Sources */,
