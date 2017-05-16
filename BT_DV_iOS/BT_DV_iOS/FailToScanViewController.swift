@@ -17,14 +17,11 @@ class FailToScanViewController: UIViewController {
 //    var delegate :MainViewControllerDelegate!
 
     @IBAction func scanAgain(_ sender: Any) {
+        NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
         
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as! ViewController
-        print("HHHHHHHHHHH")
-        vc.BLEprotocol.stopScan()
-        
-  //      Bleprotoc.BLE.shardBleprotocol?.startScanTimeout(2)
-        
-
     }
     
     

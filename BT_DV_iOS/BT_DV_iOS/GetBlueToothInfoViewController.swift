@@ -9,17 +9,15 @@
 import UIKit
 
 class GetBlueToothInfoViewController: UIViewController {
-
-
     
+    var bleList = [BLEDetail]()
     @IBOutlet weak var blueToothListTableView: UITableView!
 
     @IBAction func scanAgain(_ sender: Any) {
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as! ViewController
-        print("HHHHHHHHHHH")
-        vc.BLEprotocol.startScanTimeout(5)
-        self.blueToothListTableView.reloadData()
-        
+        NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -35,7 +33,7 @@ class GetBlueToothInfoViewController: UIViewController {
         
         self.blueToothListTableView.delegate = self
         self.blueToothListTableView.dataSource = self
-       self.blueToothListTableView.separatorStyle = .none
+        self.blueToothListTableView.separatorStyle = .none
 
         let nib = UINib(nibName: "BLEListTableViewCell", bundle: nil)
         self.blueToothListTableView.register(nib, forCellReuseIdentifier: "BLEListTableViewCell")
@@ -70,8 +68,8 @@ extension GetBlueToothInfoViewController:UITableViewDelegate,UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let appl = UIApplication.shared.delegate as! AppDelegate
-        return appl.bleName.count
+        
+        return bleList.count
     }
     /*
      func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -82,39 +80,17 @@ extension GetBlueToothInfoViewController:UITableViewDelegate,UITableViewDataSour
         return "選擇BTDV"
         
     }
-    /*
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = UIColor.white
-    }
- */
-    /*
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let v = UITableViewHeaderFooterView()
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        v.addGestureRecognizer(tapRecognizer)
-        return v
-    }
     
-    
-    func handleTap(gestureRecognizer: UIGestureRecognizer)
-    {
+    func handleTap(gestureRecognizer: UIGestureRecognizer){
         
     }
-    */
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
-        let appl = UIApplication.shared.delegate as! AppDelegate
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BLEListTableViewCell", for: indexPath) as? BLEListTableViewCell
-        cell?.bleNameLabel.text = appl.bleName[indexPath.row]
-        cell?.bleUUIDLabel.text = appl.bleUUID[indexPath.row]
-        return cell!
-        
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BLEListTableViewCell", for: indexPath) as! BLEListTableViewCell
+        let detail = bleList[indexPath.row]
+        cell.bleNameLabel.text = detail.bleName
+        cell.bleUUIDLabel.text = detail.bleUUID
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -123,48 +99,15 @@ extension GetBlueToothInfoViewController:UITableViewDelegate,UITableViewDataSour
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let appl = UIApplication.shared.delegate as! AppDelegate
-
-        Bleprotoc.BLE.shardBleprotocol?.connectUUID(appl.bleUUID[indexPath.row])
-
-        
-//       Bleprotoc.shardBleprotocol.onConnectionState(Connected)
-//        Bleprotoc.shardBleprotocol.onScanResultUUID(appl.bleUUID[indexPath.row], name: appl.bleName[indexPath.row], rssi: appl.bleRssi[indexPath.row])
-        
-        print("uuuuuuid",appl.bleUUID[indexPath.row])
-
-        let vc = storyboard?.instantiateViewController(withIdentifier: "BLEConnectViewController")
-        
-
+        BLEObject.BLEobj.bleDetail = bleList[indexPath.row]
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "BLEConnectViewController")
         self.addChildViewController(vc!)
         vc?.didMove(toParentViewController: self)
         vc?.view.frame = self.view.frame
-        vc?.view.viewWithTag(100)
         self.view.addSubview((vc?.view)!)
-        
-//        let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
-//        DispatchQueue.main.asyncAfter(deadline: when) {
-//            self.willMove(toParentViewController: nil)
-//            self.view.removeFromSuperview()
-//            self.removeFromParentViewController()
-//        }
-
-        
-
-        
- //      performSegue(withIdentifier: "GetBlueToothInfoViewController", sender: Any?.self)
-        
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "GetBlueToothInfoViewController"{
-//            if let indexPath = self.powerControlDetailTableView.indexPathForSelectedRow {
-//                if let vc = segue.destination as? settingViewController{
-//                    vc.powerstatus = powerControlDetail[indexPath.row]
-//                    vc.settingTableView.reloadData()
-//                }
-//            }
-        }
-        
         
     }
     

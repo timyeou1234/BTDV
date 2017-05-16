@@ -18,7 +18,8 @@ let CaptureModeMovie = 1
 protocol MainViewControllerDelegate {
     func didButton()
 }
-class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate,ConnectStateDelegate,DataResponseDelegate {
+
+class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate{
     
     var arrayForView = [String]()
     var viewArray = UserDefaults.standard.object(forKey: "subView")
@@ -146,6 +147,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         //        imagePicker.sourceType = .photoLibrary
         imagePicker.sourceType = .savedPhotosAlbum
         imagePicker.allowsEditing = true
+        imagePicker.mediaTypes = ["public.image", "public.movie"]
         //  imagePicker.delegate = self
         self.present(imagePicker, animated: true, completion: nil)
         
@@ -233,29 +235,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
     }
     
-    // 藍牙連接的function
+    //MARK: 藍牙連接的function
     @IBAction func connectBlueTooth(_ sender: Any) {
-        if self.bleIsOn == true {
-            let appl = UIApplication.shared.delegate as! AppDelegate
-            appl.bleUUID.removeAll()
-            appl.bleName.removeAll()
-            
-            appl.bleRssi.removeAll()
-            print("apppppp",appl.bleRssi)
-            BLEprotocol.startScanTimeout(2)
-            
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
-            
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
-            
+        if connectAndBatteryTableView.isHidden{
+            NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
+            hideOtherSubView(view: connectAndBatteryTableView, button: setBattertAndConnectBtn)
         }else{
-            print("我警告你要打開")
-            
+            connectAndBatteryTableView.isHidden = true
         }
-        
     }
     
     //設定頁面切換
@@ -263,6 +250,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         senceTableView.isHidden = true
         settingTableView.isHidden = true
         flashLightTableView.isHidden = true
+        connectAndBatteryTableView.isHidden = true
         setFlashBtn.isSelected = false
         setSenceBtn.isSelected = false
         settingBtn.isSelected = false
@@ -279,6 +267,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         self.settingTableView.isHidden = true
         self.connectAndBatteryTableView.isHidden = true
         mBtManager = BtManager()
+        BLEObject.BLEobj.manager = mBtManager
         
         //MARK: 畫面按鈕初始
         captureBtn.setImage(#imageLiteral(resourceName: "btn_stop"), for: .highlighted)
@@ -292,10 +281,10 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         setSenceBtn.setImage(UIImage(named:"btn_scene_auto_1"), for: .normal)
         setSenceBtn.setImage(UIImage(named:"btn_scene_auto_2"), for: .selected)
         
-        BLEprotocol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
-        Bleprotoc.BLE.shardBleprotocol = BLEprotocol
-        BLEprotocol.connectStateDelegate = self as ConnectStateDelegate
-        BLEprotocol.dataResponseDelegate = self as DataResponseDelegate
+        
+        
+        //        BLEObject.BLEobj.ble?.connectStateDelegate = self
+        //        BLEObject.BLEobj.ble?.dataResponseDelegate = self
         
         //白平衡初始化
         let whiteBalanceGains = self.captureDevice?.deviceWhiteBalanceGains ?? AVCaptureWhiteBalanceGains()
@@ -310,10 +299,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.pinch(_:)))
         
-        
         self.view.addGestureRecognizer(pinchGesture)
-        
-        
         
         //啟動相機預覽及臉部偵測
         if setupSession(){
@@ -332,8 +318,10 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         //        NotificationCenter.default.addObserver(forName: NSNotification.Name("postUp"), object:keyboardCode, queue: nil) { notification in }
         
+        //MARK:判斷BLE狀態
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postBattery"), object:appl.batteryInfo, queue: nil) { notification in
-            switch (Int32(appl.batteryInfo!)){
+            switch (Int32(BLEObject.BLEobj.batteryInfo!)){
             case 100:
                 self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_04"), for: UIControlState.normal)
                 
@@ -379,6 +367,23 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 
             }
             
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postCommand"), object:appl.batteryInfo, queue: nil) { notification in
+            switch (Int32(BLEObject.BLEobj.command!)){
+            case 2:
+                self.capturePhotoOrMovie(self)
+            case 4:
+                self.zoomOut()
+            case 1:
+                self.zoomIn()
+            default:
+                break
+            }
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnect"), object:appl.batteryInfo, queue: nil) { notification in
+            self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_01"), for: UIControlState.normal)
         }
         
         //觸發手勢關閉與否
@@ -515,7 +520,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 
                 
             default: break
-                break
+                
             }
         }
         
@@ -906,8 +911,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }
     }
     
-    
-    
     //MARK:- Rotated
     
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
@@ -1001,6 +1004,12 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     override func viewWillLayoutSubviews() {
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is StartScanBLEViewController{
+            
+        }
     }
     
     
@@ -1311,7 +1320,7 @@ extension ViewController{
                 }
                 device?.unlockForConfiguration()
             }catch{
-                print("喔")
+                
             }
         }
     }
@@ -1325,7 +1334,7 @@ extension ViewController{
                 device?.flashMode = .on
                 device?.unlockForConfiguration()
             }catch{
-                print("喔")
+                
             }
         }
         
@@ -1340,7 +1349,7 @@ extension ViewController{
                 device?.flashMode = .on
                 device?.unlockForConfiguration()
             }catch{
-                print("喔")
+                
             }
             
         }
@@ -1355,7 +1364,7 @@ extension ViewController{
                 device?.flashMode = .off
                 device?.unlockForConfiguration()
             }catch{
-                print("喔")
+                
             }
         }
     }
@@ -1368,7 +1377,7 @@ extension ViewController{
             device?.whiteBalanceMode = .continuousAutoWhiteBalance
             device?.unlockForConfiguration()
         }catch{
-            print("ＮＯＮＯ")
+            
         }
     }
     
@@ -1394,7 +1403,7 @@ extension ViewController{
             device?.whiteBalanceMode = .locked
             device?.unlockForConfiguration()
         }catch{
-            print("Error")
+            
         }
         
         let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5000,tint: 15)
@@ -1409,7 +1418,7 @@ extension ViewController{
             device?.whiteBalanceMode = .locked
             device?.unlockForConfiguration()
         }catch{
-            print("Error")
+            
         }
         
         let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5500,tint: 15)
@@ -1520,14 +1529,10 @@ extension ViewController{
             try! device?.lockForConfiguration()
             captureDevice?.setExposureModeCustomWithDuration(CMTime(value:1, timescale: 5), iso: 800, completionHandler: nil)
             
-            let temperatureAndTint = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5000,tint: 15)
+            _ = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: 5000,tint: 15)
             //       self.setWhiteBalanceGains((device?.deviceWhiteBalanceGains(for: temperatureAndTint))!)
             device?.unlockForConfiguration()
-        }catch{
-            
-            print("error")
         }
-        
         
     }
     
@@ -1580,7 +1585,6 @@ extension ViewController{
     //NO NEED
     
     func beginSession(){
-        print("有沒有在這裡耶")
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         self.cameraView.layer.addSublayer(previewLayer!)
         previewLayer?.frame = self.cameraView.layer.bounds
@@ -1660,9 +1664,9 @@ extension ViewController{
             let imageGenerator = AVAssetImageGenerator(asset: asset)
             imageGenerator.maximumSize = CGSize(width: 100.0, height: 0.0)
             imageGenerator.appliesPreferredTrackTransform = true
-            var stillImageOutput: AVCaptureStillImageOutput = AVCaptureStillImageOutput()
+            var _: AVCaptureStillImageOutput = AVCaptureStillImageOutput()
             
-            var currentOrientation: UIDeviceOrientation = UIDevice.current.orientation
+            var _: UIDeviceOrientation = UIDevice.current.orientation
             
             do {
                 let imageRef = try imageGenerator.copyCGImage(at: kCMTimeZero,
@@ -2016,172 +2020,8 @@ extension ViewController{
 //MARK:疑似為藍牙
 extension ViewController{
     
-    func didButton() {
-        //        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToScanViewController") as! FailToScanViewController
-        //
-        //        VC.delegate = self as! MainViewControllerDelegate
-        
-        if self.bleIsOn == true {
-            let appl = UIApplication.shared.delegate as! AppDelegate
-            appl.bleUUID.removeAll()
-            appl.bleName.removeAll()
-            
-            appl.bleRssi.removeAll()
-            print("apppppp",appl.bleRssi)
-            BLEprotocol.startScanTimeout(2)
-            
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "StartScanBLEViewController") as! StartScanBLEViewController
-            
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
-        }else{
-            print("我警告你要打開")
-        }
-    }
     
     
-    
-    func onConnectionState(_ state: ConnectState) {
-        let appl = UIApplication.shared.delegate as! AppDelegate
-        
-        switch state {
-            
-        case ScanFinish:
-            if appl.bleUUID.count != 0{
-                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as! GetBlueToothInfoViewController
-                self.addChildViewController(popOverVC)
-                popOverVC.view.frame = self.view.frame
-                self.view.addSubview(popOverVC.view)
-                popOverVC.didMove(toParentViewController: self)
-                
-            }else{
-                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToScanViewController") as! FailToScanViewController
-                self.addChildViewController(popOverVC)
-                popOverVC.view.frame = self.view.frame
-                self.view.addSubview(popOverVC.view)
-                popOverVC.didMove(toParentViewController: self)
-                
-                
-            }
-            print("結束")
-            break
-        case Connected:
-            isConnected = true
-            
-            
-            let batterry =  BLEprotocol.getBattery()
-            let version = BLEprotocol.getHwVersion()
-            let softVersion = BLEprotocol.getFwVersion()
-            
-            
-            appl.hwInfo = version
-            appl.softInfo = softVersion
-            appl.batteryInfo = batterry
-            print("電量",appl.batteryInfo)
-            NotificationCenter.default.post(name: NSNotification.Name("postBattery"), object: appl.batteryInfo)
-            
-            /*
-             var vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PowerGripStatusViewController") as! PowerGripStatusViewController
-             vc.hwVersionValue = version
-             print("硬體",vc.hwVersionValue)
-             vc.softVersionValue = softVersion
-             print("軟體",vc.softVersionValue)
-             */
-            
-            break
-        case Disconnect:
-            
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToConnectViewController") as! FailToConnectViewController
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
-            
-            break
-        case ConnectTimeout:
-            
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FailToConnectViewController") as! FailToConnectViewController
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.didMove(toParentViewController: self)
-            
-            break
-        default:
-            break
-            
-        }
-        print("onConnectionState-----state = \(state)")
-        if state == ScanFinish {
-            print("connection status Connected")
-        }
-        else if state == Disconnect {
-            print("connection status Disconnected")
-        }
-        
-    }
-    
-    
-    func onBtStateChanged(_ isEnable: Bool) {
-        if isEnable == false{
-            
-            self.bleIsOn = false
-            print("ＯＰＥＮＢＬＥ")
-            
-        }else {
-            self.bleIsOn = true
-            print("ALREADYHere")
-        }
-    }
-    
-    func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
-        let appl = UIApplication.shared.delegate as! AppDelegate
-        newUuid = uuid
-        if name == "Power Grip"{
-            
-            appl.bleUUID.append(uuid)
-            appl.bleName.append(name)
-            appl.bleRssi.append(rssi)
-            
-            
-        }
-        
-        //       Bleprotoc.shardBleprotocol.connectUUID(uuid)
-        
-        //        if name == "Power Grip" || name == "DfuTarg"{
-        //
-        //            BLEprotocol.connectUUID(uuid)
-        //        }
-    }
-    
-    
-    func onResponsePressed(_ keyboardCode: Int32){
-        switch (keyboardCode){
-        case 2:
-            if captureMode == CaptureModePhoto {
-                capturePhoto()
-            } else {
-                captureMovie()
-            }
-            
-            break
-        case 4:
-            self.zoomOut()
-            
-            
-            break
-        case 1:
-            self.zoomIn()
-            
-            break
-        default:
-            break
-            
-        }
-        
-    }
     
 }
 

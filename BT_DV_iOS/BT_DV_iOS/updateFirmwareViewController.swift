@@ -1,14 +1,14 @@
 //
-//  BLEViewController.swift
+//  updateFirmwareViewController.swift
 //  BT_DV_iOS
 //
-//  Created by YeouTimothy on 2017/5/12.
+//  Created by YeouTimothy on 2017/5/16.
 //  Copyright © 2017年 VictorBasic. All rights reserved.
 //
 
 import UIKit
 
-class BLEViewController: UIViewController {
+class updateFirmwareViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

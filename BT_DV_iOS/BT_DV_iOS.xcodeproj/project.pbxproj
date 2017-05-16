@@ -44,12 +44,14 @@
 		04D03CC41EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CC21EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift */; };
 		04D03CC51EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D03CC31EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib */; };
 		04D03CC71EB0789B0040C5B0 /* PowerControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D03CC61EB0789B0040C5B0 /* PowerControlViewController.swift */; };
+		6B1CCF711ECAA5FD0067D4D3 /* updateFirmwareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1CCF701ECAA5FD0067D4D3 /* updateFirmwareViewController.swift */; };
 		6B2F66ED1EC1F1ED003D775E /* CommProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66E71EC1F1ED003D775E /* CommProcess.m */; };
 		6B2F66EE1EC1F1ED003D775E /* FuelProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66E91EC1F1ED003D775E /* FuelProtocol.m */; };
 		6B2F66EF1EC1F1ED003D775E /* Function.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66EB1EC1F1ED003D775E /* Function.m */; };
 		6B2F66F01EC1F1ED003D775E /* MyBluetoothLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66EC1EC1F1ED003D775E /* MyBluetoothLE.m */; };
 		6B2F66F41EC1F55C003D775E /* UserValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66F31EC1F55C003D775E /* UserValue.swift */; };
-		6B8124F21EC58EFC00A55421 /* BLEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8124F11EC58EFC00A55421 /* BLEViewController.swift */; };
+		6B8124F51EC59A4300A55421 /* BLEObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8124F41EC59A4300A55421 /* BLEObject.swift */; };
+		C794DE56F095DD32F77F11B9 /* Pods_BT_DV_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 469EB96BD249CBBCAFA38A1C /* Pods_BT_DV_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +95,9 @@
 		04D03CC21EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSizeDetailTableViewCell.swift; sourceTree = "<group>"; };
 		04D03CC31EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageSizeDetailTableViewCell.xib; sourceTree = "<group>"; };
 		04D03CC61EB0789B0040C5B0 /* PowerControlViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerControlViewController.swift; sourceTree = "<group>"; };
+		469EB96BD249CBBCAFA38A1C /* Pods_BT_DV_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BT_DV_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5479C8344E8C355AA76294FD /* Pods-BT_DV_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BT_DV_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BT_DV_iOS/Pods-BT_DV_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		6B1CCF701ECAA5FD0067D4D3 /* updateFirmwareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = updateFirmwareViewController.swift; sourceTree = "<group>"; };
 		6B2F66E61EC1F1ED003D775E /* CommProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommProcess.h; sourceTree = "<group>"; };
 		6B2F66E71EC1F1ED003D775E /* CommProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommProcess.m; sourceTree = "<group>"; };
 		6B2F66E81EC1F1ED003D775E /* FuelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelProtocol.h; sourceTree = "<group>"; };
@@ -102,7 +107,8 @@
 		6B2F66EC1EC1F1ED003D775E /* MyBluetoothLE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBluetoothLE.m; sourceTree = "<group>"; };
 		6B2F66F11EC1F209003D775E /* MyBluetoothLE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyBluetoothLE.h; sourceTree = "<group>"; };
 		6B2F66F31EC1F55C003D775E /* UserValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserValue.swift; sourceTree = "<group>"; };
-		6B8124F11EC58EFC00A55421 /* BLEViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEViewController.swift; sourceTree = "<group>"; };
+		6B8124F41EC59A4300A55421 /* BLEObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEObject.swift; sourceTree = "<group>"; };
+		A8A0524EA998A4BAE97D4A0B /* Pods-BT_DV_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BT_DV_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-BT_DV_iOS/Pods-BT_DV_iOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C794DE56F095DD32F77F11B9 /* Pods_BT_DV_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +151,8 @@
 			children = (
 				0487AA351E8A3138009822EE /* BT_DV_iOS */,
 				0487AA341E8A3138009822EE /* Products */,
+				7643DD5D239EC05D6D341E05 /* Pods */,
+				E3205B415A678D023C1EF465 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -158,25 +167,27 @@
 		0487AA351E8A3138009822EE /* BT_DV_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				0487AA361E8A3138009822EE /* AppDelegate.swift */,
 				04249ACA1EB08A0E0051454B /* xib */,
 				6B2F66F21EC1F52A003D775E /* BLE OBJc */,
 				0487AA421E8A3138009822EE /* Info.plist */,
-				0487AA361E8A3138009822EE /* AppDelegate.swift */,
 				6B2F66F31EC1F55C003D775E /* UserValue.swift */,
 				6B2F66F51EC1FC40003D775E /* CameraController */,
 				6B8124F31EC58F0900A55421 /* BLE Controller */,
-				04276A691EB91B1A00F224B7 /* CBlueClass.swift */,
+				6B1CCF721ECAA6060067D4D3 /* Update */,
 				0487AA3D1E8A3138009822EE /* Assets.xcassets */,
 				0487AA3A1E8A3138009822EE /* Main.storyboard */,
 				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
-				044BF5061EBA8CCC0031E92B /* FailToScanViewController.swift */,
-				044BF5041EBA89510031E92B /* FailToConnectViewController.swift */,
-				04249ACB1EB08A9A0051454B /* StartScanBLEViewController.swift */,
-				04276A6B1EB979AF00F224B7 /* PowerGripStatusViewController.swift */,
-				04276A671EB904C900F224B7 /* BLEConnectViewController.swift */,
-				04C1E8671EB754DA00EE3299 /* GetBlueToothInfoViewController.swift */,
 			);
 			path = BT_DV_iOS;
+			sourceTree = "<group>";
+		};
+		6B1CCF721ECAA6060067D4D3 /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				6B1CCF701ECAA5FD0067D4D3 /* updateFirmwareViewController.swift */,
+			);
+			name = Update;
 			sourceTree = "<group>";
 		};
 		6B2F66F21EC1F52A003D775E /* BLE OBJc */ = {
@@ -214,10 +225,34 @@
 		6B8124F31EC58F0900A55421 /* BLE Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6B8124F41EC59A4300A55421 /* BLEObject.swift */,
 				04823DF11EBB0F120024AE17 /* Bleprotoc.swift */,
-				6B8124F11EC58EFC00A55421 /* BLEViewController.swift */,
+				04249ACB1EB08A9A0051454B /* StartScanBLEViewController.swift */,
+				04C1E8671EB754DA00EE3299 /* GetBlueToothInfoViewController.swift */,
+				04276A671EB904C900F224B7 /* BLEConnectViewController.swift */,
+				04276A6B1EB979AF00F224B7 /* PowerGripStatusViewController.swift */,
+				044BF5061EBA8CCC0031E92B /* FailToScanViewController.swift */,
+				044BF5041EBA89510031E92B /* FailToConnectViewController.swift */,
+				04276A691EB91B1A00F224B7 /* CBlueClass.swift */,
 			);
 			name = "BLE Controller";
+			sourceTree = "<group>";
+		};
+		7643DD5D239EC05D6D341E05 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5479C8344E8C355AA76294FD /* Pods-BT_DV_iOS.debug.xcconfig */,
+				A8A0524EA998A4BAE97D4A0B /* Pods-BT_DV_iOS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E3205B415A678D023C1EF465 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				469EB96BD249CBBCAFA38A1C /* Pods_BT_DV_iOS.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,9 +262,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0487AA451E8A3138009822EE /* Build configuration list for PBXNativeTarget "BT_DV_iOS" */;
 			buildPhases = (
+				FCAFC3B175581521E6C0A03C /* [CP] Check Pods Manifest.lock */,
 				0487AA2F1E8A3138009822EE /* Sources */,
 				0487AA301E8A3138009822EE /* Frameworks */,
 				0487AA311E8A3138009822EE /* Resources */,
+				FD42D048973B5E21BBFAA693 /* [CP] Embed Pods Frameworks */,
+				CBA3820FB18C6FACDDC8B48A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -297,6 +335,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CBA3820FB18C6FACDDC8B48A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BT_DV_iOS/Pods-BT_DV_iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FCAFC3B175581521E6C0A03C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FD42D048973B5E21BBFAA693 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BT_DV_iOS/Pods-BT_DV_iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0487AA2F1E8A3138009822EE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -306,7 +392,6 @@
 				04249AC91EB080010051454B /* SetEVViewController.swift in Sources */,
 				046C581A1EAD26C800192290 /* flashLightViewController.swift in Sources */,
 				0455AB1B1EAC966A0087C14D /* senceTableViewCell.swift in Sources */,
-				6B8124F21EC58EFC00A55421 /* BLEViewController.swift in Sources */,
 				04249ACC1EB08A9A0051454B /* StartScanBLEViewController.swift in Sources */,
 				6B2F66F01EC1F1ED003D775E /* MyBluetoothLE.m in Sources */,
 				04276A681EB904C900F224B7 /* BLEConnectViewController.swift in Sources */,
@@ -323,6 +408,7 @@
 				04823DF21EBB0F120024AE17 /* Bleprotoc.swift in Sources */,
 				044BF5051EBA89510031E92B /* FailToConnectViewController.swift in Sources */,
 				042B642D1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift in Sources */,
+				6B8124F51EC59A4300A55421 /* BLEObject.swift in Sources */,
 				042B64291EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.swift in Sources */,
 				0487AA371E8A3138009822EE /* AppDelegate.swift in Sources */,
 				04276A6A1EB91B1A00F224B7 /* CBlueClass.swift in Sources */,
@@ -330,6 +416,7 @@
 				044BF5071EBA8CCC0031E92B /* FailToScanViewController.swift in Sources */,
 				6B2F66EF1EC1F1ED003D775E /* Function.m in Sources */,
 				04D03CC71EB0789B0040C5B0 /* PowerControlViewController.swift in Sources */,
+				6B1CCF711ECAA5FD0067D4D3 /* updateFirmwareViewController.swift in Sources */,
 				04C1E8681EB754DA00EE3299 /* GetBlueToothInfoViewController.swift in Sources */,
 				6B2F66F41EC1F55C003D775E /* UserValue.swift in Sources */,
 				04D03CBD1EB03CC50040C5B0 /* SenceFromSettingViewController.swift in Sources */,
@@ -454,6 +541,7 @@
 		};
 		0487AA461E8A3138009822EE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5479C8344E8C355AA76294FD /* Pods-BT_DV_iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -473,6 +561,7 @@
 		};
 		0487AA471E8A3138009822EE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A8A0524EA998A4BAE97D4A0B /* Pods-BT_DV_iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

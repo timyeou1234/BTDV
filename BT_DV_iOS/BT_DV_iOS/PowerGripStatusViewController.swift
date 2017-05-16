@@ -14,47 +14,44 @@ class PowerGripStatusViewController: UIViewController {
     @IBOutlet weak var powerGripNameLabel: UILabel!
     @IBOutlet weak var hwVersion: UILabel!
     
+    var gameTimer: Timer!
     var hwVersionValue : String!
     var softVersionValue :String!
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-        self.willMove(toParentViewController: nil)
-        self.view.removeFromSuperview()
-        self.removeFromParentViewController()
 
     }
     
-    
-    
-    
-    /*
-     let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
-     DispatchQueue.main.asyncAfter(deadline: when) {
-     self.willMove(toParentViewController: nil)
-     self.view.removeFromSuperview()
-     self.removeFromParentViewController()
-     }
-
- */
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        BLEObject.BLEobj.ble?.connectStateDelegate = self
+        BLEObject.BLEobj.ble?.dataResponseDelegate = self
 
         // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
-        let appl = UIApplication.shared.delegate as! AppDelegate
 
-        softVersionLabel.text = appl.softInfo
-        powerGripNameLabel.text = String(describing: appl.bleName)
-        hwVersion.text = appl.hwInfo
+        softVersionLabel.text = BLEObject.BLEobj.ble?.getFwVersion()
+        powerGripNameLabel.text = BLEObject.BLEobj.bleDetail?.bleName
+        hwVersion.text = BLEObject.BLEobj.ble?.getHwVersion()
         print("硬體值",hwVersionValue)
-
+        BLEObject.BLEobj.batteryInfo = BLEObject.BLEobj.ble?.getBattery()
+        NotificationCenter.default.post(name: NSNotification.Name("postBattery"), object: BLEObject.BLEobj)
+        gameTimer = Timer.scheduledTimer(timeInterval: 50, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
 
     }
+    
+    func runTimedCode() {
+        BLEObject.BLEobj.batteryInfo = BLEObject.BLEobj.ble?.getBattery()
+        NotificationCenter.default.post(name: NSNotification.Name("postBattery"), object: BLEObject.BLEobj)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        gameTimer.invalidate()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -72,3 +69,42 @@ class PowerGripStatusViewController: UIViewController {
     */
 
 }
+
+extension PowerGripStatusViewController:ConnectStateDelegate, DataResponseDelegate{
+    
+    func onBtStateChanged(_ isEnable: Bool) {
+        
+    }
+    
+    func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
+        
+    }
+    
+    func onConnectionState(_ state: ConnectState) {
+        switch state {
+            
+        case ScanFinish:
+            
+            break
+        case Connected:
+            
+            break
+        case Disconnect, ConnectTimeout:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "FailToConnectViewController")
+            self.addChildViewController(vc!)
+            vc?.didMove(toParentViewController: self)
+            vc?.view.frame = self.view.frame
+            self.view.addSubview((vc?.view)!)
+            gameTimer.invalidate()
+        default:
+            break
+        }
+    }
+    
+    func onResponsePressed(_ keyboardCode: Int32) {
+        BLEObject.BLEobj.command = keyboardCode
+        NotificationCenter.default.post(name: NSNotification.Name("postCommand"), object: BLEObject.BLEobj)
+    }
+    
+}
+

@@ -11,44 +11,73 @@ import UIKit
 class BLEConnectViewController: UIViewController {
     
     func toConnect(){
-        let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PowerGripStatusViewController") as! PowerGripStatusViewController
-        self.addChildViewController(popOverVC)
-        popOverVC.view.frame = self.view.frame
-        popOverVC.view.viewWithTag(100)
-        self.view.addSubview(popOverVC.view)
-        popOverVC.didMove(toParentViewController: self)
         
-        
-        
-        
-//                    popOverVC.willMove(toParentViewController: nil)
-//                    popOverVC.view.removeFromSuperview()
-//                    popOverVC.removeFromParentViewController()
-
         
     }
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.willMove(toParentViewController: nil)
-        self.view.removeFromSuperview()
-        self.removeFromParentViewController()
         
     }
-
-
-      override func viewDidLoad() {
+    
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
-        self.perform(#selector(toConnect), with: nil, afterDelay: 3)
-
         
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        BLEObject.BLEobj.ble?.connectStateDelegate = self
+        BLEObject.BLEobj.ble?.dataResponseDelegate = self
+        BLEObject.BLEobj.ble?.connectUUID(BLEObject.BLEobj.bleDetail?.bleUUID)
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-
+    
+    
 }
+
+extension BLEConnectViewController:ConnectStateDelegate, DataResponseDelegate{
+    
+    func onBtStateChanged(_ isEnable: Bool) {
+    
+    }
+    
+    func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
+    
+    }
+    
+    func onConnectionState(_ state: ConnectState) {
+        switch state {
+            
+        case ScanFinish:
+            
+            break
+        case Connected:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "PowerGripStatusViewController")
+            self.addChildViewController(vc!)
+            vc?.didMove(toParentViewController: self)
+            vc?.view.frame = self.view.frame
+            self.view.addSubview((vc?.view)!)
+        case Disconnect, ConnectTimeout:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "FailToConnectViewController")
+            self.addChildViewController(vc!)
+            vc?.didMove(toParentViewController: self)
+            vc?.view.frame = self.view.frame
+            self.view.addSubview((vc?.view)!)
+        default:
+            break
+        }
+    }
+    
+    func onResponsePressed(_ keyboardCode: Int32) {
+        
+    }
+    
+}
+

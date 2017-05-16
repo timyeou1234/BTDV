@@ -21,10 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var valueFromSize:IndexPath?
     //設定頁中場景選擇值
     var valueFromScene:IndexPath?
-    
-    var bleUUID:[String] = []
-    var bleName:[String] = []
-    var bleRssi:[Int32] = []
 
     var batteryInfo:Int32?
     var hwInfo:String?

@@ -11,10 +11,11 @@ import UIKit
 class FailToConnectViewController: UIViewController {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-                    self.willMove(toParentViewController: nil)
-                    self.view.removeFromSuperview()
-                    self.removeFromParentViewController()
-
+        let BLEprotocol = FuelProtocol()
+        let bleProtoclol = BLEprotocol.getInstanceSimulation(false, printLog: true) as! FuelProtocol
+        BLEObject.BLEobj.ble = bleProtoclol
+        
+        NotificationCenter.default.post(name: NSNotification.Name("FailConnect"), object: BLEObject.BLEobj)
     }
     
     override func viewDidLoad() {
