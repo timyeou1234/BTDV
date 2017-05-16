@@ -178,7 +178,7 @@ int CHECKSUM_INDEX_LENGTH = 4;
 
 - (void) setUpgradeMode{
     if(isSimulation){
-        return;
+       // return;
     }
     upgradeMode = true;
     [self addCommArray:@"5AA5000403290000002CA55A" RemoveAllComm:true];

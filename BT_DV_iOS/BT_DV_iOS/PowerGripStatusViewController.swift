@@ -38,8 +38,8 @@ class PowerGripStatusViewController: UIViewController {
         hwVersion.text = BLEObject.BLEobj.ble?.getHwVersion()
         print("硬體值",hwVersionValue)
         BLEObject.BLEobj.batteryInfo = BLEObject.BLEobj.ble?.getBattery()
-        NotificationCenter.default.post(name: NSNotification.Name("postBattery"), object: BLEObject.BLEobj)
-        gameTimer = Timer.scheduledTimer(timeInterval: 50, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+        
+        gameTimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
 
     }
     

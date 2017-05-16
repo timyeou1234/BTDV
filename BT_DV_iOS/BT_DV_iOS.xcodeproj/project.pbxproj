@@ -50,6 +50,12 @@
 		6B2F66EF1EC1F1ED003D775E /* Function.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66EB1EC1F1ED003D775E /* Function.m */; };
 		6B2F66F01EC1F1ED003D775E /* MyBluetoothLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66EC1EC1F1ED003D775E /* MyBluetoothLE.m */; };
 		6B2F66F41EC1F55C003D775E /* UserValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66F31EC1F55C003D775E /* UserValue.swift */; };
+		6B62AFF31ECAC9C2003D8D2B /* ImformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62AFF21ECAC9C2003D8D2B /* ImformationViewController.swift */; };
+		6B62AFF51ECADEA0003D8D2B /* PrepareUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62AFF41ECADEA0003D8D2B /* PrepareUpdateViewController.swift */; };
+		6B62AFF71ECAEBC9003D8D2B /* DFUViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62AFF61ECAEBC9003D8D2B /* DFUViewController.swift */; };
+		6B62AFF91ECAFA8C003D8D2B /* FA00000-V16A.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6B62AFF81ECAFA8C003D8D2B /* FA00000-V16A.zip */; };
+		6B62AFFB1ECB37A6003D8D2B /* UpdateSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62AFFA1ECB37A6003D8D2B /* UpdateSuccessViewController.swift */; };
+		6B62AFFD1ECB37BA003D8D2B /* UpdateFailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62AFFC1ECB37BA003D8D2B /* UpdateFailViewController.swift */; };
 		6B8124F51EC59A4300A55421 /* BLEObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8124F41EC59A4300A55421 /* BLEObject.swift */; };
 		C794DE56F095DD32F77F11B9 /* Pods_BT_DV_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 469EB96BD249CBBCAFA38A1C /* Pods_BT_DV_iOS.framework */; };
 /* End PBXBuildFile section */
@@ -107,6 +113,12 @@
 		6B2F66EC1EC1F1ED003D775E /* MyBluetoothLE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBluetoothLE.m; sourceTree = "<group>"; };
 		6B2F66F11EC1F209003D775E /* MyBluetoothLE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyBluetoothLE.h; sourceTree = "<group>"; };
 		6B2F66F31EC1F55C003D775E /* UserValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserValue.swift; sourceTree = "<group>"; };
+		6B62AFF21ECAC9C2003D8D2B /* ImformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImformationViewController.swift; sourceTree = "<group>"; };
+		6B62AFF41ECADEA0003D8D2B /* PrepareUpdateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrepareUpdateViewController.swift; sourceTree = "<group>"; };
+		6B62AFF61ECAEBC9003D8D2B /* DFUViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DFUViewController.swift; sourceTree = "<group>"; };
+		6B62AFF81ECAFA8C003D8D2B /* FA00000-V16A.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "FA00000-V16A.zip"; sourceTree = "<group>"; };
+		6B62AFFA1ECB37A6003D8D2B /* UpdateSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateSuccessViewController.swift; sourceTree = "<group>"; };
+		6B62AFFC1ECB37BA003D8D2B /* UpdateFailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateFailViewController.swift; sourceTree = "<group>"; };
 		6B8124F41EC59A4300A55421 /* BLEObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEObject.swift; sourceTree = "<group>"; };
 		A8A0524EA998A4BAE97D4A0B /* Pods-BT_DV_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BT_DV_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-BT_DV_iOS/Pods-BT_DV_iOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -167,17 +179,18 @@
 		0487AA351E8A3138009822EE /* BT_DV_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				0487AA3A1E8A3138009822EE /* Main.storyboard */,
+				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
 				0487AA361E8A3138009822EE /* AppDelegate.swift */,
 				04249ACA1EB08A0E0051454B /* xib */,
 				6B2F66F21EC1F52A003D775E /* BLE OBJc */,
 				0487AA421E8A3138009822EE /* Info.plist */,
 				6B2F66F31EC1F55C003D775E /* UserValue.swift */,
+				0487AA381E8A3138009822EE /* ViewController.swift */,
 				6B2F66F51EC1FC40003D775E /* CameraController */,
 				6B8124F31EC58F0900A55421 /* BLE Controller */,
 				6B1CCF721ECAA6060067D4D3 /* Update */,
 				0487AA3D1E8A3138009822EE /* Assets.xcassets */,
-				0487AA3A1E8A3138009822EE /* Main.storyboard */,
-				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
 			);
 			path = BT_DV_iOS;
 			sourceTree = "<group>";
@@ -185,7 +198,13 @@
 		6B1CCF721ECAA6060067D4D3 /* Update */ = {
 			isa = PBXGroup;
 			children = (
+				6B62AFF21ECAC9C2003D8D2B /* ImformationViewController.swift */,
 				6B1CCF701ECAA5FD0067D4D3 /* updateFirmwareViewController.swift */,
+				6B62AFF41ECADEA0003D8D2B /* PrepareUpdateViewController.swift */,
+				6B62AFF61ECAEBC9003D8D2B /* DFUViewController.swift */,
+				6B62AFF81ECAFA8C003D8D2B /* FA00000-V16A.zip */,
+				6B62AFFA1ECB37A6003D8D2B /* UpdateSuccessViewController.swift */,
+				6B62AFFC1ECB37BA003D8D2B /* UpdateFailViewController.swift */,
 			);
 			name = Update;
 			sourceTree = "<group>";
@@ -209,7 +228,6 @@
 		6B2F66F51EC1FC40003D775E /* CameraController */ = {
 			isa = PBXGroup;
 			children = (
-				0487AA381E8A3138009822EE /* ViewController.swift */,
 				046C58191EAD26C800192290 /* flashLightViewController.swift */,
 				0455AB151EAC95730087C14D /* senceViewController.swift */,
 				042B641D1EAF3FF000B2E1A8 /* settingViewController.swift */,
@@ -229,9 +247,9 @@
 				04823DF11EBB0F120024AE17 /* Bleprotoc.swift */,
 				04249ACB1EB08A9A0051454B /* StartScanBLEViewController.swift */,
 				04C1E8671EB754DA00EE3299 /* GetBlueToothInfoViewController.swift */,
+				044BF5061EBA8CCC0031E92B /* FailToScanViewController.swift */,
 				04276A671EB904C900F224B7 /* BLEConnectViewController.swift */,
 				04276A6B1EB979AF00F224B7 /* PowerGripStatusViewController.swift */,
-				044BF5061EBA8CCC0031E92B /* FailToScanViewController.swift */,
 				044BF5041EBA89510031E92B /* FailToConnectViewController.swift */,
 				04276A691EB91B1A00F224B7 /* CBlueClass.swift */,
 			);
@@ -322,6 +340,7 @@
 				0487AA411E8A3138009822EE /* LaunchScreen.storyboard in Resources */,
 				042B64321EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib in Resources */,
 				04D03CC51EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib in Resources */,
+				6B62AFF91ECAFA8C003D8D2B /* FA00000-V16A.zip in Resources */,
 				042B64261EAFD1F100B2E1A8 /* MainSettingTableViewCell.xib in Resources */,
 				0487AA3E1E8A3138009822EE /* Assets.xcassets in Resources */,
 				042B642A1EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib in Resources */,
@@ -391,7 +410,9 @@
 				04D03CBF1EB04B770040C5B0 /* WhiteBalanceSettingViewController.swift in Sources */,
 				04249AC91EB080010051454B /* SetEVViewController.swift in Sources */,
 				046C581A1EAD26C800192290 /* flashLightViewController.swift in Sources */,
+				6B62AFFD1ECB37BA003D8D2B /* UpdateFailViewController.swift in Sources */,
 				0455AB1B1EAC966A0087C14D /* senceTableViewCell.swift in Sources */,
+				6B62AFF71ECAEBC9003D8D2B /* DFUViewController.swift in Sources */,
 				04249ACC1EB08A9A0051454B /* StartScanBLEViewController.swift in Sources */,
 				6B2F66F01EC1F1ED003D775E /* MyBluetoothLE.m in Sources */,
 				04276A681EB904C900F224B7 /* BLEConnectViewController.swift in Sources */,
@@ -400,12 +421,15 @@
 				04276A651EB8827900F224B7 /* BLEListTableViewCell.swift in Sources */,
 				0487AA391E8A3138009822EE /* ViewController.swift in Sources */,
 				0455AB171EAC95730087C14D /* senceViewController.swift in Sources */,
+				6B62AFFB1ECB37A6003D8D2B /* UpdateSuccessViewController.swift in Sources */,
 				042B64311EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift in Sources */,
 				04276A6C1EB979AF00F224B7 /* PowerGripStatusViewController.swift in Sources */,
 				042B641E1EAF3FF000B2E1A8 /* settingViewController.swift in Sources */,
 				042B64251EAFD1F100B2E1A8 /* MainSettingTableViewCell.swift in Sources */,
+				6B62AFF51ECADEA0003D8D2B /* PrepareUpdateViewController.swift in Sources */,
 				04D03CC41EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.swift in Sources */,
 				04823DF21EBB0F120024AE17 /* Bleprotoc.swift in Sources */,
+				6B62AFF31ECAC9C2003D8D2B /* ImformationViewController.swift in Sources */,
 				044BF5051EBA89510031E92B /* FailToConnectViewController.swift in Sources */,
 				042B642D1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.swift in Sources */,
 				6B8124F51EC59A4300A55421 /* BLEObject.swift in Sources */,

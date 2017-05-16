@@ -1,41 +1,32 @@
 //
-//  FailToConnectViewController.swift
+//  UpdateSuccessViewController.swift
 //  BT_DV_iOS
 //
-//  Created by mac on 2017/5/4.
+//  Created by YeouTimothy on 2017/5/16.
 //  Copyright © 2017年 VictorBasic. All rights reserved.
 //
 
 import UIKit
 
-class FailToConnectViewController: UIViewController {
+class UpdateSuccessViewController: UIViewController {
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        
-        
+    @IBAction func comfrimAction(_ sender: Any) {
+        NotificationCenter.default.post(name: NSNotification.Name("updateComplete"), object: BLEObject.BLEobj)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        BLEObject.BLEobj.batteryInfo = nil
-        BLEObject.BLEobj.bleDetail = nil
-        BLEObject.BLEobj.command = nil
-        BLEObject.BLEobj.state = nil
-        let when = DispatchTime.now() + 3 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            NotificationCenter.default.post(name: NSNotification.Name("FailConnect"), object: BLEObject.BLEobj)
-        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
     }
     
 

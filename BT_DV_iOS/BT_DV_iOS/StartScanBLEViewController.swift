@@ -44,11 +44,13 @@ class StartScanBLEViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("toConnect"), object:BLEObject.BLEobj, queue: nil) {
             notification in
+            BLEObject.BLEobj.ble = self.bleProtoclol
             self.isShow = true
             self.toConnect()
         }
         NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnect"), object:BLEObject.BLEobj, queue: nil) {
             notification in
+            BLEObject.BLEobj.ble = self.bleProtoclol
             self.isShow = true
             self.startAgain()
         }

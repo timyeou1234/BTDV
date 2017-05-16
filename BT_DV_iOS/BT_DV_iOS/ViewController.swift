@@ -23,7 +23,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     var arrayForView = [String]()
     var viewArray = UserDefaults.standard.object(forKey: "subView")
-    var isConnected :Bool?
+    var isConnected = false
+    var isUpdating = false
     var i :CGFloat = 1.0
     var newUuid:String?
     
@@ -80,32 +81,19 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     @IBOutlet weak var photoOrMovieBtn: UIButton!
     
     @IBOutlet weak var captureBtn: UIButton!
-    
     @IBOutlet weak var topView: UIView!
-    
-    
     @IBOutlet weak var settingBtn: UIButton!
-    
     @IBOutlet weak var setCameraBtn: UIButton!
-    
     @IBOutlet weak var setFlashBtn: UIButton!
-    
     @IBOutlet var setSenceBtn: UIButton!
-    
     @IBOutlet weak var setBattertAndConnectBtn: UIButton!
-    
-    
     
     //MARK:-ContainerView
     @IBOutlet weak var senceTableView: UIView!
-    
     @IBOutlet weak var flashLightTableView: UIView!
-    
-    
     @IBOutlet weak var settingTableView: UIView!
-    
-    
     @IBOutlet weak var connectAndBatteryTableView: UIView!
+    @IBOutlet weak var btdvContainerView: UIView!
     
     
     //逆向傳值用
@@ -117,7 +105,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     @IBAction func capturePhotoOrMovie(_ sender: Any) {
         if captureMode == CaptureModePhoto {
-            
             capturePhoto()
         }else{
             captureMovie()
@@ -237,11 +224,21 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     //MARK: 藍牙連接的function
     @IBAction func connectBlueTooth(_ sender: Any) {
-        if connectAndBatteryTableView.isHidden{
-            NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
-            hideOtherSubView(view: connectAndBatteryTableView, button: setBattertAndConnectBtn)
-        }else{
+        if isConnected || isUpdating{
             connectAndBatteryTableView.isHidden = true
+            if btdvContainerView.isHidden{
+                hideOtherSubView(view: btdvContainerView, button: setBattertAndConnectBtn)
+            }else{
+                btdvContainerView.isHidden = true
+            }
+        }else{
+            btdvContainerView.isHidden = true
+            if connectAndBatteryTableView.isHidden{
+                NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
+                hideOtherSubView(view: connectAndBatteryTableView, button: setBattertAndConnectBtn)
+            }else{
+                connectAndBatteryTableView.isHidden = true
+            }
         }
     }
     
@@ -316,12 +313,25 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         NotificationCenter.default.addObserver(self, selector: #selector(getter: flashToMain), name: NSNotification.Name(rawValue: "FlshMode"), object: nil)
         
-        //        NotificationCenter.default.addObserver(forName: NSNotification.Name("postUp"), object:keyboardCode, queue: nil) { notification in }
-        
         //MARK:判斷BLE狀態
         
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("beginUpdate"), object:appl.batteryInfo, queue: nil) { notification in
+            self.isUpdating = true
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("updateComplete"), object:appl.batteryInfo, queue: nil) { notification in
+            self.isUpdating = false
+            self.btdvContainerView.isHidden = true
+        }
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postBattery"), object:appl.batteryInfo, queue: nil) { notification in
-            switch (Int32(BLEObject.BLEobj.batteryInfo!)){
+            self.connectAndBatteryTableView.isHidden = true
+            self.isConnected = true
+            if BLEObject.BLEobj.ble?.getBattery() == nil{
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_01"), for: UIControlState.normal)
+                return
+            }
+            switch (Int32((BLEObject.BLEobj.ble?.getBattery())!)){
             case 100:
                 self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_04"), for: UIControlState.normal)
                 
@@ -383,7 +393,18 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnect"), object:appl.batteryInfo, queue: nil) { notification in
+            self.isConnected = false
             self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_01"), for: UIControlState.normal)
+        }
+        
+        //MARK: 藍牙更新中
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("updating"), object:appl.batteryInfo, queue: nil) { notification in
+        
+        }
+        
+        //更新結束
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("finishUpdate"), object:appl.batteryInfo, queue: nil) { notification in
+            
         }
         
         //觸發手勢關閉與否
