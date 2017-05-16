@@ -1,6 +1,5 @@
 
 #import "FuelProtocol.h"
-//#import "CommandType.h"
 
 FuelProtocol *instance;
 
@@ -34,6 +33,7 @@ int CHECKSUM_INDEX_LENGTH = 4;
     NSString *hwVersion;
     int battery;
     int cameraMode;
+    bool upgradeMode;
     
 }
 //@synthesize commandDelegate;
@@ -153,24 +153,35 @@ int CHECKSUM_INDEX_LENGTH = 4;
     if(isSimulation){
         return;
     }
-    [self addCommArray:@"5AA50004044D00000051A55A" RemoveAllComm:true];
+    upgradeMode = false;
+    [self addCommArray:@"5AA50004044D00000051A55A" RemoveAllComm:false];
 }
 
 - (void) setReplyBattery{
     if(isSimulation){
         return;
     }
-    [self addCommArray:@"5AA50004044E00000052A55A" RemoveAllComm:true];
+    upgradeMode = false;
+    [self addCommArray:@"5AA50004044E00000052A55A" RemoveAllComm:false];
 }
 
 - (void) setReplyMode{
     if(isSimulation){
         return;
     }
+    upgradeMode = false;
     NSString *data =[[NSString alloc] initWithFormat:@"%@000%i", @"00", cameraMode];
     NSString *checksum = [[NSString alloc] initWithFormat:@"%04x", [self computationCheckSum:data]];
     NSString *comm = [[NSString alloc] initWithFormat:@"5AA500050450%@%@A55A", data, checksum];
     [self addCommArray:comm RemoveAllComm:true];
+}
+
+- (void) setUpgradeMode{
+    if(isSimulation){
+        return;
+    }
+    upgradeMode = true;
+    [self addCommArray:@"5AA5000403290000002CA55A" RemoveAllComm:true];
 }
 
 
@@ -215,7 +226,7 @@ int CHECKSUM_INDEX_LENGTH = 4;
 //接收字串
 - (void)onDataResultMessage:(NSString *)command{
 //    message = [self calcReceivedMessage:message];
-    [Function printLog:[NSString stringWithFormat:@"接收字串 === command = %@",command]];
+    //[Function printLog:[NSString stringWithFormat:@"接收字串 === command = %@",command]];
 //    [_protocolTestDelegate onNotifyCommand:command];
 //    
    [self resolution:command];
@@ -281,13 +292,13 @@ int CHECKSUM_INDEX_LENGTH = 4;
     int lengthCorrect = [self getCorrectLength:message];
     
     
-    NSLog(@"headerCorrect = %i", headerCorrect);
-    NSLog(@"endCorrect = %i", endCorrect);
-    NSLog(@"lengthCorrect = %i", lengthCorrect);
+//    NSLog(@"headerCorrect = %i", headerCorrect);
+//    NSLog(@"endCorrect = %i", endCorrect);
+//    NSLog(@"lengthCorrect = %i", lengthCorrect);
     
     if(headerCorrect && endCorrect && message.length >= lengthCorrect){
         
-        [Function printLog:[NSString stringWithFormat:@"Protocol Class 全部接收完 message -> %@", message]];
+//        [Function printLog:[NSString stringWithFormat:@"Protocol Class 全部接收完 message -> %@", message]];
         
         while(allReceivedCommand.length != 0){
             
@@ -295,7 +306,7 @@ int CHECKSUM_INDEX_LENGTH = 4;
             message = allReceivedCommand;
             //因為如果一次收到2筆Command，每次都要重新取得當筆Command的Length
             lengthCorrect = [self getCorrectLength:message];
-            [Function printLog:[NSString stringWithFormat:@"Protocol Class lengthCorrect -> %i", lengthCorrect]];
+//            [Function printLog:[NSString stringWithFormat:@"Protocol Class lengthCorrect -> %i", lengthCorrect]];
             
             //這裡要確認一次，可能後段還沒接完
             if(message.length < lengthCorrect){
@@ -311,18 +322,18 @@ int CHECKSUM_INDEX_LENGTH = 4;
                 [self receiveError:message];
                 return;
             }
-            [Function printLog:[NSString stringWithFormat:@"Protocol Class message -> %@", message]];
+//            [Function printLog:[NSString stringWithFormat:@"Protocol Class message -> %@", message]];
             
             
             @try {
                 //----------計算Checksum是否正確----------
                 //接收到的CMD
                 int receiveCmd = [self hexStringToInt:[message substringWithRange:NSMakeRange(CMD_INDEX_START, CMD_INDEX_LENGTH)]];
-                [Function printLog:[NSString stringWithFormat:@"Protocol Class receiveCmd -> %02x", receiveCmd]];
+//                [Function printLog:[NSString stringWithFormat:@"Protocol Class receiveCmd -> %02x", receiveCmd]];
                 
                 //接收到的Data
                 NSString *data = [message substringWithRange:NSMakeRange(DATA_INDEX_START, lengthCorrect - DATA_INDEX_START - CHECKSUM_INDEX_START)];
-                [Function printLog:[NSString stringWithFormat:@"Protocol Class Data -> %@", data]];
+//                [Function printLog:[NSString stringWithFormat:@"Protocol Class Data -> %@", data]];
                 
                 
                 NSString *receiveChecksum = [message substringWithRange:NSMakeRange(lengthCorrect - CHECKSUM_INDEX_START, CHECKSUM_INDEX_LENGTH)];
@@ -330,8 +341,8 @@ int CHECKSUM_INDEX_LENGTH = 4;
                 
                 NSString *calcChecksum = [[[NSString alloc] initWithFormat:@"%04x", [self computationCheckSum:[message substringWithRange:NSMakeRange(CMD_INDEX_START, lengthCorrect - CMD_INDEX_START - CHECKSUM_INDEX_START)]]] uppercaseString];
 
-                [Function printLog:[NSString stringWithFormat:@"Protocol Class receiveChecksum -> %@", receiveChecksum]];
-                [Function printLog:[NSString stringWithFormat:@"Protocol Class calcChecksum -> %@", calcChecksum]];
+//                [Function printLog:[NSString stringWithFormat:@"Protocol Class receiveChecksum -> %@", receiveChecksum]];
+//                [Function printLog:[NSString stringWithFormat:@"Protocol Class calcChecksum -> %@", calcChecksum]];
                 //----------計算Checksum是否正確----------
                 
                 
@@ -343,26 +354,26 @@ int CHECKSUM_INDEX_LENGTH = 4;
                     //如果有待發送的CMD，則比對是否跟已回傳的CMD相同，如果是，則比對是哪一個CMD，再把它刪除，代表發送成功
                     if([self getCommArrayCount] > 0){
                         
-//                        //發送出去的CMD, 發送是0xA?, 接收是0xB?, 所以要加0x10
-//                        int writeCmd = [self hexStringToInt:[[self getFirstComm] substringWithRange:NSMakeRange(header.length + CMD_LENGTH_INDEX_LENGTH, CMD_CMD_INDEX_START)]];
-//                        //接收到的CMD
-//                        int receiveCmd = [self hexStringToInt:[message substringWithRange:NSMakeRange(CMD_CMD_INDEX_START, 2)]];
-//                        
-//                        [Function printLog:[NSString stringWithFormat:@"Protocol Class writeCmd -> %02x , receiveCmd -> %02x", writeCmd, receiveCmd]];
-//
-//                        
-//                        //比對接收到的CMD跟發送出去的CMD是否相同，如果是，就是收到剛剛發送的CMD的回覆了，刪掉發送陣列裡的CMD
-//                        if(writeCmd == receiveCmd) {
-//                            
-//                            [Function printLog:[NSString stringWithFormat:@"Protocol Class removeComm -> %@", [self getFirstComm]]];
-//                            
-//                            [self initSendCount];
-//                            [self removeComm];
-//                            
-//                            allReceivedCommand = [allReceivedCommand substringFromIndex:lengthCorrect];
-//                            [self handleReceived:message];
-//                            continue;
-//                        }
+                        //發送出去的CMD, 接收的command要加100
+                        int writeCmd = [self hexStringToInt:[[self getFirstComm] substringWithRange:NSMakeRange(CMD_INDEX_START, CMD_INDEX_LENGTH)]];
+                        //接收到的CMD
+                        int receiveCmd = [self hexStringToInt:[message substringWithRange:NSMakeRange(CMD_INDEX_START, CMD_INDEX_LENGTH)]];
+                        
+                        [Function printLog:[NSString stringWithFormat:@"Protocol Class writeCmd -> %02x , receiveCmd -> %02x", writeCmd, receiveCmd]];
+
+                        
+                        //比對接收到的CMD跟發送出去的CMD是否相同，如果是，就是收到剛剛發送的CMD的回覆了，刪掉發送陣列裡的CMD
+                        if(writeCmd + 100 == receiveCmd) {
+                            
+                            [Function printLog:[NSString stringWithFormat:@"Protocol Class removeComm -> %@", [self getFirstComm]]];
+                            
+                            [self initSendCount];
+                            [self removeComm];
+                            
+                            allReceivedCommand = [allReceivedCommand substringFromIndex:lengthCorrect];
+                            [self handleReceivedCmd:receiveCmd Data:data];
+                            continue;
+                        }
                     }
                     
                     //因為是硬體主動回覆，不用比對Write Command  or
@@ -416,6 +427,12 @@ int CHECKSUM_INDEX_LENGTH = 4;
             break;
         case 0x03EA:{   //回傳電量
             
+            if(battery == 0)
+                [_connectStateDelegate onConnectionState:Connected];
+            
+            //刪除上一個command
+            [self removeSameComm:@"5AA50004044D00000051A55A"];
+            
             [self setReplyBattery];
             
             isSuccess = TRUE;
@@ -423,14 +440,18 @@ int CHECKSUM_INDEX_LENGTH = 4;
             battery = [self hexStringToInt:[data substringWithRange:NSMakeRange(4, 2)]];
             [Function printLog:[NSString stringWithFormat:@"handleReceivedCmd battery -> %i", battery]];
             
-            [_connectStateDelegate onConnectionState:Connected];
         }
             break;
         case 0x03EC:{  //固定詢問拍照or錄影模式
-            
-            [self setReplyMode];
+            //刪除上一個command
+            [self removeSameComm:@"5AA50004044E00000052A55A"];
             
             isSuccess = TRUE;
+            
+            if(!upgradeMode){
+                [self setReplyMode];
+            }
+            
         }
             break;
         case 0x03E8:{  //按鈕狀態
@@ -487,7 +508,7 @@ int CHECKSUM_INDEX_LENGTH = 4;
     int totalLength = (2 + 2 + length + 2 + 2) * 2;
     
     
-    [Function printLog:[NSString stringWithFormat:@"Protocol Class dataResult totalLength -> %i", totalLength]];
+//    [Function printLog:[NSString stringWithFormat:@"Protocol Class dataResult totalLength -> %i", totalLength]];
     
     return totalLength;
 }
