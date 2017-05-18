@@ -14,10 +14,11 @@ class GetBlueToothInfoViewController: UIViewController {
     @IBOutlet weak var blueToothListTableView: UITableView!
 
     @IBAction func scanAgain(_ sender: Any) {
-        NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
-        self.willMove(toParentViewController: self)
+        
+        self.willMove(toParentViewController: nil)
         self.removeFromParentViewController()
         self.view.removeFromSuperview()
+        NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -89,7 +90,7 @@ extension GetBlueToothInfoViewController:UITableViewDelegate,UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "BLEListTableViewCell", for: indexPath) as! BLEListTableViewCell
         let detail = bleList[indexPath.row]
         cell.bleNameLabel.text = detail.bleName
-        cell.bleUUIDLabel.text = detail.bleUUID
+        cell.bleUUIDLabel.text = ""
         return cell
     }
     

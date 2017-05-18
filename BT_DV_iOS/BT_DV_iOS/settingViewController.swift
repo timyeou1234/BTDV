@@ -13,12 +13,14 @@ protocol cellModelChanged {
 
 class settingViewController: UIViewController {
     
+    let appl = UIApplication.shared.delegate as! AppDelegate
     var selectedIndex:IndexPath?
     var getTapOrNot = false
     var sendTag = 10
     let settingNameArrayOne = ["場景選擇","白平衡","曝光補償"]
     var settingNameArrayTwo = ["觸碰拍攝"]
-
+    
+    var senceNameArray = ["自動","行進中","人像","風景","夜間","夜間人像","劇院","海灘","雪景","夕照","防震","煙火","運動","派對","燭光"]
     var senceSetting = "自動"
     var whiteBalanceSetting = "自動ＡＷＢ"
     var evValue = "0"
@@ -95,6 +97,9 @@ class settingViewController: UIViewController {
         let nib4 = UINib(nibName: "PowerControlTableViewCell", bundle: nil)
         self.settingTableView.register(nib4, forCellReuseIdentifier: "PowerControlTableViewCell")
         
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postSence"), object:appl.valueFromScene, queue: nil) { notification in
+            self.settingTableView.reloadData()
+        }
         
     }
 
@@ -157,7 +162,11 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
                     cell?.settingValueLabel.textColor = UIColor.white
                 }
                 cell?.settingNameLabel.text = settingNameArrayOne[indexPath.row]
-                let arr = [senceSetting,whiteBalanceSetting,evValue]
+                var scenen = "自動"
+                if let indexFromScenen = appl.valueFromScene{
+                    scenen = senceNameArray[indexFromScenen.row]
+                }
+                let arr = [scenen,whiteBalanceSetting,evValue]
                 cell?.settingValueLabel.text = arr[indexPath.row]
                 
                 return cell!

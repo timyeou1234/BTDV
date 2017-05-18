@@ -104,10 +104,17 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     //MARK:-Button
     
     @IBAction func capturePhotoOrMovie(_ sender: Any) {
+        hideAllSubView()
         if captureMode == CaptureModePhoto {
             capturePhoto()
         }else{
             captureMovie()
+        }
+    }
+    
+    @IBAction func tapScreenAction(_ sender: Any) {
+        if captureMode == CaptureModePhoto {
+            capturePhoto()
         }
     }
     
@@ -126,21 +133,18 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }
         
         
+        if isConnected{
+            if self.captureMode == CaptureModePhoto{
+                BLEObject.BLEobj.ble?.setCameraMode(1)
+            }else{
+                BLEObject.BLEobj.ble?.setCameraMode(2)
+            }
+        }
     }
     
-    //MARK:Open photo libary
-    @IBAction func tumbnailOpenLibrary(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        //        imagePicker.sourceType = .photoLibrary
-        imagePicker.sourceType = .savedPhotosAlbum
-        imagePicker.allowsEditing = true
-        imagePicker.mediaTypes = ["public.image", "public.movie"]
-        //  imagePicker.delegate = self
-        self.present(imagePicker, animated: true, completion: nil)
-        
-    }
-    
+    //MARK: 切換前後鏡頭
     @IBAction func setCamera(_ sender: Any) {
+        hideAllSubView()
         // Make sure the device has more than 1 camera.
         if AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).count > 1 {
             // Check which position the active camera is.
@@ -182,6 +186,15 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 captureSession.commitConfiguration()
             } catch {
                 print("Error switching cameras: \(error)")
+            }
+            if newPosition == AVCaptureDevicePosition.front{
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_on_4"), for: UIControlState.normal)
+                setFlashBtn.isEnabled = false
+                setFlashBtn.isSelected = false
+                setFlashOff()
+            }else{
+                setFlashBtn.isEnabled = true
+                NotificationCenter.default.post(name: NSNotification.Name("postFlash"), object: BLEObject.BLEobj)
             }
         }
         
@@ -255,6 +268,16 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         button.isSelected = true
     }
     
+    func hideAllSubView(){
+        senceTableView.isHidden = true
+        settingTableView.isHidden = true
+        flashLightTableView.isHidden = true
+        connectAndBatteryTableView.isHidden = true
+        setFlashBtn.isSelected = false
+        setSenceBtn.isSelected = false
+        settingBtn.isSelected = false
+    }
+    
     
     //MARK:ViewDidLoad
     override func viewDidLoad() {
@@ -304,7 +327,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             setPreview()
             setupFace()
             startSession()
-            setThumbNail()
+            
             
         }
         
@@ -324,7 +347,73 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             self.btdvContainerView.isHidden = true
         }
         
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("postBatteryOnly"), object:appl.batteryInfo, queue: nil) { notification in
+            if self.captureMode == CaptureModePhoto{
+                BLEObject.BLEobj.ble?.setCameraMode(1)
+            }else{
+                BLEObject.BLEobj.ble?.setCameraMode(2)
+            }
+            self.isConnected = true
+            if BLEObject.BLEobj.ble?.getBattery() == nil{
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_01"), for: UIControlState.normal)
+                return
+            }
+            switch (Int32((BLEObject.BLEobj.ble?.getBattery())!)){
+            case 100:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_04"), for: UIControlState.normal)
+                
+                break
+            case 91...99:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_05"), for: UIControlState.normal)
+                
+                break
+            case 81...90:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_06"), for: UIControlState.normal)
+                
+                break
+            case 71...80:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_07"), for: UIControlState.normal)
+                
+                break
+            case 61...70:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_08"), for: UIControlState.normal)
+                
+                break
+            case 51...60:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_09"), for: UIControlState.normal)
+                
+                break
+            case 41...50:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_10"), for: UIControlState.normal)
+                
+                break
+            case 31...40:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_11"), for: UIControlState.normal)
+                
+                break
+            case 21...30:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_12"), for: UIControlState.normal)
+                
+                break
+            case 11...30:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_13"), for: UIControlState.normal)
+                
+                break
+            case 0...10:
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_02"), for: UIControlState.normal)
+            default:
+                break
+                
+            }
+            
+        }
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postBattery"), object:appl.batteryInfo, queue: nil) { notification in
+            if self.captureMode == CaptureModePhoto{
+                BLEObject.BLEobj.ble?.setCameraMode(1)
+            }else{
+                BLEObject.BLEobj.ble?.setCameraMode(2)
+            }
             self.connectAndBatteryTableView.isHidden = true
             self.isConnected = true
             if BLEObject.BLEobj.ble?.getBattery() == nil{
@@ -399,7 +488,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         //MARK: 藍牙更新中
         NotificationCenter.default.addObserver(forName: NSNotification.Name("updating"), object:appl.batteryInfo, queue: nil) { notification in
-        
+            
         }
         
         //更新結束
@@ -549,8 +638,11 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         //接收FlashLightViewController的值。並觸發各自的方法，更改閃光燈設置，且變更上方ＵＩ的圖示
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postFlash"), object:appl.valueFromFlash, queue: nil) { notification in
-            
-            switch((appl.valueFromFlash?.row)!){
+            var index = 3
+            if appl.valueFromFlash != nil{
+                index = (appl.valueFromFlash?.row)!
+            }
+            switch(index){
             case 0:
                 
                 //["btn_flash_auto_1","btn_flash_on_1","btn_flash_redeye_1","btn_flash_off_1","btn_flash_light_1"]
@@ -612,7 +704,6 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 break
             case 4:
                 self.setWBLight()
-                
                 break
             case 5:
                 self.setWBYellowLight()
@@ -685,6 +776,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     override func viewDidAppear(_ animated: Bool) {
         topViewFirstItemLeadingIcon.constant = self.view.bounds.width/4.8
         topViewThirdItemTrailngIcon.constant = self.view.bounds.width/4.8
+        setThumbNail()
     }
     
     func pinch(_ pinch: UIPinchGestureRecognizer) {
@@ -726,23 +818,67 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
         
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: true)]
-        let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: fetchOptions)
-        
-        // If the fetch result isn't empty,
-        // proceed with the image request
-        if fetchResult.count > 0 {
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized{
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: true)]
+            let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: fetchOptions)
             
-            // Perform the image request
-            
-            imgManager.requestImage(for: fetchResult.object(at: fetchResult.count - 1) as PHAsset, targetSize: self.thumbnail.frame.size, contentMode: PHImageContentMode.aspectFit, options: requestOptions, resultHandler: {
-                (image, _) in
+            // If the fetch result isn't empty,
+            // proceed with the image request
+            if fetchResult.count > 0 {
                 
-                // Add the returned image to your array
-                self.setPhotoThumbnail(image!)
-            })
+                // Perform the image request
+                
+                imgManager.requestImage(for: fetchResult.object(at: fetchResult.count - 1) as PHAsset, targetSize: self.thumbnail.frame.size, contentMode: PHImageContentMode.aspectFit, options: requestOptions, resultHandler: {
+                    (image, _) in
+                    
+                    // Add the returned image to your array
+                    self.setPhotoThumbnail(image!)
+                })
+            }
+        }else{
+            PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
         }
+        
+        
+    }
+    
+    func photoLibraryAvailabilityCheck(){
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized{
+            
+        }else{
+            PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
+        }
+    }
+    func requestAuthorizationHandler(status: PHAuthorizationStatus){
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized{
+            setThumbNail()
+        }else{
+            alertToEncouragePhotoLibraryAccessWhenApplicationStarts()
+        }
+    }
+    
+    func alertToEncouragePhotoLibraryAccessWhenApplicationStarts(){
+        //Photo Library not available - Alert
+        let cameraUnavailableAlertController = UIAlertController (title: "Photo Library Unavailable", message: "Please check to see if device settings doesn't allow photo library access", preferredStyle: .alert)
+        
+        let settingsAction = UIAlertAction(title: "Settings", style: .destructive) { (_) -> Void in
+            let settingsUrl = NSURL(string:UIApplicationOpenSettingsURLString)
+            if let url = settingsUrl {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+        cameraUnavailableAlertController .addAction(settingsAction)
+        cameraUnavailableAlertController .addAction(cancelAction)
+        self.present(cameraUnavailableAlertController , animated: true, completion: {
+            success in
+            self.setThumbNail()
+        })
     }
     
     //MARK:-單點拍攝
@@ -865,69 +1001,93 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         return g
     }
     
-    //偵測畫面旋轉
+    //MARK: 偵測畫面旋轉
     func rotated() {
         switch UIDevice.current.orientation {
         case .landscapeLeft:
             stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeRight
-            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            
-            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
-            
-            
+            UIView.animate(withDuration: 0.3, animations:{
+                success in
+                
+                self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                
+                self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                
+                self.setBattertAndConnectBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                self.connectAndBatteryTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                self.btdvContainerView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+                
+            })
             print("landscape")
         case .landscapeRight:
             stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.landscapeLeft
-            
-            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            //            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            
-            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
-            
-            
+            UIView.animate(withDuration: 0.3, animations:{
+                success in
+                self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                
+                //            self.batteryStatus.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                
+                self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.setBattertAndConnectBtn.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.connectAndBatteryTableView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                self.btdvContainerView.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+                
+            })
             
         case .portraitUpsideDown:
             stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portraitUpsideDown
-            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            
-            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-            
+            UIView.animate(withDuration: 0.3, animations:{
+                success in
+                self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                
+                self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                
+                self.setBattertAndConnectBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.connectAndBatteryTableView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.btdvContainerView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            })
             print("上下顛倒")
             
         default:
             stillImageOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = AVCaptureVideoOrientation.portrait
-            self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            
-            self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
-            
+            UIView.animate(withDuration: 0.3, animations:{
+                success in
+                self.thumbnail.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                self.photoOrMovieBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                self.settingBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                self.setCameraBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                self.setFlashBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                self.setSenceBtn?.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                
+                self.senceTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                self.flashLightTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                self.settingTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                
+                self.setBattertAndConnectBtn.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                self.connectAndBatteryTableView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+                self.btdvContainerView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            })
             print("Portrait")
         }
     }
@@ -1337,7 +1497,7 @@ extension ViewController{
                 if device?.torchMode == .off{
                     device?.torchMode = .on
                 }else{
-                    device?.torchMode = .off
+//                    device?.torchMode = .off
                 }
                 device?.unlockForConfiguration()
             }catch{
@@ -1379,11 +1539,14 @@ extension ViewController{
     func setFlashOff(){
         let device = activeInput.device
         if (device?.hasFlash)!{
-            
             do{
                 try device?.lockForConfiguration()
                 device?.flashMode = .off
+                if device?.torchMode == .on{
+                    device?.torchMode = .off
+                }
                 device?.unlockForConfiguration()
+                
             }catch{
                 
             }
@@ -1625,7 +1788,8 @@ extension ViewController{
         if movieOutput.isRecording == false {
             
             captureBtn.setImage(UIImage(named: "btn_stop"), for: UIControlState())
-            
+            thumbnail.isHidden = true
+            photoOrMovieBtn.isHidden = true
             topView.isHidden = true
             let connection = movieOutput.connection(withMediaType: AVMediaTypeVideo)
             
@@ -1659,6 +1823,8 @@ extension ViewController{
     
     func stopRecording() {
         if movieOutput.isRecording == true {
+            thumbnail.isHidden = false
+            photoOrMovieBtn.isHidden = false
             captureBtn.setImage(UIImage(named: "btn_start"), for: UIControlState())
             topView.isHidden = false
             movieOutput.stopRecording()
@@ -1919,8 +2085,9 @@ extension ViewController{
         for metadataObject in metadataObjects as! [AVMetadataObject] {
             if metadataObject.type == AVMetadataObjectTypeFace {
                 let transformedMetadataObject = previewLayer?.transformedMetadataObject(for: metadataObject)
-                let face = transformedMetadataObject?.bounds
-                faces.append(face!)
+                if let face = transformedMetadataObject?.bounds{
+                    faces.append(face)
+                }
             }
         }
         
@@ -2036,14 +2203,6 @@ extension ViewController{
         default: break
         }
     }
-}
-
-//MARK:疑似為藍牙
-extension ViewController{
-    
-    
-    
-    
 }
 
 //MARK: For movie recording存入

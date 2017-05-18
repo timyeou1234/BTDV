@@ -17,10 +17,12 @@ class FailToScanViewController: UIViewController {
 //    var delegate :MainViewControllerDelegate!
 
     @IBAction func scanAgain(_ sender: Any) {
-        NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
-        self.willMove(toParentViewController: self)
+        
+        self.willMove(toParentViewController: nil)
         self.removeFromParentViewController()
         self.view.removeFromSuperview()
+        
+        NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
         
     }
     

@@ -10,6 +10,9 @@ import UIKit
 
 class BLEConnectViewController: UIViewController {
     
+    var count = 0
+    @IBOutlet weak var searchingImageView: UIImageView!
+    
     func toConnect(){
         
         
@@ -30,6 +33,8 @@ class BLEConnectViewController: UIViewController {
         BLEObject.BLEobj.ble?.connectStateDelegate = self
         BLEObject.BLEobj.ble?.dataResponseDelegate = self
         BLEObject.BLEobj.ble?.connectUUID(BLEObject.BLEobj.bleDetail?.bleUUID)
+        count = 0
+        startRotate()
         
     }
     
@@ -59,12 +64,14 @@ extension BLEConnectViewController:ConnectStateDelegate, DataResponseDelegate{
             
             break
         case Connected:
+            count = 21
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "PowerGripStatusViewController")
             self.addChildViewController(vc!)
             vc?.didMove(toParentViewController: self)
             vc?.view.frame = self.view.frame
             self.view.addSubview((vc?.view)!)
         case Disconnect, ConnectTimeout:
+            count = 21
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "FailToConnectViewController")
             self.addChildViewController(vc!)
             vc?.didMove(toParentViewController: self)
@@ -78,6 +85,24 @@ extension BLEConnectViewController:ConnectStateDelegate, DataResponseDelegate{
     func onResponsePressed(_ keyboardCode: Int32) {
         
     }
+    
+    func startRotate(){
+        if count < 20{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.searchingImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            }, completion: {
+                sucess in
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.searchingImageView.transform = CGAffineTransform(rotationAngle: 0)
+                }, completion: {
+                    sucess in
+                    self.count += 1
+                    self.startRotate()
+                })
+            })
+        }
+    }
+
     
 }
 

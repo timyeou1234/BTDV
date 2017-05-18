@@ -13,13 +13,21 @@ import UIKit
 
 class StartScanBLEViewController: UIViewController {
     
+    @IBOutlet weak var searchingImageView: UIImageView!
+    
+    var count = 0
+    var isContinue = true
     let bleProtoclol = FuelProtocol()
     var childController = UIViewController()
     var isShow = false
     var bleList = [BLEDetail]()
     
     func toConnect(){
+        
         BLEObject.BLEobj.ble?.enableBluetooth()
+        count = 0
+        startRotate()
+        
     }
     
     func startAgain(){
@@ -87,7 +95,7 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
         if isEnable{
             bleList = [BLEDetail]()
             BLEObject.BLEobj.ble?.startScanTimeout(2)
-            let when = DispatchTime.now() + 3 // change 2 to desired number of seconds
+            let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
             DispatchQueue.main.asyncAfter(deadline: when) {
                 if self.bleList.count != 0{
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as? GetBlueToothInfoViewController
@@ -105,15 +113,17 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
                     vc?.view.frame = self.view.frame
                     self.view.addSubview((vc?.view)!)
                 }
+                self.isContinue = false
             }
         }else{
             BLEObject.BLEobj.state = false
-//            NotificationCenter.default.post(name: NSNotification.Name("BLEState"), object: BLEObject.BLEobj)
             let alert = UIAlertController(title: "請開啟藍芽", message: nil, preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "確認", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             self.present(alert, animated: false, completion: nil)
+            isContinue = false
         }
+        
     }
     
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
@@ -123,6 +133,23 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
             detail.bleName = name
             detail.bleRssi = rssi
             bleList.append(detail)
+        }
+    }
+    
+    func startRotate(){
+        if count < 5{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.searchingImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            }, completion: {
+                sucess in
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.searchingImageView.transform = CGAffineTransform(rotationAngle: 0)
+                }, completion: {
+                    sucess in
+                    self.count += 1
+                    self.startRotate()
+                })
+            })
         }
     }
     
