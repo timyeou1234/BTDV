@@ -170,9 +170,9 @@ int CHECKSUM_INDEX_LENGTH = 4;
         return;
     }
     upgradeMode = false;
-    NSString *data =[[NSString alloc] initWithFormat:@"%@0%i", @"00", cameraMode];
+    NSString *data =[[NSString alloc] initWithFormat:@"0450%@0%i", @"00", cameraMode];
     NSString *checksum = [[NSString alloc] initWithFormat:@"%04x", [self computationCheckSum:data]];
-    NSString *comm = [[NSString alloc] initWithFormat:@"5AA500050450%@%@A55A", data, checksum];
+    NSString *comm = [[NSString alloc] initWithFormat:@"5AA50005%@%@A55A", data, checksum];
     [self addCommArray:comm RemoveAllComm:true];
 }
 
