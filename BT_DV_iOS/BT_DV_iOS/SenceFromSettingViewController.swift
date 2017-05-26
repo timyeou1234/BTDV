@@ -45,10 +45,6 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
         return 1
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return senceNameArray.count
     }
@@ -57,10 +53,7 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
      
      }
      */
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "場景選擇"
-        
-    }
+    
     /*
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
@@ -70,20 +63,6 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
         header.contentView.addSubview(imageViewGame)
     }
 */
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = UIColor.white
-    }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let v = UITableViewHeaderFooterView()
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        v.addGestureRecognizer(tapRecognizer)
-        return v
-    }
-    
     
     func handleTap(gestureRecognizer: UIGestureRecognizer)
     {

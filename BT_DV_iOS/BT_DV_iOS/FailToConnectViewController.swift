@@ -27,6 +27,8 @@ class FailToConnectViewController: UIViewController {
         BLEObject.BLEobj.bleDetail = nil
         BLEObject.BLEobj.command = nil
         BLEObject.BLEobj.state = nil
+        let bleProtoclol = FuelProtocol()
+        BLEObject.BLEobj.ble = bleProtoclol
         let when = DispatchTime.now() + 3 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
             NotificationCenter.default.post(name: NSNotification.Name("FailConnect"), object: BLEObject.BLEobj)

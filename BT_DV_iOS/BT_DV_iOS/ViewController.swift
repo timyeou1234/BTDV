@@ -21,6 +21,8 @@ protocol MainViewControllerDelegate {
 
 class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate{
     
+    var gameTimer: Timer!
+    
     var arrayForView = [String]()
     var viewArray = UserDefaults.standard.object(forKey: "subView")
     var isConnected = false
@@ -113,8 +115,18 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     }
     
     @IBAction func tapScreenAction(_ sender: Any) {
+        if !senceTableView.isHidden || !flashLightTableView.isHidden || !settingTableView.isHidden || !btdvContainerView.isHidden{
+            hideAllSubView()
+            return
+        }
         if captureMode == CaptureModePhoto {
-            capturePhoto()
+            let appl = UIApplication.shared.delegate as! AppDelegate
+            if appl.tapToTakePhoto == nil{
+                return
+            }
+            if appl.tapToTakePhoto!{
+                capturePhoto()
+            }
         }
     }
     
@@ -188,7 +200,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 print("Error switching cameras: \(error)")
             }
             if newPosition == AVCaptureDevicePosition.front{
-                self.setFlashBtn.setImage(UIImage(named:"btn_flash_on_4"), for: UIControlState.normal)
+                self.setFlashBtn.setImage(UIImage(named:"btn_flash_off_4"), for: UIControlState.normal)
                 setFlashBtn.isEnabled = false
                 setFlashBtn.isSelected = false
                 setFlashOff()
@@ -278,10 +290,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         settingBtn.isSelected = false
     }
     
+    func setlayerHiddenForTimmer(){
+        self.faceRectCALayer.isHidden = true
+    }
     
     //MARK:ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.senceTableView.isHidden = true
         self.flashLightTableView.isHidden = true
         self.settingTableView.isHidden = true
@@ -483,6 +499,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnect"), object:appl.batteryInfo, queue: nil) { notification in
             self.isConnected = false
+            self.connectAndBatteryTableView.isHidden = true
             self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_01"), for: UIControlState.normal)
         }
         
@@ -1497,7 +1514,7 @@ extension ViewController{
                 if device?.torchMode == .off{
                     device?.torchMode = .on
                 }else{
-//                    device?.torchMode = .off
+                    //                    device?.torchMode = .off
                 }
                 device?.unlockForConfiguration()
             }catch{
@@ -1786,11 +1803,21 @@ extension ViewController{
     //MARK: CaptureVideo
     func captureMovie() {
         if movieOutput.isRecording == false {
+            let appl = UIApplication.shared.delegate as! AppDelegate
+            var index = 0
+            if appl.valueFromFlash != nil{
+                index = (appl.valueFromFlash?.row)!
+            }
             
             captureBtn.setImage(UIImage(named: "btn_stop"), for: UIControlState())
             thumbnail.isHidden = true
             photoOrMovieBtn.isHidden = true
             topView.isHidden = true
+            
+            let device = activeInput.device
+            
+            
+            
             let connection = movieOutput.connection(withMediaType: AVMediaTypeVideo)
             
             if (connection?.isVideoOrientationSupported)! {
@@ -1802,23 +1829,60 @@ extension ViewController{
                 connection?.preferredVideoStabilizationMode = AVCaptureVideoStabilizationMode.auto
             }
             
-            let device = activeInput.device
-            if (device?.isSmoothAutoFocusSupported)! {
-                do {
-                    try device?.lockForConfiguration()
-                    device?.isSmoothAutoFocusEnabled = false
-                    device?.unlockForConfiguration()
-                } catch {
-                    print("Error setting configuration: \(error)")
+            if index == 4{
+                setTorchMode(AVCaptureTorchMode.on, for: device!)
+            }else{
+                if (device?.isSmoothAutoFocusSupported)! {
+                    do {
+                        try device?.lockForConfiguration()
+                        device?.isSmoothAutoFocusEnabled = false
+                        device?.unlockForConfiguration()
+                    } catch {
+                        print("Error setting configuration: \(error)")
+                    }
+                    
                 }
-                
             }
             
             outputURL = tempURL()
             movieOutput.startRecording(toOutputFileURL: outputURL, recordingDelegate: self)
+            
         } else {
             stopRecording()
         }
+    }
+    
+    func setTorchMode(_ torchMode: AVCaptureTorchMode, for device: AVCaptureDevice) {
+        do
+        {
+            try device.lockForConfiguration()
+            device.torchMode = torchMode
+//            if (device.isSmoothAutoFocusSupported) {
+//                do {
+//                    try device.lockForConfiguration()
+//                    device.isSmoothAutoFocusEnabled = false
+//                    device.unlockForConfiguration()
+//                } catch {
+//                    print("Error setting configuration: \(error)")
+//                }
+//                
+//            }
+            device.unlockForConfiguration()
+//            if (device.isSmoothAutoFocusSupported) {
+//                do {
+//                    try device.lockForConfiguration()
+//                    device.isSmoothAutoFocusEnabled = false
+//                    device.unlockForConfiguration()
+//                } catch {
+//                    print("Error setting configuration: \(error)")
+//                }
+//                
+//            }
+        }
+        catch {
+            print("Error:-\(error)")
+        }
+        
     }
     
     func stopRecording() {
@@ -2112,6 +2176,10 @@ extension ViewController{
                 () -> Void in
                 self.faceRectCALayer.isHidden = hidden
             })
+            let when = DispatchTime.now() + 1
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                self.setlayerHiddenForTimmer()
+            }
         }
     }
     

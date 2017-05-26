@@ -11,7 +11,15 @@ import UIKit
 class PowerControlViewController: UIViewController {
     
     @IBOutlet weak var powerControlDetailTableView: UITableView!
+    
     var powerControlDetail = ["關","2分鐘後自動關機","5分鐘後自動關機"]
+    
+    @IBAction func dismissAction(_ sender: Any) {
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -107,7 +115,11 @@ extension PowerControlViewController: UITableViewDataSource,UITableViewDelegate{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if indexPath.row == 0{
+            UIApplication.shared.isIdleTimerDisabled = true
+        }else{
+            UIApplication.shared.isIdleTimerDisabled = false
+        }
         
         performSegue(withIdentifier: "unwindFromPowerWithSegue", sender: Any?.self)
         
