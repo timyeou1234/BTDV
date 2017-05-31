@@ -68,7 +68,10 @@
         [_myBluetooth imSendMessage:message];
         
         [self initSendCount];
-        [self removeAllComm];
+        
+        if([message hasPrefix:@"5AA500050450"]){
+            [self removeSameComm:message];
+        }
     }
 }
 
@@ -87,13 +90,12 @@
 
 
 - (void)addCommArray:(NSString *)comm RemoveAllComm:(BOOL)removeAllComm{
-    NSLog(@"addCommArray---%@ -> %lu , %i", comm, (unsigned long)commArray.count, removeAllComm);
-//    if([commArray count] > 10 || removeAllComm)
-//        [self removeOtherComm];
-    if(removeAllComm)
+    NSLog(@"addCommArray 1 ---%@ -> %lu", comm, (unsigned long)commArray.count);
+    
+    if([commArray count] > 10 || removeAllComm)
         [self removeOtherComm];
     
-//    NSString *newComm = [self calcChecksum:comm];
+    //    NSString *newComm = [self calcChecksum:comm];
     [commArray addObject:comm];
 }
 
@@ -194,7 +196,7 @@
 //驗證received字串
 - (NSString *)calcReceivedMessage:(NSString *)message{
     
-//    NSArray *splitMsg = [message componentsSeparatedByString:@","];
+    //    NSArray *splitMsg = [message componentsSeparatedByString:@","];
     
     unsigned long length = message.length;
     
@@ -235,11 +237,11 @@
                 sscanf([hexChar cStringUsingEncoding:NSASCIIStringEncoding], "%04x", &value);
                 
                 checkSum += value;
-//                [newString appendFormat:@"%c", (char)value];
+                //                [newString appendFormat:@"%c", (char)value];
                 i+=2;
             }
             checkSum &= 0xFFFF;
-            NSLog(@"computationCheckSum newString = %04x", checkSum);
+            //            NSLog(@"computationCheckSum newString = %04x", checkSum);
         }
             break;
     }
