@@ -134,10 +134,10 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
     }
     
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
-        if name == "Power Grip" || name == "DfuTarg"{
+        if name.contains("FA00001"){
             let detail = BLEDetail()
             detail.bleUUID = uuid
-            detail.bleName = name
+            detail.bleName = "PowerGrip"
             detail.bleRssi = rssi
             bleList.append(detail)
         }
