@@ -19,7 +19,7 @@ protocol MainViewControllerDelegate {
     func didButton()
 }
 
-class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate{
+class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate, ConnectStateDelegate{
     
     var gameTimer: Timer!
     
@@ -250,6 +250,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     //MARK: 藍牙連接的function
     @IBAction func connectBlueTooth(_ sender: Any) {
         if isConnected || isUpdating{
+            
             connectAndBatteryTableView.isHidden = true
             if btdvContainerView.isHidden{
                 hideOtherSubView(view: btdvContainerView, button: setBattertAndConnectBtn)
@@ -259,13 +260,38 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }else{
             btdvContainerView.isHidden = true
             if connectAndBatteryTableView.isHidden{
-                NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
-                hideOtherSubView(view: connectAndBatteryTableView, button: setBattertAndConnectBtn)
+                let bleProtoclol = FuelProtocol()
+                BLEObject.BLEobj.ble = bleProtoclol
+                BLEObject.BLEobj.ble?.connectStateDelegate = self
+                BLEObject.BLEobj.ble?.enableBluetooth()
+                
             }else{
                 connectAndBatteryTableView.isHidden = true
             }
         }
     }
+    
+    func onBtStateChanged(_ isEnable: Bool) {
+        if isEnable{
+            NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
+            hideOtherSubView(view: connectAndBatteryTableView, button: setBattertAndConnectBtn)
+        }else{
+            BLEObject.BLEobj.state = false
+            
+        }
+    }
+    
+    func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32){
+    }
+    
+    func onConnectionState(_ state: ConnectState) {
+        
+    }
+    
+    func onResponsePressed(_ keyboardCode: Int32) {
+        
+    }
+
     
     //設定頁面切換
     func hideOtherSubView(view:UIView, button:UIButton){
@@ -273,6 +299,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         settingTableView.isHidden = true
         flashLightTableView.isHidden = true
         connectAndBatteryTableView.isHidden = true
+        btdvContainerView.isHidden = true
         setFlashBtn.isSelected = false
         setSenceBtn.isSelected = false
         settingBtn.isSelected = false
@@ -285,6 +312,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         settingTableView.isHidden = true
         flashLightTableView.isHidden = true
         connectAndBatteryTableView.isHidden = true
+        btdvContainerView.isHidden = true
         setFlashBtn.isSelected = false
         setSenceBtn.isSelected = false
         settingBtn.isSelected = false
@@ -501,6 +529,15 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             self.isConnected = false
             self.connectAndBatteryTableView.isHidden = true
             self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_01"), for: UIControlState.normal)
+            self.btdvContainerView.isHidden = true
+        }
+        
+        //MARK: 切換BTDV
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("switch"), object:appl.batteryInfo, queue: nil) { notification in
+            self.isConnected = false
+            self.connectBlueTooth(self)
+            self.btdvContainerView.isHidden = true
+            
         }
         
         //MARK: 藍牙更新中
@@ -794,6 +831,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         topViewFirstItemLeadingIcon.constant = self.view.bounds.width/4.8
         topViewThirdItemTrailngIcon.constant = self.view.bounds.width/4.8
         setThumbNail()
+        NotificationCenter.default.post(name: NSNotification.Name("postFlash"), object: nil)
     }
     
     func pinch(_ pinch: UIPinchGestureRecognizer) {

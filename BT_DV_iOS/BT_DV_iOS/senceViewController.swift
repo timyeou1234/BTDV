@@ -43,10 +43,6 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
         return 1
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return senceNameArray.count
     }

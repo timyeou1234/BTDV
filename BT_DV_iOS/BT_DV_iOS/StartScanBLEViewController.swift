@@ -23,10 +23,33 @@ class StartScanBLEViewController: UIViewController {
     var bleList = [BLEDetail]()
     
     func toConnect(){
-        
-        BLEObject.BLEobj.ble?.enableBluetooth()
         count = 0
         startRotate()
+        bleList = [BLEDetail]()
+        BLEObject.BLEobj.ble?.startScanTimeout(2)
+        let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            if self.bleList.count != 0{
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as? GetBlueToothInfoViewController
+                vc?.bleList = self.bleList
+                self.addChildViewController(vc!)
+                vc?.didMove(toParentViewController: self)
+                vc?.view.frame = self.view.frame
+                self.childController = vc!
+                self.view.addSubview((vc?.view)!)
+                
+            }else{
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "FailToScanViewController")
+                self.addChildViewController(vc!)
+                vc?.didMove(toParentViewController: self)
+                vc?.view.frame = self.view.frame
+                self.view.addSubview((vc?.view)!)
+            }
+            self.isContinue = false
+        }
+
+//        BLEObject.BLEobj.ble?.enableBluetooth()
+        
         
     }
     
@@ -54,12 +77,18 @@ class StartScanBLEViewController: UIViewController {
             notification in
             BLEObject.BLEobj.ble = self.bleProtoclol
             self.isShow = true
-            self.toConnect()
+            BLEObject.BLEobj.ble = self.bleProtoclol
+            BLEObject.BLEobj.ble?.connectStateDelegate = self
+            BLEObject.BLEobj.ble?.dataResponseDelegate = self
+            self.startAgain()
         }
         NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnect"), object:BLEObject.BLEobj, queue: nil) {
             notification in
             BLEObject.BLEobj.ble = self.bleProtoclol
             self.isShow = true
+            BLEObject.BLEobj.ble = self.bleProtoclol
+            BLEObject.BLEobj.ble?.connectStateDelegate = self
+            BLEObject.BLEobj.ble?.dataResponseDelegate = self
             self.startAgain()
         }
     }
@@ -93,28 +122,6 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
             return
         }
         if isEnable{
-            bleList = [BLEDetail]()
-            BLEObject.BLEobj.ble?.startScanTimeout(2)
-            let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
-            DispatchQueue.main.asyncAfter(deadline: when) {
-                if self.bleList.count != 0{
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "GetBlueToothInfoViewController") as? GetBlueToothInfoViewController
-                    vc?.bleList = self.bleList
-                    self.addChildViewController(vc!)
-                    vc?.didMove(toParentViewController: self)
-                    vc?.view.frame = self.view.frame
-                    self.childController = vc!
-                    self.view.addSubview((vc?.view)!)
-                    
-                }else{
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "FailToScanViewController")
-                    self.addChildViewController(vc!)
-                    vc?.didMove(toParentViewController: self)
-                    vc?.view.frame = self.view.frame
-                    self.view.addSubview((vc?.view)!)
-                }
-                self.isContinue = false
-            }
         }else{
             BLEObject.BLEobj.state = false
             let alert = UIAlertController(title: "請開啟藍芽", message: nil, preferredStyle: .alert)
@@ -137,19 +144,18 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
     }
     
     func startRotate(){
-        if count < 5{
-            UIView.animate(withDuration: 0.5, animations: {
+        if count < 6{
+            
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveLinear, animations: {
                 self.searchingImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            }, completion: {
-                sucess in
-                UIView.animate(withDuration: 0.5, animations: {
+            }) { finished in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveLinear, animations: {
                     self.searchingImageView.transform = CGAffineTransform(rotationAngle: 0)
-                }, completion: {
-                    sucess in
+                }) { finished in
                     self.count += 1
                     self.startRotate()
-                })
-            })
+                }
+            }
         }
     }
     

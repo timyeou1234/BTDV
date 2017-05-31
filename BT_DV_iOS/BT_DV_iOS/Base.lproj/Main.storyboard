@@ -751,10 +751,11 @@
                                 </state>
                                 <connections>
                                     <action selector="scanAgain:" destination="pwK-FN-CkH" eventType="touchUpInside" id="XLB-Fz-sE5"/>
+                                    <action selector="switchBTDV:" destination="TnB-JT-I6n" eventType="touchUpInside" id="Z1y-l4-mfW"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="bnw-5G-hic" firstAttribute="top" secondItem="0JR-wj-Guv" secondAttribute="bottom" id="7i0-UV-cH9"/>
                             <constraint firstAttribute="trailing" secondItem="4lI-g0-nw7" secondAttribute="trailing" id="OLn-ys-Yue"/>
@@ -767,12 +768,13 @@
                     </view>
                     <connections>
                         <outlet property="imformationTableView" destination="4lI-g0-nw7" id="fgS-cV-Cfy"/>
+                        <outlet property="switchButton" destination="0JR-wj-Guv" id="6EZ-GG-Sk0"/>
                         <segue destination="a0o-aJ-NBm" kind="show" id="FTD-2y-lOs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LMY-u2-mmp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="808.79999999999995" y="283.35832083958024"/>
+            <point key="canvasLocation" x="809" y="283"/>
         </scene>
         <!--Sence View Controller-->
         <scene sceneID="Wrd-Cu-wV4">
@@ -882,7 +884,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="315" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Ui-IY-529" id="P5Q-GT-Fgn">
-                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
@@ -1054,7 +1056,7 @@
                                         <rect key="frame" x="0.0" y="28" width="315" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DAg-1o-G12" id="fg3-ry-2Qz">
-                                            <rect key="frame" x="0.0" y="0.0" width="315" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="315" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1338,7 +1340,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QGu-gJ-czb">
                                 <rect key="frame" x="0.0" y="0.0" width="315" height="302"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_searching_5" translatesAutoresizingMaskIntoConstraints="NO" id="x4K-SV-QUV">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_searching_5" translatesAutoresizingMaskIntoConstraints="NO" id="x4K-SV-QUV">
                                         <rect key="frame" x="52" y="26" width="207" height="214"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zIm-Dq-2PP">
@@ -1641,7 +1643,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1wq-Cs-G92">
                                         <rect key="frame" x="0.0" y="159" width="116" height="40"/>
-                                        <color key="backgroundColor" red="0.2158325388" green="1" blue="0.23793660920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="116" id="ZGH-Cq-W8l"/>
                                         </constraints>
@@ -1780,6 +1782,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="downloadImage" destination="t8f-ln-f88" id="2ic-i2-fzU"/>
                         <segue destination="Xrj-Nv-rQl" kind="show" id="pAJ-d3-UsZ"/>
                     </connections>
                 </viewController>

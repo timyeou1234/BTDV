@@ -13,6 +13,12 @@ class ImformationViewController: UIViewController {
     //MARK: 版本控制
     let fwVersion = "1.5"
     @IBOutlet weak var imformationTableView: UITableView!
+    @IBOutlet weak var switchButton: UIButton!
+    
+    @IBAction func switchBTDV(_ sender: Any) {
+        BLEObject.BLEobj.ble?.disconnect()
+        NotificationCenter.default.post(name: NSNotification.Name("switch"), object: BLEObject.BLEobj)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +30,11 @@ class ImformationViewController: UIViewController {
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postBattery"), object:nil, queue: nil) { notification in
             self.imformationTableView.reloadData()
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("updateComplete"), object:nil, queue: nil) { notification in
+            self.imformationTableView.isHidden = false
+            self.switchButton.isHidden = false
         }
         // Do any additional setup after loading the view.
         
@@ -50,17 +61,23 @@ class ImformationViewController: UIViewController {
 extension ImformationViewController:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 3 && BLEObject.BLEobj.ble?.getFwVersion() != fwVersion{
+        if indexPath.row == 2 && BLEObject.BLEobj.ble?.getFwVersion() != fwVersion{
+            imformationTableView.isHidden = true
+            switchButton.isHidden = true
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "updateFirmwareViewController")
             self.addChildViewController(vc!)
             vc?.didMove(toParentViewController: self)
             vc?.view.frame = self.view.frame
             self.view.addSubview((vc?.view)!)
+        }else if indexPath.row == 4{
+            BLEObject.BLEobj.ble?.disconnect()
+            NotificationCenter.default.post(name: NSNotification.Name("FailConnect"), object: BLEObject.BLEobj)
         }
+        
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
+        return 60.0
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -70,7 +87,7 @@ extension ImformationViewController:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -84,20 +101,22 @@ extension ImformationViewController:UITableViewDelegate, UITableViewDataSource{
             }
             
         case 1:
-            if let name = BLEObject.BLEobj.bleDetail?.bleUUID{
-                cell?.senceName.text = "位址 \(name)"
-            }
-        case 2:
             if let name = BLEObject.BLEobj.ble?.getHwVersion(){
                 cell?.senceName.text = "硬體版本 \(name)"
             }
-        default:
+        case 2:
             if let name = BLEObject.BLEobj.ble?.getFwVersion(){
                 cell?.senceName.text = "韌體版本 \(name)"
             }
             if BLEObject.BLEobj.ble?.getFwVersion() != fwVersion{
                 cell?.senceIcon.image = #imageLiteral(resourceName: "btn_downlaod_1")
             }
+        case 3:
+            if let battery = BLEObject.BLEobj.ble?.getBattery(){
+                cell?.senceName.text = "電源 \(battery) %"
+            }
+        default:
+            cell?.senceName.text = "關閉BTDV"
             
         }
         

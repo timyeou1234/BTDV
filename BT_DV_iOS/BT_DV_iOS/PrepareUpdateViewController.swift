@@ -12,7 +12,10 @@ import CoreBluetooth
 import iOSDFULibrary
 
 class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
-
+    
+    var timer: Timer!
+    var currentIndex = 1
+    
     static var legacyDfuServiceUUID  = CBUUID(string: "00001530-1212-EFDE-1523-785FEABCD123")
     static var secureDfuServiceUUID  = CBUUID(string: "FE59")
     static var deviceInfoServiceUUID = CBUUID(string: "180A")
@@ -26,6 +29,7 @@ class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
     
     var scanningStarted             : Bool = false
     
+    @IBOutlet weak var downloadImage: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,6 +49,23 @@ class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
             PrepareUpdateViewController.legacyDfuServiceUUID,
             PrepareUpdateViewController.secureDfuServiceUUID,
             PrepareUpdateViewController.deviceInfoServiceUUID])
+        }
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(PrepareUpdateViewController.changeImage), userInfo: nil, repeats: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        timer.invalidate()
+    }
+    
+    func changeImage(){
+        if currentIndex == 6{
+            currentIndex = 1
+            let imageName = "img_downlaod_1"
+            downloadImage.image = UIImage(named: imageName)
+        }else{
+            currentIndex += 1
+            let imageName = "img_downlaod_\(currentIndex)"
+            downloadImage.image = UIImage(named: imageName)
         }
     }
 
