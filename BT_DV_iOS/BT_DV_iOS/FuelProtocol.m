@@ -215,6 +215,7 @@ int CHECKSUM_INDEX_LENGTH = 4;
 - (void)onConnectionState:(ConnectState)state{
     if(state == Connected){
         [self commTimerStart];
+        battery = 0;
 //        [self getDeviceInfo];
         return;
     }else if(state == Disconnect){
