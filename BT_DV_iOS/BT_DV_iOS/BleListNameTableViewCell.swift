@@ -1,18 +1,16 @@
 //
-//  BLEListTableViewCell.swift
+//  BleListNameTableViewCell.swift
 //  BT_DV_iOS
 //
-//  Created by mac on 2017/5/2.
+//  Created by YeouTimothy on 2017/6/6.
 //  Copyright © 2017年 VictorBasic. All rights reserved.
 //
 
 import UIKit
 
-class BLEListTableViewCell: UITableViewCell {
+class BleListNameTableViewCell: UITableViewCell {
 
     @IBOutlet weak var bleNameLabel: UILabel!
-    
-//@IBOutlet weak var bleUUIDLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

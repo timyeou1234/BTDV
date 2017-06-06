@@ -36,7 +36,7 @@ class GetBlueToothInfoViewController: UIViewController {
         self.blueToothListTableView.dataSource = self
         self.blueToothListTableView.separatorStyle = .none
 
-        let nib = UINib(nibName: "BLEListTableViewCell", bundle: nil)
+        let nib = UINib(nibName: "BleListNameTableViewCell", bundle: nil)
         self.blueToothListTableView.register(nib, forCellReuseIdentifier: "BLEListTableViewCell")
     }
 
@@ -87,10 +87,9 @@ extension GetBlueToothInfoViewController:UITableViewDelegate,UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BLEListTableViewCell", for: indexPath) as! BLEListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BLEListTableViewCell", for: indexPath) as! BleListNameTableViewCell
         let detail = bleList[indexPath.row]
         cell.bleNameLabel.text = detail.bleName
-        cell.bleUUIDLabel.text = ""
         return cell
     }
     

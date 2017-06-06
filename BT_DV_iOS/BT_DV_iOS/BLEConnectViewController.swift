@@ -30,6 +30,7 @@ class BLEConnectViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         BLEObject.BLEobj.ble?.connectStateDelegate = self
         BLEObject.BLEobj.ble?.dataResponseDelegate = self
         BLEObject.BLEobj.ble?.connectUUID(BLEObject.BLEobj.bleDetail?.bleUUID)

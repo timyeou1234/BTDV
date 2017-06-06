@@ -14,8 +14,11 @@ class SenceFromSettingViewController: UIViewController {
     let appl = UIApplication.shared.delegate as! AppDelegate
 
     @IBAction func backAction(_ sender: Any) {
-        
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
     }
+    
     @IBOutlet weak var senceFormSettingTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +51,29 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return senceNameArray.count
     }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "場景選擇"
+        
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let v = UITableViewHeaderFooterView()
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        v.addGestureRecognizer(tapRecognizer)
+        return v
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40.0
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
+    }
+    
     /*
      func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
      

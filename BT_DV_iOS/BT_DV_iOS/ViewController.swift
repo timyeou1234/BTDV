@@ -63,7 +63,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     var deviceIsChange: Bool = false
     
     //待驗證
-    var tapOrNot = false
+    var tapOrNot = true
     var flashToMain = "btn_flash_auto_1"
     var beSelect = Bool()
     
@@ -106,6 +106,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     //MARK:-Button
     
     @IBAction func capturePhotoOrMovie(_ sender: Any) {
+        
         hideAllSubView()
         if captureMode == CaptureModePhoto {
             capturePhoto()
@@ -115,13 +116,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     }
     
     @IBAction func tapScreenAction(_ sender: Any) {
-        if !senceTableView.isHidden || !flashLightTableView.isHidden || !settingTableView.isHidden || !btdvContainerView.isHidden{
+        if !senceTableView.isHidden || !flashLightTableView.isHidden || !settingTableView.isHidden || !btdvContainerView.isHidden || !connectAndBatteryTableView.isHidden{
             hideAllSubView()
             return
         }
         if captureMode == CaptureModePhoto {
             let appl = UIApplication.shared.delegate as! AppDelegate
             if appl.tapToTakePhoto == nil{
+                capturePhoto()
                 return
             }
             if appl.tapToTakePhoto!{
@@ -291,7 +293,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     func onResponsePressed(_ keyboardCode: Int32) {
         
     }
-
+    
     
     //設定頁面切換
     func hideOtherSubView(view:UIView, button:UIButton){
@@ -527,9 +529,15 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnect"), object:appl.batteryInfo, queue: nil) { notification in
             self.isConnected = false
-            self.connectAndBatteryTableView.isHidden = true
             self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_01"), for: UIControlState.normal)
+            if self.isUpdating{
+                return
+            }
+            self.connectAndBatteryTableView.isHidden = false
+            
             self.btdvContainerView.isHidden = true
+            
+            
         }
         
         //MARK: 切換BTDV
@@ -832,6 +840,10 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         topViewThirdItemTrailngIcon.constant = self.view.bounds.width/4.8
         setThumbNail()
         NotificationCenter.default.post(name: NSNotification.Name("postFlash"), object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        setFlashOff()
     }
     
     func pinch(_ pinch: UIPinchGestureRecognizer) {
@@ -1895,27 +1907,27 @@ extension ViewController{
         {
             try device.lockForConfiguration()
             device.torchMode = torchMode
-//            if (device.isSmoothAutoFocusSupported) {
-//                do {
-//                    try device.lockForConfiguration()
-//                    device.isSmoothAutoFocusEnabled = false
-//                    device.unlockForConfiguration()
-//                } catch {
-//                    print("Error setting configuration: \(error)")
-//                }
-//                
-//            }
+            //            if (device.isSmoothAutoFocusSupported) {
+            //                do {
+            //                    try device.lockForConfiguration()
+            //                    device.isSmoothAutoFocusEnabled = false
+            //                    device.unlockForConfiguration()
+            //                } catch {
+            //                    print("Error setting configuration: \(error)")
+            //                }
+            //
+            //            }
             device.unlockForConfiguration()
-//            if (device.isSmoothAutoFocusSupported) {
-//                do {
-//                    try device.lockForConfiguration()
-//                    device.isSmoothAutoFocusEnabled = false
-//                    device.unlockForConfiguration()
-//                } catch {
-//                    print("Error setting configuration: \(error)")
-//                }
-//                
-//            }
+            //            if (device.isSmoothAutoFocusSupported) {
+            //                do {
+            //                    try device.lockForConfiguration()
+            //                    device.isSmoothAutoFocusEnabled = false
+            //                    device.unlockForConfiguration()
+            //                } catch {
+            //                    print("Error setting configuration: \(error)")
+            //                }
+            //
+            //            }
         }
         catch {
             print("Error:-\(error)")
@@ -2214,10 +2226,11 @@ extension ViewController{
                 () -> Void in
                 self.faceRectCALayer.isHidden = hidden
             })
-            let when = DispatchTime.now() + 1
-            DispatchQueue.main.asyncAfter(deadline: when) {
-                self.setlayerHiddenForTimmer()
-            }
+            
+        }
+        let when = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.setlayerHiddenForTimmer()
         }
     }
     

@@ -31,9 +31,6 @@ class settingViewController: UIViewController {
     var imageSizeSettingName = ["影像尺寸"]
     var imageSizeSettingValue = ["800萬(3264*2448)"]
     
-    var powerControlName = ["電源管理"]
-    var powerControlValue = ["2分鐘自動關機"]
-    
     
     @IBAction func unwindFromSence(segue:UIStoryboardSegue) { }
     @IBAction func unwindFromnWB(segue:UIStoryboardSegue) { }
@@ -43,7 +40,6 @@ class settingViewController: UIViewController {
 
     @IBOutlet weak var cameraSettingButton: UIButton!
     @IBOutlet weak var qualitySettingButton: UIButton!
-    @IBOutlet weak var powerSettingButton: UIButton!
     @IBOutlet weak var settingTableView: UITableView!
     
     @IBAction func cameraAction(_ sender: Any) {
@@ -58,16 +54,10 @@ class settingViewController: UIViewController {
         self.settingTableView.reloadData()
     }
     
-    @IBAction func powerAction(_ sender: Any) {
-        setSelectedButton(sender as! UIButton)
-        sendTag = 30
-        self.settingTableView.reloadData()
-    }
     
     func setSelectedButton(_ button:UIButton){
         cameraSettingButton.isSelected = false
         qualitySettingButton.isSelected = false
-        powerSettingButton.isSelected = false
         button.isSelected = true
     }
     
@@ -81,8 +71,6 @@ class settingViewController: UIViewController {
         cameraSettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting1_2"), for: .selected)
         qualitySettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting2_1"), for: .normal)
         qualitySettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting2_2"), for: .selected)
-        powerSettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting3_1"), for: .normal)
-        powerSettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting3_2"), for: .selected)
 
         //註冊所有的xib
         let nib = UINib(nibName: "MainSettingTableViewCell", bundle: nil)
@@ -125,9 +113,6 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
         case 20:
             return imageSizeSettingName.count
             
-        case 30:
-            return powerControlName.count
-            
         default:
             
             print("Error")
@@ -145,8 +130,11 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
             }
             if indexPath.row == 3{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MainSettingTwoTableViewCell", for: indexPath) as! MainSettingTwoTableViewCell
-                
-                cell.tapForTakePhoto.isOn = UserDefaults.standard.bool(forKey: "TapOrNot")
+                if UserDefaults.standard.value(forKey: "TapOrNot") == nil{
+                    cell.tapForTakePhoto.isOn = true
+                }else{
+                    cell.tapForTakePhoto.isOn = UserDefaults.standard.bool(forKey: "TapOrNot")
+                }
                 cell.settingNameTwoLabel.text = "觸碰拍攝"
                 
                 return cell
@@ -177,14 +165,6 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
             cell?.imageSizeValueLabel.text = imageSize
             
             return cell!
-            
-        case 30:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PowerControlTableViewCell", for: indexPath) as? PowerControlTableViewCell
-            cell?.powerControlLabel.text = powerControlName[indexPath.row]
-            cell?.powerContolValue.text = powerstatus
-            
-            return cell!
-            
             
         default:
             break

@@ -17,7 +17,7 @@ class ImformationViewController: UIViewController {
     
     @IBAction func switchBTDV(_ sender: Any) {
         BLEObject.BLEobj.ble?.disconnect()
-        NotificationCenter.default.post(name: NSNotification.Name("switch"), object: BLEObject.BLEobj)
+        NotificationCenter.default.post(name: NSNotification.Name("FailConnect"), object: BLEObject.BLEobj)
     }
     
     override func viewDidLoad() {
@@ -62,8 +62,7 @@ extension ImformationViewController:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 && BLEObject.BLEobj.ble?.getFwVersion() != fwVersion{
-            imformationTableView.isHidden = true
-            switchButton.isHidden = true
+            //switchButton.isHidden = true
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "updateFirmwareViewController")
             self.addChildViewController(vc!)
             vc?.didMove(toParentViewController: self)

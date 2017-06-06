@@ -44,7 +44,7 @@ class DFUViewController: UIViewController, CBCentralManagerDelegate, CBPeriphera
     func getBundledFirmwareURLHelper() -> URL? {
         if let _ = secureDFU {
             
-            return Bundle.main.url(forResource: "FA00000-V16A", withExtension: "zip")!
+            return Bundle.main.url(forResource: "FA00000-V17", withExtension: "zip")!
             
         } else {
             // We need to connect and discover services. The device does not have to advertise with the service UUID.

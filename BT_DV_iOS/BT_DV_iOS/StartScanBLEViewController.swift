@@ -67,12 +67,14 @@ class StartScanBLEViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        BLEObject.BLEobj.ble = bleProtoclol
-        BLEObject.BLEobj.ble?.connectStateDelegate = self
-        BLEObject.BLEobj.ble?.dataResponseDelegate = self
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        BLEObject.BLEobj.ble = bleProtoclol
+        BLEObject.BLEobj.ble?.connectStateDelegate = self
+        BLEObject.BLEobj.ble?.dataResponseDelegate = self
         NotificationCenter.default.addObserver(forName: NSNotification.Name("toConnect"), object:BLEObject.BLEobj, queue: nil) {
             notification in
             BLEObject.BLEobj.ble = self.bleProtoclol
@@ -82,7 +84,7 @@ class StartScanBLEViewController: UIViewController {
             BLEObject.BLEobj.ble?.dataResponseDelegate = self
             self.startAgain()
         }
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnect"), object:BLEObject.BLEobj, queue: nil) {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnectStartAgain"), object:BLEObject.BLEobj, queue: nil) {
             notification in
             BLEObject.BLEobj.ble = self.bleProtoclol
             self.isShow = true
@@ -134,10 +136,17 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
     }
     
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
-        if name.contains("FA00000") || name.contains("DfuTarg"){
+        if name.contains("FA00000"){
             let detail = BLEDetail()
             detail.bleUUID = uuid
-            detail.bleName = name.replacingOccurrences(of: "FA00000", with: "PowerGrip")
+            let nameHere = name.replacingOccurrences(of: "FA00000", with: "Power Grip(") + ")"
+            detail.bleName = nameHere
+            detail.bleRssi = rssi
+            bleList.append(detail)
+        }else{
+            let detail = BLEDetail()
+            detail.bleUUID = uuid
+            detail.bleName = name
             detail.bleRssi = rssi
             bleList.append(detail)
         }
