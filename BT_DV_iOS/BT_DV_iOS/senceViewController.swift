@@ -70,6 +70,10 @@ extension senceViewController: UITableViewDataSource,UITableViewDelegate{
         
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 65.0
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let appl = UIApplication.shared.delegate as! AppDelegate
         appl.valueFromScene = indexPath

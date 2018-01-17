@@ -10,7 +10,11 @@ import UIKit
 
 class updateFirmwareViewController: UIViewController {
     
+    @IBOutlet weak var comfirmButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    
     @IBAction func comfirmAction(_ sender: Any) {
+        (sender as! UIButton).backgroundColor = UIColor.green
         NotificationCenter.default.post(name: NSNotification.Name("beginUpdate"), object: BLEObject.BLEobj)
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrepareUpdateViewController")
         self.addChildViewController(vc!)
@@ -20,10 +24,13 @@ class updateFirmwareViewController: UIViewController {
     }
     
     @IBAction func cancelAction(_ sender: Any) {
+        (sender as! UIButton).backgroundColor = UIColor.green
         self.willMove(toParentViewController: self)
         self.removeFromParentViewController()
         self.view.removeFromSuperview()
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +39,13 @@ class updateFirmwareViewController: UIViewController {
             self.removeFromParentViewController()
             self.view.removeFromSuperview()
         }
+        
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        comfirmButton.backgroundColor = UIColor.white
+        cancelButton.backgroundColor = UIColor.white
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,3 +65,23 @@ class updateFirmwareViewController: UIViewController {
      */
     
 }
+
+class BackgroundHighlightedButton: UIButton {
+    @IBInspectable var highlightedBackgroundColor :UIColor?
+    @IBInspectable var nonHighlightedBackgroundColor :UIColor?
+    override var isHighlighted :Bool {
+        get {
+            return super.isHighlighted
+        }
+        set {
+            if newValue {
+                self.backgroundColor = highlightedBackgroundColor
+            }
+            else {
+                self.backgroundColor = nonHighlightedBackgroundColor
+            }
+            super.isHighlighted = newValue
+        }
+    }
+}
+

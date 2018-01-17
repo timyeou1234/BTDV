@@ -26,7 +26,10 @@ class UpdateSuccessViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        let when = DispatchTime.now() + 3 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.comfrimAction(self)
+        }
     }
     
 

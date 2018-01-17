@@ -21,6 +21,7 @@ protocol MainViewControllerDelegate {
 
 class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate, ConnectStateDelegate{
     
+    var isGalery = false
     var gameTimer: Timer!
     
     var arrayForView = [String]()
@@ -49,8 +50,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     var currentOrientation: UIDeviceOrientation = UIDevice.current.orientation
     
-    var format = AVCaptureDeviceFormat()
-    
+//    var format = AVCaptureDeviceFormat
     //設定錄影或拍照用
     var captureMode: Int = CaptureModePhoto
     
@@ -68,8 +68,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     var beSelect = Bool()
     
     //MARK:-BLE
-    var BLEprotocol = FuelProtocol()
-    var mBtManager : BtManager!
+    
     var bleIsOn:Bool!
     
     var flashButtonImgName:String?
@@ -97,6 +96,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     @IBOutlet weak var connectAndBatteryTableView: UIView!
     @IBOutlet weak var btdvContainerView: UIView!
     
+    @IBAction func showGalleryAction(_ sender: Any) {
+        isGalery = true
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController")
+        self.addChildViewController(vc!)
+        vc?.didMove(toParentViewController: self)
+        vc?.view.frame = self.view.frame
+        self.view.addSubview((vc?.view)!)
+    }
     
     //逆向傳值用
     @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
@@ -266,7 +273,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 BLEObject.BLEobj.ble = bleProtoclol
                 BLEObject.BLEobj.ble?.connectStateDelegate = self
                 BLEObject.BLEobj.ble?.enableBluetooth()
-                
+                isGalery = false
             }else{
                 connectAndBatteryTableView.isHidden = true
             }
@@ -284,6 +291,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     }
     
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32){
+        
     }
     
     func onConnectionState(_ state: ConnectState) {
@@ -332,8 +340,8 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         self.flashLightTableView.isHidden = true
         self.settingTableView.isHidden = true
         self.connectAndBatteryTableView.isHidden = true
-        mBtManager = BtManager()
-        BLEObject.BLEobj.manager = mBtManager
+        //        let mBtManager = BtManager()
+        //        BLEObject.BLEobj.manager = mBtManager
         
         //MARK: 畫面按鈕初始
         captureBtn.setImage(#imageLiteral(resourceName: "btn_stop"), for: .highlighted)
@@ -394,6 +402,11 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postBatteryOnly"), object:appl.batteryInfo, queue: nil) { notification in
+            if self.isGalery{
+                self.connectAndBatteryTableView.isHidden = true
+            }else{
+                self.connectAndBatteryTableView.isHidden = false
+            }
             if self.captureMode == CaptureModePhoto{
                 BLEObject.BLEobj.ble?.setCameraMode(1)
             }else{
@@ -446,7 +459,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 
                 break
             case 0...10:
-                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_02"), for: UIControlState.normal)
+                self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_01"), for: UIControlState.normal)
             default:
                 break
                 
@@ -518,10 +531,14 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             switch (Int32(BLEObject.BLEobj.command!)){
             case 2:
                 self.capturePhotoOrMovie(self)
-            case 4:
-                self.zoomOut()
             case 1:
-                self.zoomIn()
+                if !self.isGalery{
+                    self.zoomOut()
+                }
+            case 4:
+                if !self.isGalery{
+                    self.zoomIn()
+                }
             default:
                 break
             }
@@ -534,28 +551,40 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
                 return
             }
             self.connectAndBatteryTableView.isHidden = false
-            
+            if self.isUpdating{
+                self.btdvContainerView.isHidden = false
+            }else{
+                self.btdvContainerView.isHidden = true
+            }
+        }
+        
+        //MARK:6/13 change
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnectDontStartAgain"), object:appl.batteryInfo, queue: nil) { notification in
+            if self.isUpdating{
+                return
+            }
+            self.connectAndBatteryTableView.isHidden = true
             self.btdvContainerView.isHidden = true
-            
-            
+            let appl = UIApplication.shared.delegate as! AppDelegate
+            appl.isFromUpdate = nil
         }
         
         //MARK: 切換BTDV
         NotificationCenter.default.addObserver(forName: NSNotification.Name("switch"), object:appl.batteryInfo, queue: nil) { notification in
+            self.setBattertAndConnectBtn.setImage(UIImage(named:"img_battery_01"), for: UIControlState.normal)
             self.isConnected = false
-            self.connectBlueTooth(self)
             self.btdvContainerView.isHidden = true
-            
+            self.connectBlueTooth(self)
         }
         
         //MARK: 藍牙更新中
         NotificationCenter.default.addObserver(forName: NSNotification.Name("updating"), object:appl.batteryInfo, queue: nil) { notification in
-            
+            self.isUpdating = true
         }
         
         //更新結束
         NotificationCenter.default.addObserver(forName: NSNotification.Name("finishUpdate"), object:appl.batteryInfo, queue: nil) { notification in
-            
+            self.isUpdating = false
         }
         
         //觸發手勢關閉與否
@@ -784,10 +813,12 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
             
             
         }
+        
         //接收SetEVViewController的值，並觸發對應的方法，更改畫面ＥＶ值
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("postEV"), object:appl.valueFromEV, queue: nil) { notification in
             let device = self.activeInput.device
+            self.settingAuto()
             do {
                 try device?.lockForConfiguration()
                 device?.setExposureTargetBias((Float(appl.valueFromEV!)), completionHandler: nil)
@@ -834,12 +865,25 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
     //MARK:畫面設定
     override func viewDidAppear(_ animated: Bool) {
+        
+        connectAndBatteryTableView.isHidden = true
+        
         topViewFirstItemLeadingIcon.constant = self.view.bounds.width/4.8
         topViewThirdItemTrailngIcon.constant = self.view.bounds.width/4.8
         setThumbNail()
         NotificationCenter.default.post(name: NSNotification.Name("postFlash"), object: nil)
+        
+        let userDefaults = Foundation.UserDefaults.standard
+        if userDefaults.value(forKey: "FirstInstall") == nil{
+            self.connectBlueTooth(self)
+            userDefaults.set("no", forKey: "FirstInstall")
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -849,34 +893,57 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     func pinch(_ pinch: UIPinchGestureRecognizer) {
         guard let device = activeInput.device else { return }
         
-        // Return zoom value between the minimum and maximum zoom values
-        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        //        guard let device = captureDevice else { return }
+        if isGalery{
+            return
         }
-        
-        func update(scale factor: CGFloat) {
+        if pinch.state == .changed {
+            
+            let maxZoomFactor = device.activeFormat.videoMaxZoomFactor
+            let pinchVelocityDividerFactor: CGFloat = 5.0
+            
             do {
+                
                 try device.lockForConfiguration()
                 defer { device.unlockForConfiguration() }
-                device.videoZoomFactor = factor
+                
+                let desiredZoomFactor = device.videoZoomFactor + atan2(pinch.velocity, pinchVelocityDividerFactor)
+                i = desiredZoomFactor
+                device.videoZoomFactor = max(1.0, min(desiredZoomFactor, maxZoomFactor))
+                
             } catch {
-                print("\(error.localizedDescription)")
+                print(error)
             }
         }
         
-        let newScaleFactor = minMaxZoom(pinch.scale * lastZoomFactor)
-        
-        switch pinch.state {
-        case .began: fallthrough
-        print("手勢開始")
-        case .changed: update(scale: newScaleFactor)
-        print("手勢變化")
-        case .ended:
-            lastZoomFactor = minMaxZoom(newScaleFactor)
-            update(scale: lastZoomFactor)
-            print("手勢結束")
-        default: break
-        }
+        //        // Return zoom value between the minimum and maximum zoom values
+        //        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+        //            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        //        }
+        //
+        //        func update(scale factor: CGFloat) {
+        //            do {
+        //                try device.lockForConfiguration()
+        //                defer { device.unlockForConfiguration() }
+        //                device.videoZoomFactor = factor
+        //            } catch {
+        //                print("\(error.localizedDescription)")
+        //            }
+        //        }
+        //
+        //        let newScaleFactor = minMaxZoom(pinch.scale * lastZoomFactor)
+        //
+        //        switch pinch.state {
+        //        case .began: fallthrough
+        //        print("手勢開始")
+        //        case .changed: update(scale: newScaleFactor)
+        //        print("手勢變化")
+        //        case .ended:
+        //            lastZoomFactor = minMaxZoom(newScaleFactor)
+        //            update(scale: lastZoomFactor)
+        //            print("手勢結束")
+        //        default: break
+        //        }
     }
     
     func setThumbNail(){
@@ -1161,7 +1228,7 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     
     //MARK:- Rotated
     
-    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
+    open func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
         
         layer.videoOrientation = orientation
         
@@ -1791,6 +1858,33 @@ extension ViewController{
     func capturePhoto(){
         
         if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo){
+            switch (UIDevice.current.orientation) {
+            case .portrait:
+                updatePreviewLayer(layer: videoConnection, orientation: .portrait)
+            
+                break
+                
+            case .landscapeRight:
+                updatePreviewLayer(layer: videoConnection, orientation: .landscapeLeft)
+            print("右邊橫躺")
+            
+                break
+                
+            case .landscapeLeft:
+                updatePreviewLayer(layer: videoConnection, orientation: .landscapeRight)
+            
+                break
+                
+            case .portraitUpsideDown:
+                updatePreviewLayer(layer: videoConnection, orientation: .portraitUpsideDown)
+            
+                break
+                
+            default:
+                break
+            
+            }
+//            videoConnection.videoOrientation = UIDevice.current.orientation
             stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: {(imageDataSampleBuffer, eror) in
                 let imageDate = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
                 
@@ -2256,38 +2350,41 @@ extension ViewController{
         guard let device = activeInput.device else { return }
         
         // Return zoom value between the minimum and maximum zoom values
-        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
-        }
+        //        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+        //            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        //        }
         
         func update(scale factor: CGFloat) {
-            do {
-                try device.lockForConfiguration()
-                defer { device.unlockForConfiguration() }
-                device.videoZoomFactor = factor
-            } catch {
-                print("\(error.localizedDescription)")
-            }
+            
         }
         
-        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
+        //        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
+        let maxZoomFactor = device.activeFormat.videoMaxZoomFactor
         i += 0.1
         print("跟你說這是ＩＩＩＩ",i)
         switch i {
         case  1.0: fallthrough
-        case 1.1...2.9: update(scale: newScaleFactor)
-        case 3.0:
+        case 1.1...maxZoomFactor - 0.1:
+            update(scale: i)
+        case maxZoomFactor:
             
-            lastZoomFactor = minMaxZoom(newScaleFactor)
-            update(scale: lastZoomFactor)
+            break
         default:
             
-            if i > 3.0 {
-                i = 3.0
+            if i < 1{
+                i = 1
             }
-            if i < 1.0{
-                i = 1.0
+            if i > maxZoomFactor{
+                i = maxZoomFactor
             }
+        }
+        
+        do {
+            try device.lockForConfiguration()
+            defer { device.unlockForConfiguration() }
+            device.videoZoomFactor = i
+        } catch {
+            print("\(error.localizedDescription)")
         }
     }
     
@@ -2296,30 +2393,41 @@ extension ViewController{
         guard let device = activeInput.device else { return }
         
         // Return zoom value between the minimum and maximum zoom values
-        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
-        }
+        //        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+        //            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        //        }
         
         func update(scale factor: CGFloat) {
-            do {
-                try device.lockForConfiguration()
-                defer { device.unlockForConfiguration() }
-                device.videoZoomFactor = factor
-            } catch {
-                print("\(error.localizedDescription)")
-            }
+            
         }
         
-        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
+        //        let newScaleFactor = minMaxZoom(i * lastZoomFactor)
+        let maxZoomFactor = device.activeFormat.videoMaxZoomFactor
+        
         i -= 0.1
         print("跟你說這是ＩＩＩＩ",i)
         switch i {
         case  1.0: fallthrough
-        case 1.1...2.9: update(scale: newScaleFactor)
-        case 3.0:
-            lastZoomFactor = minMaxZoom(newScaleFactor)
-            update(scale: lastZoomFactor)
-        default: break
+        case 1.1...maxZoomFactor - 1:
+            update(scale: i)
+        case maxZoomFactor:
+            break
+        default:
+            if i < 1{
+                i = 1
+            }
+            if i > maxZoomFactor{
+                i = maxZoomFactor
+            }
+        }
+        
+        do {
+            try device.lockForConfiguration()
+            defer { device.unlockForConfiguration() }
+            
+            device.videoZoomFactor = i
+        } catch {
+            print("\(error.localizedDescription)")
         }
     }
 }

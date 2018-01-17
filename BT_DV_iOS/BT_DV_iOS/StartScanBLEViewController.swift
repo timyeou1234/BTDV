@@ -15,6 +15,8 @@ class StartScanBLEViewController: UIViewController {
     
     @IBOutlet weak var searchingImageView: UIImageView!
     
+    var timer = Timer()
+    var isBackgroundScan = true
     var count = 0
     var isContinue = true
     let bleProtoclol = FuelProtocol()
@@ -23,8 +25,26 @@ class StartScanBLEViewController: UIViewController {
     var bleList = [BLEDetail]()
     
     func toConnect(){
-        count = 0
-        startRotate()
+        //        self.view.subviews.forEach({$0.layer.removeAllAnimations()})
+        //        self.view.layer.removeAllAnimations()
+        //        self.view.layoutIfNeeded()
+        for child in self.childViewControllers{
+            child.willMove(toParentViewController: nil)
+            child.view.removeFromSuperview()
+            child.removeFromParentViewController()
+        }
+        
+        if count > 0{
+            count = 7
+            let when = DispatchTime.now() + 1
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                self.count = 0
+                //                self.startRotate()
+            }
+        }else{
+            count = 0
+            
+        }
         bleList = [BLEDetail]()
         BLEObject.BLEobj.ble?.startScanTimeout(2)
         let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
@@ -37,6 +57,7 @@ class StartScanBLEViewController: UIViewController {
                 vc?.view.frame = self.view.frame
                 self.childController = vc!
                 self.view.addSubview((vc?.view)!)
+                self.count = 1
                 
             }else{
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "FailToScanViewController")
@@ -44,11 +65,13 @@ class StartScanBLEViewController: UIViewController {
                 vc?.didMove(toParentViewController: self)
                 vc?.view.frame = self.view.frame
                 self.view.addSubview((vc?.view)!)
+                self.count = 0
             }
             self.isContinue = false
+            
         }
-
-//        BLEObject.BLEobj.ble?.enableBluetooth()
+        
+        //        BLEObject.BLEobj.ble?.enableBluetooth()
         
         
     }
@@ -67,14 +90,19 @@ class StartScanBLEViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        BLEObject.BLEobj.ble = bleProtoclol
+        BLEObject.BLEobj.ble?.enableBluetooth()
         
-        
+        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.startScan), userInfo: nil, repeats: true)
+        startRotate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        BLEObject.BLEobj.ble = bleProtoclol
-        BLEObject.BLEobj.ble?.connectStateDelegate = self
-        BLEObject.BLEobj.ble?.dataResponseDelegate = self
+        if BLEObject.BLEobj.bleDetail?.bleUUID == nil{
+            BLEObject.BLEobj.ble = bleProtoclol
+            BLEObject.BLEobj.ble?.connectStateDelegate = self
+            BLEObject.BLEobj.ble?.dataResponseDelegate = self
+        }
         NotificationCenter.default.addObserver(forName: NSNotification.Name("toConnect"), object:BLEObject.BLEobj, queue: nil) {
             notification in
             BLEObject.BLEobj.ble = self.bleProtoclol
@@ -82,16 +110,52 @@ class StartScanBLEViewController: UIViewController {
             BLEObject.BLEobj.ble = self.bleProtoclol
             BLEObject.BLEobj.ble?.connectStateDelegate = self
             BLEObject.BLEobj.ble?.dataResponseDelegate = self
+            self.isBackgroundScan = false
             self.startAgain()
         }
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnectStartAgain"), object:BLEObject.BLEobj, queue: nil) {
             notification in
+            self.childController.willMove(toParentViewController: nil)
+            self.childController.view.removeFromSuperview()
+            self.childController.removeFromParentViewController()
             BLEObject.BLEobj.ble = self.bleProtoclol
             self.isShow = true
             BLEObject.BLEobj.ble = self.bleProtoclol
             BLEObject.BLEobj.ble?.connectStateDelegate = self
             BLEObject.BLEobj.ble?.dataResponseDelegate = self
+            self.isBackgroundScan = false
             self.startAgain()
+        }
+        
+        //MARK:6/13 change
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnectDontStartAgainOk"), object:BLEObject.BLEobj, queue: nil) { notification in
+            self.childController.willMove(toParentViewController: nil)
+            self.childController.view.removeFromSuperview()
+            self.childController.removeFromParentViewController()
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnect"), object:BLEObject.BLEobj, queue: nil) {
+            notification in
+            self.isBackgroundScan = true
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("updateComplete"), object: BLEObject.BLEobj, queue: nil) { notification in
+            self.isBackgroundScan = true
+        }
+        
+        
+    }
+    
+    func startScan(){
+        if isBackgroundScan{
+            let userDefaults = Foundation.UserDefaults.standard
+            if userDefaults.value(forKey: "BTDV") != nil{
+                BLEObject.BLEobj.ble = self.bleProtoclol
+                BLEObject.BLEobj.ble?.connectStateDelegate = self
+                BLEObject.BLEobj.ble?.dataResponseDelegate = self
+                BLEObject.BLEobj.ble?.startScanTimeout(3)
+            }
         }
     }
     
@@ -105,9 +169,11 @@ class StartScanBLEViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        count = 0
         if segue.identifier == "toConnecting"{
             let destinationController = segue.destination as! GetBlueToothInfoViewController
             destinationController.bleList = self.bleList
+            self.count = 1
         }
     }
     
@@ -136,10 +202,11 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
     }
     
     func onScanResultUUID(_ uuid: String!, name: String!, rssi: Int32) {
+        var nameHere = name
         if name.contains("FA00000"){
             let detail = BLEDetail()
             detail.bleUUID = uuid
-            let nameHere = name.replacingOccurrences(of: "FA00000", with: "Power Grip(") + ")"
+            nameHere = name.replacingOccurrences(of: "FA00000", with: "易拍客(") + ")"
             detail.bleName = nameHere
             detail.bleRssi = rssi
             bleList.append(detail)
@@ -150,26 +217,55 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
             detail.bleRssi = rssi
             bleList.append(detail)
         }
-    }
-    
-    func startRotate(){
-        if count < 6{
-            
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveLinear, animations: {
-                self.searchingImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            }) { finished in
-                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveLinear, animations: {
-                    self.searchingImageView.transform = CGAffineTransform(rotationAngle: 0)
-                }) { finished in
-                    self.count += 1
-                    self.startRotate()
-                }
+        
+        let userDefaults = Foundation.UserDefaults.standard
+        if userDefaults.value(forKey: "BTDV") != nil{
+            if userDefaults.value(forKey: "BTDV") as! String == uuid && isBackgroundScan{
+                BLEObject.BLEobj.bleDetail = BLEDetail()
+                BLEObject.BLEobj.bleDetail?.bleName = nameHere
+                BLEObject.BLEobj.bleDetail?.bleUUID = uuid
+                BLEObject.BLEobj.bleDetail?.bleRssi = rssi
+                
+                BLEObject.BLEobj.ble?.connectUUID(uuid)
+                self.isBackgroundScan = false
             }
         }
     }
     
+    func startRotate(){
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveLinear, animations: {
+            self.searchingImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        }) { finished in
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveLinear, animations: {
+                self.searchingImageView.transform = CGAffineTransform(rotationAngle: 0)
+            }) { finished in
+                self.count += 1
+                self.startRotate()
+            }
+        }
+    }
+    
+    func stopRotate(){
+        searchingImageView.stopAnimating()
+    }
+    
     func onConnectionState(_ state: ConnectState) {
-        
+        switch state {
+        case ScanFinish:
+            break
+        case Connected:
+            
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "PowerGripStatusViewController")
+            self.addChildViewController(vc!)
+            vc?.didMove(toParentViewController: self)
+            vc?.view.frame = self.view.frame
+            self.view.addSubview((vc?.view)!)
+            
+        case Disconnect, ConnectTimeout:
+            break
+        default:
+            break
+        }
     }
     
     func onResponsePressed(_ keyboardCode: Int32) {

@@ -13,6 +13,7 @@ import iOSDFULibrary
 
 class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
     
+    var scanSuccess = false
     var timer: Timer!
     var currentIndex = 1
     
@@ -41,14 +42,27 @@ class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        //        NotificationCenter.default.post(name: NSNotification.Name("updating"), object: BLEObject.BLEobj)
         BLEObject.BLEobj.ble?.setUpgradeMode()
         
         let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
-        self.centralManager!.scanForPeripherals(withServices: [
-            PrepareUpdateViewController.legacyDfuServiceUUID,
-            PrepareUpdateViewController.secureDfuServiceUUID,
-            PrepareUpdateViewController.deviceInfoServiceUUID])
+            self.centralManager!.scanForPeripherals(withServices: [
+                PrepareUpdateViewController.legacyDfuServiceUUID,
+                PrepareUpdateViewController.secureDfuServiceUUID,
+                PrepareUpdateViewController.deviceInfoServiceUUID])
+            
+            let whenScan = DispatchTime.now() + 70
+            DispatchQueue.main.asyncAfter(deadline: whenScan) {
+                if !self.scanSuccess{
+                    self.centralManager?.stopScan()
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "UpdateFailViewController")
+                    self.addChildViewController(vc!)
+                    vc?.didMove(toParentViewController: self)
+                    vc?.view.frame = self.view.frame
+                    self.view.addSubview((vc?.view)!)
+                }
+            }
         }
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(PrepareUpdateViewController.changeImage), userInfo: nil, repeats: true)
     }
@@ -68,7 +82,7 @@ class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
             downloadImage.image = UIImage(named: imageName)
         }
     }
-
+    
     //MARK: - UIViewController implementation
     required init?(coder aDecoder: NSCoder) {
         discoveredPeripherals   = [CBPeripheral]()
@@ -77,7 +91,7 @@ class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
         centralManager = CBCentralManager(delegate: self, queue: nil) // The delegate must be set in init in order to work on iOS 8
         self.centralManager!.delegate = self
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -94,7 +108,7 @@ class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
         // Ignore dupliactes.
         // They will not be reported in a single scan, as we scan without CBCentralManagerScanOptionAllowDuplicatesKey flag,
         // but after returning from DFU view another scan will be started.
-       // guard discoveredPeripherals.contains(peripheral) == false else { return }
+        // guard discoveredPeripherals.contains(peripheral) == false else { return }
         
         if advertisementData[CBAdvertisementDataServiceUUIDsKey] != nil {
             
@@ -108,7 +122,7 @@ class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
                 print("Found Secure Peripheral: \(name)")
                 discoveredPeripherals.append(peripheral)
                 securePeripheralMarkers.append(true)
-               
+                
             } else if advertisedUUIDstring.uuidString == legacyUUIDString {
                 print("Found Legacy Peripheral: \(name)")
                 discoveredPeripherals.append(peripheral)
@@ -130,16 +144,16 @@ class PrepareUpdateViewController: UIViewController ,CBCentralManagerDelegate{
             self.view.addSubview((dfuViewController.view)!)
         }
     }
-
-
+    
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

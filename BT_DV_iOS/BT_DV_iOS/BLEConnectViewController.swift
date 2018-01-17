@@ -26,15 +26,15 @@ class BLEConnectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        BLEObject.BLEobj.ble?.connectStateDelegate = self
+        BLEObject.BLEobj.ble?.dataResponseDelegate = self
+        BLEObject.BLEobj.ble?.connectUUID(BLEObject.BLEobj.bleDetail?.bleUUID)
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
-        BLEObject.BLEobj.ble?.connectStateDelegate = self
-        BLEObject.BLEobj.ble?.dataResponseDelegate = self
-        BLEObject.BLEobj.ble?.connectUUID(BLEObject.BLEobj.bleDetail?.bleUUID)
-        count = 0
+               count = 0
         startRotate()
         
     }

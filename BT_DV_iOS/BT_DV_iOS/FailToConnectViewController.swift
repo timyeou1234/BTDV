@@ -9,7 +9,7 @@
 import UIKit
 
 class FailToConnectViewController: UIViewController {
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         
@@ -18,7 +18,12 @@ class FailToConnectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("FailConnectDontStartAgain"), object:BLEObject.BLEobj, queue: nil) { notification in
+            let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                NotificationCenter.default.post(name: NSNotification.Name("FailConnectDontStartAgainOk"), object: BLEObject.BLEobj)
+            }
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -29,27 +34,30 @@ class FailToConnectViewController: UIViewController {
         BLEObject.BLEobj.state = nil
         let bleProtoclol = FuelProtocol()
         BLEObject.BLEobj.ble = bleProtoclol
-        NotificationCenter.default.post(name: NSNotification.Name("FailConnect"), object: BLEObject.BLEobj)
-        let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            NotificationCenter.default.post(name: NSNotification.Name("FailConnectStartAgain"), object: BLEObject.BLEobj)
+        let appl = UIApplication.shared.delegate as! AppDelegate
+        if appl.isFromUpdate == nil{
+            NotificationCenter.default.post(name: NSNotification.Name("FailConnect"), object: BLEObject.BLEobj)
+            let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                NotificationCenter.default.post(name: NSNotification.Name("FailConnectDontStartAgain"), object: BLEObject.BLEobj)
+            }
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

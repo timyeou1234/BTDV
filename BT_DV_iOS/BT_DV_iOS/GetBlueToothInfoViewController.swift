@@ -20,13 +20,6 @@ class GetBlueToothInfoViewController: UIViewController {
         self.view.removeFromSuperview()
         NotificationCenter.default.post(name: NSNotification.Name("toConnect"), object: BLEObject.BLEobj)
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.willMove(toParentViewController: nil)
-        self.view.removeFromSuperview()
-        self.removeFromParentViewController()
-        
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,10 +57,6 @@ extension GetBlueToothInfoViewController:UITableViewDelegate,UITableViewDataSour
         return 1
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return bleList.count
@@ -77,20 +66,22 @@ extension GetBlueToothInfoViewController:UITableViewDelegate,UITableViewDataSour
      
      }
      */
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "選擇BTDV"
-        
-    }
-    
-    func handleTap(gestureRecognizer: UIGestureRecognizer){
-        
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BLEListTableViewCell", for: indexPath) as! BleListNameTableViewCell
         let detail = bleList[indexPath.row]
         cell.bleNameLabel.text = detail.bleName
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        let cell  = tableView.cellForRow(at: indexPath)
+        cell!.contentView.backgroundColor = UIColor(colorLiteralRed: 188/255, green: 255/255, blue: 41/255, alpha: 1)
+    }
+    
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        let cell  = tableView.cellForRow(at: indexPath)
+        cell!.contentView.backgroundColor = .clear
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

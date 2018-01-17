@@ -25,14 +25,11 @@ class PowerGripStatusViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        BLEObject.BLEobj.ble?.connectStateDelegate = self
-        BLEObject.BLEobj.ble?.dataResponseDelegate = self
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-
+        
+        
+        let userDefaults = Foundation.UserDefaults.standard
+        userDefaults.set(BLEObject.BLEobj.bleDetail?.bleUUID, forKey: "BTDV")
+        
         softVersionLabel.text = BLEObject.BLEobj.ble?.getFwVersion()
         powerGripNameLabel.text = BLEObject.BLEobj.bleDetail?.bleName
         hwVersion.text = BLEObject.BLEobj.ble?.getHwVersion()
@@ -41,6 +38,12 @@ class PowerGripStatusViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name("postBatteryOnly"), object: BLEObject.BLEobj)
         gameTimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
 
+        // Do any additional setup after loading the view.
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        BLEObject.BLEobj.ble?.connectStateDelegate = self
+        BLEObject.BLEobj.ble?.dataResponseDelegate = self
     }
     
     func runTimedCode() {

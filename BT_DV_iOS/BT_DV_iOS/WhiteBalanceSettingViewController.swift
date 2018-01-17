@@ -46,10 +46,6 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
         return 1
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return whiteBalanceName.count
     }
@@ -58,10 +54,6 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
      
      }
      */
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "白平衡"
-        
-    }
 /*
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
@@ -72,11 +64,6 @@ extension WhiteBalanceSettingViewController: UITableViewDataSource,UITableViewDe
     }
   */
     
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = UIColor.white
-    }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         

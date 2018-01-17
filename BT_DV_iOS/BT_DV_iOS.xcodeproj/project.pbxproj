@@ -48,6 +48,7 @@
 		6B196C5E1EE691EA00FB1CAA /* BleListNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B196C5C1EE691EA00FB1CAA /* BleListNameTableViewCell.xib */; };
 		6B196C601EE69FDF00FB1CAA /* FA00000-V17.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6B196C5F1EE69FDF00FB1CAA /* FA00000-V17.zip */; };
 		6B1CCF711ECAA5FD0067D4D3 /* updateFirmwareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1CCF701ECAA5FD0067D4D3 /* updateFirmwareViewController.swift */; };
+		6B21AFC11EF2AD8200F1EF87 /* FA00000-V18.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6B21AFC01EF2AD8200F1EF87 /* FA00000-V18.zip */; };
 		6B2F66ED1EC1F1ED003D775E /* CommProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66E71EC1F1ED003D775E /* CommProcess.m */; };
 		6B2F66EE1EC1F1ED003D775E /* FuelProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66E91EC1F1ED003D775E /* FuelProtocol.m */; };
 		6B2F66EF1EC1F1ED003D775E /* Function.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F66EB1EC1F1ED003D775E /* Function.m */; };
@@ -111,6 +112,7 @@
 		6B196C5C1EE691EA00FB1CAA /* BleListNameTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BleListNameTableViewCell.xib; sourceTree = "<group>"; };
 		6B196C5F1EE69FDF00FB1CAA /* FA00000-V17.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "FA00000-V17.zip"; sourceTree = "<group>"; };
 		6B1CCF701ECAA5FD0067D4D3 /* updateFirmwareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = updateFirmwareViewController.swift; sourceTree = "<group>"; };
+		6B21AFC01EF2AD8200F1EF87 /* FA00000-V18.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "FA00000-V18.zip"; sourceTree = "<group>"; };
 		6B2F66E61EC1F1ED003D775E /* CommProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommProcess.h; sourceTree = "<group>"; };
 		6B2F66E71EC1F1ED003D775E /* CommProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommProcess.m; sourceTree = "<group>"; };
 		6B2F66E81EC1F1ED003D775E /* FuelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelProtocol.h; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				6B62AFF61ECAEBC9003D8D2B /* DFUViewController.swift */,
 				6B196C5F1EE69FDF00FB1CAA /* FA00000-V17.zip */,
 				6B62AFF81ECAFA8C003D8D2B /* FA00000-V16A.zip */,
+				6B21AFC01EF2AD8200F1EF87 /* FA00000-V18.zip */,
 				6B62AFFA1ECB37A6003D8D2B /* UpdateSuccessViewController.swift */,
 				6B62AFFC1ECB37BA003D8D2B /* UpdateFailViewController.swift */,
 			);
@@ -358,6 +361,7 @@
 				6B196C601EE69FDF00FB1CAA /* FA00000-V17.zip in Resources */,
 				0487AA3E1E8A3138009822EE /* Assets.xcassets in Resources */,
 				042B642A1EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib in Resources */,
+				6B21AFC11EF2AD8200F1EF87 /* FA00000-V18.zip in Resources */,
 				042B642E1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib in Resources */,
 				04276A661EB8827900F224B7 /* BLEListTableViewCell.xib in Resources */,
 				0487AA3C1E8A3138009822EE /* Main.storyboard in Resources */,

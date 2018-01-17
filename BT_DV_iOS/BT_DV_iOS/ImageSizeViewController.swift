@@ -43,30 +43,17 @@ extension ImageSizeViewController: UITableViewDelegate, UITableViewDataSource{
         return 1
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return imageSizeDetail.count
     }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "影像尺寸"
-        
-    }
+   
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = UIColor.white
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let v = UITableViewHeaderFooterView()
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        v.addGestureRecognizer(tapRecognizer)
-        return v
-    }
     
     
     func handleTap(gestureRecognizer: UIGestureRecognizer)

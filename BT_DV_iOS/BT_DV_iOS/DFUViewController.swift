@@ -44,7 +44,7 @@ class DFUViewController: UIViewController, CBCentralManagerDelegate, CBPeriphera
     func getBundledFirmwareURLHelper() -> URL? {
         if let _ = secureDFU {
             
-            return Bundle.main.url(forResource: "FA00000-V17", withExtension: "zip")!
+            return Bundle.main.url(forResource: "FA00000-V18", withExtension: "zip")!
             
         } else {
             // We need to connect and discover services. The device does not have to advertise with the service UUID.
@@ -171,6 +171,11 @@ class DFUViewController: UIViewController, CBCentralManagerDelegate, CBPeriphera
     }
     
     func dfuError(_ error: DFUError, didOccurWithMessage message: String) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "UpdateFailViewController")
+        self.addChildViewController(vc!)
+        vc?.didMove(toParentViewController: self)
+        vc?.view.frame = self.view.frame
+        self.view.addSubview((vc?.view)!)
     }
     
     //MARK: - DFUProgressDelegate

@@ -10,10 +10,13 @@ import UIKit
 
 class BLEObject: NSObject {
     static let BLEobj = BLEObject()
+    
+    
+//    let mBtManager = BtManager()
     var ble:FuelProtocol?
     var state:Bool?
     var bleDetail:BLEDetail?
-    var manager:BtManager?
+//    var manager:BtManager?
     var batteryInfo:Int32?
     var command:Int32?
 }

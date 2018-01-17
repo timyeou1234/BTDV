@@ -52,10 +52,7 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
         return senceNameArray.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "場景選擇"
-        
-    }
+   
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
@@ -65,14 +62,7 @@ extension SenceFromSettingViewController: UITableViewDataSource,UITableViewDeleg
         return v
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
-    }
     
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = UIColor.white
-    }
     
     /*
      func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

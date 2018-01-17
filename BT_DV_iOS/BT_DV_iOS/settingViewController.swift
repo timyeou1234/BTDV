@@ -206,7 +206,16 @@ extension settingViewController: UITableViewDelegate, UITableViewDataSource{
             self.view.addSubview((vc?.view)!)
 
         }else if indexPath.row == 3 && sendTag == 10{
-            let vc = storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            if UserDefaults.standard.value(forKey: "TapOrNot") == nil{
+                
+            }else{
+                if UserDefaults.standard.value(forKey: "TapOrNot") as! Bool{
+                    UserDefaults.standard.set(false, forKey: "TapOrNot")
+                }else{
+                    UserDefaults.standard.set(true, forKey: "TapOrNot")
+                }
+                tableView.reloadData()
+            }
         }else if indexPath.row == 0 && sendTag == 20{
             let vc = storyboard?.instantiateViewController(withIdentifier: "ImageSizeViewController")
             

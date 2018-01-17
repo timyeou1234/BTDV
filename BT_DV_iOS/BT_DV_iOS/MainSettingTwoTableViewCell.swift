@@ -32,7 +32,7 @@ class MainSettingTwoTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        tapForTakePhoto.setOn(false, animated: true)
+//        tapForTakePhoto.setOn(false, animated: true)
   //      settingNameTwoLabel.text = ""
     }
  

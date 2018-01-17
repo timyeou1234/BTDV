@@ -13,7 +13,7 @@ import MobileCoreServices
 import AVKit
 import AVFoundation
 
-class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate{
     
     var isFirst = true
     
@@ -21,6 +21,7 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
     var videoUrl:NSURL?
     var videoAssetUrl:NSURL?
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var photoImage: UIImageView!
     
@@ -58,10 +59,17 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 6.0
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return photoImage
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        scrollView.zoomScale = 1
         if isFirst{
             isFirst = false
             openLibrary()
@@ -87,7 +95,12 @@ class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func pop(){
-        self.dismiss(animated: false, completion: nil)
+        if let vc = self.parent as? ViewController{
+            vc.isGalery = false
+        }
+        self.willMove(toParentViewController: self)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
