@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 import CoreBluetooth
+import MapKit
 
 
 let CaptureModePhoto = 0
@@ -19,7 +20,9 @@ protocol MainViewControllerDelegate {
     func didButton()
 }
 
-class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate, ConnectStateDelegate{
+class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIImagePickerControllerDelegate, ConnectStateDelegate, CLLocationManagerDelegate{
+    
+    var locationManager = CLLocationManager()
     
     var isGalery = false
     var gameTimer: Timer!
@@ -335,7 +338,10 @@ class ViewController: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UI
     //MARK:ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        UIApplication.shared.isIdleTimerDisabled = true
         self.senceTableView.isHidden = true
         self.flashLightTableView.isHidden = true
         self.settingTableView.isHidden = true
@@ -1907,7 +1913,10 @@ extension ViewController{
     func savePhotoToLibrary(_ image: UIImage) {
         let photoLibrary = PHPhotoLibrary.shared()
         photoLibrary.performChanges({
-            PHAssetChangeRequest.creationRequestForAsset(from: image)
+            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+            if let location = self.locationManager.location{
+                creationRequest.location = location
+            }
         }) { (success: Bool, error: Error?) -> Void in
             if success {
                 // Set thumbnail

@@ -17,12 +17,33 @@ class settingViewController: UIViewController {
     var selectedIndex:IndexPath?
     var getTapOrNot = false
     var sendTag = 10
-    let settingNameArrayOne = ["場景選擇","白平衡","曝光補償"]
-    var settingNameArrayTwo = ["觸碰拍攝"]
+    //MARK:  Need Localization
     
-    var senceNameArray = ["自動","行進中","人像","風景","夜間","夜間人像","劇院","海灘","雪景","夕照","防震","煙火","運動","派對","燭光"]
-    var senceSetting = "自動"
-    var whiteBalanceSetting = "自動ＡＷＢ"
+    let settingNameArrayOne = [
+        NSLocalizedString("settingNameArrayOne_SceneSelect", comment: "場景選擇"),
+        NSLocalizedString("settingNameArrayOne_Whitebalance", comment: "白平衡"),
+        NSLocalizedString("settingNameArrayOne_expose", comment: "曝光補償")]
+    var settingNameArrayTwo = [NSLocalizedString("settingNameArrayOne_Touch", comment: "觸碰拍攝")]
+    
+    var senceNameArray = [
+        NSLocalizedString("flashLightNameArray_Auto", comment: "自動"),
+        NSLocalizedString("senceNameArray_Move", comment: "行進中"),
+        NSLocalizedString("senceNameArray_Portrait", comment: "人像"),
+        NSLocalizedString("senceNameArray_Landscape", comment:"風景"),
+        NSLocalizedString("senceNameArray_Night", comment:"夜間"),
+        NSLocalizedString("senceNameArray_NightPortrait", comment:"夜間人像"),
+        NSLocalizedString("senceNameArray_Cinema", comment:"劇院"),
+        NSLocalizedString("senceNameArray_Beach", comment:"海灘"),
+        NSLocalizedString("senceNameArray_Snow", comment:"雪景") ,
+        NSLocalizedString("senceNameArray_Sunset", comment:"夕照"),
+        NSLocalizedString("senceNameArray_PreventShake", comment:"防震"),
+        NSLocalizedString("senceNameArray_Fireworks", comment:"煙火"),
+        NSLocalizedString("senceNameArray_Moving", comment:"運動"),
+        NSLocalizedString("senceNameArray_Party", comment:"派對"),
+        NSLocalizedString("senceNameArray_Candle", comment:"燭光")]
+    
+    var senceSetting = NSLocalizedString("flashLightNameArray_Auto", comment: "自動")
+    var whiteBalanceSetting = "\(NSLocalizedString("flashLightNameArray_Auto", comment: "自動"))ＡＷＢ"
     var evValue = "0"
     
     var imageSize = "800萬(3264*2448)"
@@ -41,6 +62,7 @@ class settingViewController: UIViewController {
     @IBOutlet weak var cameraSettingButton: UIButton!
     @IBOutlet weak var qualitySettingButton: UIButton!
     @IBOutlet weak var settingTableView: UITableView!
+    @IBOutlet weak var toolButton: UIButton!
     
     @IBAction func cameraAction(_ sender: Any) {
         setSelectedButton(sender as! UIButton)
@@ -54,10 +76,16 @@ class settingViewController: UIViewController {
         self.settingTableView.reloadData()
     }
     
+    @IBAction func toolAction(_ sender: Any) {
+        setSelectedButton(toolButton)
+        sendTag = 30
+        self.settingTableView.reloadData()
+    }
     
     func setSelectedButton(_ button:UIButton){
         cameraSettingButton.isSelected = false
         qualitySettingButton.isSelected = false
+        toolButton.isSelected = false
         button.isSelected = true
     }
     
@@ -67,10 +95,29 @@ class settingViewController: UIViewController {
         self.settingTableView.dataSource = self
         self.settingTableView.separatorStyle = .none
         
+        senceNameArray = [
+            NSLocalizedString("flashLightNameArray_Auto", comment: "自動"),
+            NSLocalizedString("senceNameArray_Move", comment: "行進中"),
+            NSLocalizedString("senceNameArray_Portrait", comment: "人像"),
+            NSLocalizedString("senceNameArray_Landscape", comment:"風景"),
+            NSLocalizedString("senceNameArray_Night", comment:"夜間"),
+            NSLocalizedString("senceNameArray_NightPortrait", comment:"夜間人像"),
+            NSLocalizedString("senceNameArray_Cinema", comment:"劇院"),
+            NSLocalizedString("senceNameArray_Beach", comment:"海灘"),
+            NSLocalizedString("senceNameArray_Snow", comment:"雪景") ,
+            NSLocalizedString("senceNameArray_Sunset", comment:"夕照"),
+            NSLocalizedString("senceNameArray_PreventShake", comment:"防震"),
+            NSLocalizedString("senceNameArray_Fireworks", comment:"煙火"),
+            NSLocalizedString("senceNameArray_Moving", comment:"運動"),
+            NSLocalizedString("senceNameArray_Party", comment:"派對"),
+            NSLocalizedString("senceNameArray_Candle", comment:"燭光")]
+        
         cameraSettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting1_1"), for: .normal)
         cameraSettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting1_2"), for: .selected)
         qualitySettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting2_1"), for: .normal)
         qualitySettingButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting2_2"), for: .selected)
+        toolButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting3_1"), for: .normal)
+        toolButton.setImage(#imageLiteral(resourceName: "btn_setting_camera_setting3_2"), for: .selected)
 
         //註冊所有的xib
         let nib = UINib(nibName: "MainSettingTableViewCell", bundle: nil)

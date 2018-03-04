@@ -110,7 +110,7 @@ extension ImformationViewController:UITableViewDelegate, UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        //MARK:  Need Localization
         let cell = tableView.dequeueReusableCell(withIdentifier: "senceTableViewCell", for: indexPath) as? senceTableViewCell
         cell?.senceIcon.image = nil
         cell?.selectionStyle = .none
@@ -118,18 +118,18 @@ extension ImformationViewController:UITableViewDelegate, UITableViewDataSource{
         switch indexPath.row {
         case 0:
             if let name = BLEObject.BLEobj.bleDetail?.bleName{
-                cell?.senceName.text = "名稱 \(name)"
+                cell?.senceName.text = "\(NSLocalizedString("BLE_Name", comment:"名稱")) \(name)"
             }
             cell?.selectionStyle = .none
             
         case 1:
             if let name = BLEObject.BLEobj.ble?.getHwVersion(){
-                cell?.senceName.text = "硬體版本 \(name)"
+                cell?.senceName.text = "\(NSLocalizedString("BLE_HDVer", comment:"硬體版本")) \(name)"
             }
             cell?.selectionStyle = .none
         case 2:
             if let name = BLEObject.BLEobj.ble?.getFwVersion(){
-                cell?.senceName.text = "韌體版本 \(name)"
+                cell?.senceName.text = "\(NSLocalizedString("BLE_SDVer", comment:"韌體版本")) \(name)"
             }
             if BLEObject.BLEobj.ble?.getFwVersion() != fwVersion{
                 cell?.senceIcon.image = #imageLiteral(resourceName: "btn_downlaod_1")
@@ -137,11 +137,11 @@ extension ImformationViewController:UITableViewDelegate, UITableViewDataSource{
             cell?.selectionStyle = .gray
         case 3:
             if let battery = BLEObject.BLEobj.ble?.getBattery(){
-                cell?.senceName.text = "電源 \(battery) %"
+                cell?.senceName.text = "\(NSLocalizedString("BLE_Battery", comment:"電源")) \(battery) %"
             }
             cell?.selectionStyle = .none
         default:
-            cell?.senceName.text = "關閉BTDV"
+            cell?.senceName.text = "\(NSLocalizedString("BLE_TurnOff", comment:"關閉"))BTDV"
             cell?.selectionStyle = .gray
         }
         if (cell?.isSelected)!{

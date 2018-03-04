@@ -12,7 +12,12 @@ class PowerControlViewController: UIViewController {
     
     @IBOutlet weak var powerControlDetailTableView: UITableView!
     
-    var powerControlDetail = ["關","2分鐘後自動關機","5分鐘後自動關機"]
+    //MARK:  Need Localization
+    
+    var powerControlDetail = [
+        NSLocalizedString("powerControlDetail_Off", comment: "關"),
+        NSLocalizedString("powerControlDetail_2", comment: "2分鐘後自動關機"),
+        NSLocalizedString("powerControlDetail_5", comment: "5分鐘後自動關機")]
     
     @IBAction func dismissAction(_ sender: Any) {
         self.willMove(toParentViewController: self)

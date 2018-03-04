@@ -10,7 +10,16 @@ import UIKit
 
 class WhiteBalanceSettingViewController: UIViewController {
     
-    var whiteBalanceName = ["自動(AWB)","陰暗","陰天","晴天","日光燈","鎢絲燈","黃昏","暖光燈"]
+    //MARK:  Need Localization
+    var whiteBalanceName = [
+        "\(NSLocalizedString("flashLightNameArray_Auto", comment: "自動"))ＡＷＢ",
+        NSLocalizedString("whiteBalanceName_Dark", comment:"陰暗"),
+        NSLocalizedString("whiteBalanceName_Cloudy", comment:"陰天"),
+        NSLocalizedString("whiteBalanceName_Sun", comment:"晴天"),
+        NSLocalizedString("whiteBalanceName_LightBall", comment:"日光燈"),
+        NSLocalizedString("whiteBalanceName_LightBallOss", comment:"鎢絲燈"),
+        NSLocalizedString("whiteBalanceName_Sunset", comment:"黃昏"),
+        NSLocalizedString("whiteBalanceName_WarnLight", comment:"暖光燈")]
     var whiteBalanceValue = ["btn_wb_awb_2","btn_wb_shade_1","btn_wb_cloudy_1","btn_wb_daylight_1","btn_wb_fluorescent_1","btn_wb_incandescent_1","btn_wb_twilight_1","btn_wb_warm_fluorescent_1"]
 
     @IBOutlet weak var whiteBalanceTableView: UITableView!

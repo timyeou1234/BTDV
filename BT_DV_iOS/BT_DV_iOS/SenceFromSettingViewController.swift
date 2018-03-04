@@ -9,7 +9,25 @@
 import UIKit
 
 class SenceFromSettingViewController: UIViewController {
-    var senceNameArray = ["自動","行進中","人像","風景","夜間","夜間人像","劇院","海灘","雪景","夕照","防震","煙火","運動","派對","燭光"]
+    
+    //MARK:  Need Localization
+    var senceNameArray = [
+        NSLocalizedString("flashLightNameArray_Auto", comment: "自動"),
+        NSLocalizedString("senceNameArray_Move", comment: "行進中"),
+        NSLocalizedString("senceNameArray_Portrait", comment: "人像"),
+        NSLocalizedString("senceNameArray_Landscape", comment:"風景"),
+        NSLocalizedString("senceNameArray_Night", comment:"夜間"),
+        NSLocalizedString("senceNameArray_NightPortrait", comment:"夜間人像"),
+        NSLocalizedString("senceNameArray_Cinema", comment:"劇院"),
+        NSLocalizedString("senceNameArray_Beach", comment:"海灘"),
+        NSLocalizedString("senceNameArray_Snow", comment:"雪景") ,
+        NSLocalizedString("senceNameArray_Sunset", comment:"夕照"),
+        NSLocalizedString("senceNameArray_PreventShake", comment:"防震"),
+        NSLocalizedString("senceNameArray_Fireworks", comment:"煙火"),
+        NSLocalizedString("senceNameArray_Moving", comment:"運動"),
+        NSLocalizedString("senceNameArray_Party", comment:"派對"),
+        NSLocalizedString("senceNameArray_Candle", comment:"燭光")]
+    
     let sencePicArray = ["btn_scene_auto_3","btn_scene_action_1","btn_scene_portrait_1","btn_scene_landscape_1","btn_scene_night_1","btn_scene_night_portrait_1","btn_scene_theatre_1","btn_scene_beach_1","btn_scene_snow_1","btn_scene_sunset_1","btn_scene_steady_photo_1","btn_scene_firework_1","btn_scene_sports_1","btn_scene_party_1","btn_scene_candlelight_1"]
     let appl = UIApplication.shared.delegate as! AppDelegate
 

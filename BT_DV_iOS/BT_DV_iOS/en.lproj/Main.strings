@@ -1,0 +1,120 @@
+
+/* Class = "UIButton"; normalTitle = "切換至其他BTDV"; ObjectID = "0JR-wj-Guv"; */
+"0JR-wj-Guv.normalTitle" = "切換至其他BTDV";
+
+/* Class = "UIButton"; normalTitle = "確認"; ObjectID = "1wq-Cs-G92"; */
+"1wq-Cs-G92.normalTitle" = "確認";
+
+/* Class = "UILabel"; text = "選擇BTDV"; ObjectID = "4L6-MT-uat"; */
+"4L6-MT-uat.text" = "選擇BTDV";
+
+/* Class = "UILabel"; text = "場景選擇"; ObjectID = "4dW-oB-agE"; */
+"4dW-oB-agE.text" = "場景選擇";
+
+/* Class = "UIButton"; normalTitle = "取消"; ObjectID = "4fy-7k-JMM"; */
+"4fy-7k-JMM.normalTitle" = "取消";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "8DR-EO-c3d"; */
+"8DR-EO-c3d.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "更新失敗"; ObjectID = "8hV-8b-uNP"; */
+"8hV-8b-uNP.text" = "更新失敗";
+
+/* Class = "UILabel"; text = "EV"; ObjectID = "9HN-g5-hk8"; */
+"9HN-g5-hk8.text" = "EV";
+
+/* Class = "UILabel"; text = "連線失敗"; ObjectID = "Azb-pk-flU"; */
+"Azb-pk-flU.text" = "連線失敗";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "DEt-KV-nPj"; */
+"DEt-KV-nPj.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "下載韌體進行更新"; ObjectID = "Fcj-pK-Z1y"; */
+"Fcj-pK-Z1y.text" = "下載韌體進行更新";
+
+/* Class = "UILabel"; text = "更新中"; ObjectID = "GZG-lg-jQw"; */
+"GZG-lg-jQw.text" = "更新中";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "JN6-0f-tJn"; */
+"JN6-0f-tJn.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Power Grid"; ObjectID = "L2P-Uf-1Fe"; */
+"L2P-Uf-1Fe.text" = "Power Grid";
+
+/* Class = "UILabel"; text = "影像尺寸"; ObjectID = "Lqv-Kd-arn"; */
+"Lqv-Kd-arn.text" = "影像尺寸";
+
+/* Class = "UIButton"; normalTitle = "知道了"; ObjectID = "MQS-tV-piV"; */
+"MQS-tV-piV.normalTitle" = "知道了";
+
+/* Class = "UILabel"; text = "更新完成"; ObjectID = "NYX-Iu-RmU"; */
+"NYX-Iu-RmU.text" = "更新完成";
+
+/* Class = "UILabel"; text = "確定更新裝置韌體？"; ObjectID = "OHg-v3-JVk"; */
+"OHg-v3-JVk.text" = "確定更新裝置韌體？";
+
+/* Class = "UILabel"; text = "白平衡"; ObjectID = "PuD-h0-7bc"; */
+"PuD-h0-7bc.text" = "白平衡";
+
+/* Class = "UIButton"; normalTitle = "開始使用"; ObjectID = "QzW-Nm-xUF"; */
+"QzW-Nm-xUF.normalTitle" = "開始使用";
+
+/* Class = "UILabel"; text = "場景選擇"; ObjectID = "Rc5-Ij-H9K"; */
+"Rc5-Ij-H9K.text" = "場景選擇";
+
+/* Class = "UIButton"; normalTitle = "再次掃描"; ObjectID = "XNu-9N-nSv"; */
+"XNu-9N-nSv.normalTitle" = "再次掃描";
+
+/* Class = "UILabel"; text = "1.0"; ObjectID = "ZzS-bF-GRe"; */
+"ZzS-bF-GRe.text" = "1.0";
+
+/* Class = "UILabel"; text = "BTDV"; ObjectID = "c9l-LS-XdT"; */
+"c9l-LS-XdT.text" = "BTDV";
+
+/* Class = "UIButton"; normalTitle = "知道了"; ObjectID = "dEf-az-NDy"; */
+"dEf-az-NDy.normalTitle" = "知道了";
+
+/* Class = "UILabel"; text = "名稱"; ObjectID = "dlJ-ML-IhL"; */
+"dlJ-ML-IhL.text" = "名稱";
+
+/* Class = "UIButton"; normalTitle = "再次掃描"; ObjectID = "doZ-XK-Ppt"; */
+"doZ-XK-Ppt.normalTitle" = "再次掃描";
+
+/* Class = "UILabel"; text = "曝光補償"; ObjectID = "eH9-0W-VZ6"; */
+"eH9-0W-VZ6.text" = "曝光補償";
+
+/* Class = "UILabel"; text = "硬體版本"; ObjectID = "ghi-tO-vIt"; */
+"ghi-tO-vIt.text" = "硬體版本";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "htU-om-vcB"; */
+"htU-om-vcB.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "掃描中 請確認電量"; ObjectID = "hw6-dc-YTJ"; */
+"hw6-dc-YTJ.text" = "掃描中 請確認電量";
+
+/* Class = "UILabel"; text = "連線中"; ObjectID = "kO0-um-Sq7"; */
+"kO0-um-Sq7.text" = "連線中";
+
+/* Class = "UILabel"; text = "1.0"; ObjectID = "nW6-50-9oP"; */
+"nW6-50-9oP.text" = "1.0";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "pGT-E1-a7p"; */
+"pGT-E1-a7p.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "韌體版本"; ObjectID = "pNw-6D-AKS"; */
+"pNw-6D-AKS.text" = "韌體版本";
+
+/* Class = "UILabel"; text = "設定"; ObjectID = "rX5-Wz-cLF"; */
+"rX5-Wz-cLF.text" = "設定";
+
+/* Class = "UILabel"; text = "注意：請確認裝置與手機的電量足夠，在更新過程中請勿斷電以免造成損壞"; ObjectID = "thd-VN-Mix"; */
+"thd-VN-Mix.text" = "注意：請確認裝置與手機的電量足夠，在更新過程中請勿斷電以免造成損壞";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "wvX-nk-rjC"; */
+"wvX-nk-rjC.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "+3"; ObjectID = "xhz-k6-23v"; */
+"xhz-k6-23v.text" = "+3";
+
+/* Class = "UILabel"; text = "閃光燈"; ObjectID = "yDf-vX-DMk"; */
+"yDf-vX-DMk.text" = "閃光燈";

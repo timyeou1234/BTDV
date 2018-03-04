@@ -15,7 +15,8 @@ class flashLightViewController: UIViewController {
     var valueIGot = ""
     @IBOutlet weak var flashLightTableViewDetail: UITableView!
     
-    let  flashLightNameArray = ["自動","補光閃光燈","消除紅眼","關","手電筒模式"]
+    //MARK:  Need Localization
+    let  flashLightNameArray = [NSLocalizedString("flashLightNameArray_Auto", comment: "自動"),NSLocalizedString("flashLightNameArray_MoreFlash", comment: "補光閃光燈"),NSLocalizedString("flashLightNameArray_NoRedEye", comment: "消除紅眼"),NSLocalizedString("flashLightNameArray_Off", comment: "關"),NSLocalizedString("flashLightNameArray_FlashLight", comment: "手電筒模式")]
     let flashLightPicArray = ["btn_flash_auto_1","btn_flash_on_1","btn_flash_redeye_1","btn_flash_off_1","btn_flash_light_1"]
     
     override func viewDidLoad() {

@@ -17,7 +17,14 @@ class ImageSizeViewController: UIViewController {
         self.view.removeFromSuperview()
     }
     
-    var imageSizeDetail = ["90萬(1280*720)","200萬(1920*1080)","300萬(2048*1536)","600萬(3264*1836)","800萬(3264*2448)"]
+    //MARK:  Need Localization
+    var imageSizeDetail = [
+        "90\(NSLocalizedString("tenthousand", comment: "萬"))(1280*720)",
+        "200\(NSLocalizedString("tenthousand", comment: "萬"))(1920*1080)",
+        "300\(NSLocalizedString("tenthousand", comment: "萬"))(2048*1536)",
+        "600\(NSLocalizedString("tenthousand", comment: "萬"))(3264*1836)",
+        "800\(NSLocalizedString("tenthousand", comment: "萬"))(3264*2448)"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

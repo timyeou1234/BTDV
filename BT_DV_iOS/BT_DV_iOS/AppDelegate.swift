@@ -34,7 +34,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.isIdleTimerDisabled = false
         // Override point for customization after application launch.
 
+        let userDefault = UserDefaults.standard
+        if let _ = userDefault.string(forKey: "isFirst"){
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "ViewController")
+            
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+        }else{
+            
+        }
+        
         return true
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+
+        let presentedViewController = UIHelper.topViewController()
+        if presentedViewController is GuideViewController{
+            return .allButUpsideDown
+        }
+        
+        
+        // Only allow portrait (standard behaviour)
+        return .portrait;
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -63,3 +87,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+class UIHelper{
+    /**This method returns top view controller in application  */
+    class func topViewController() -> UIViewController?
+    {
+        let helper = UIHelper()
+        return helper.topViewControllerWithRootViewController(rootViewController: UIApplication.shared.keyWindow?.rootViewController)
+    }
+    
+    /**This is a recursive method to select the top View Controller in a app, either with TabBarController or not */
+    private func topViewControllerWithRootViewController(rootViewController:UIViewController?) -> UIViewController?
+    {
+        if(rootViewController != nil)
+        {
+            // UITabBarController
+            if let tabBarController = rootViewController as? UITabBarController,
+                let selectedViewController = tabBarController.selectedViewController {
+                return self.topViewControllerWithRootViewController(rootViewController: selectedViewController)
+            }
+            
+            // UINavigationController
+            if let navigationController = rootViewController as? UINavigationController ,let visibleViewController = navigationController.visibleViewController {
+                return self.topViewControllerWithRootViewController(rootViewController: visibleViewController)
+            }
+            
+            if ((rootViewController!.presentedViewController) != nil) {
+                let presentedViewController = rootViewController!.presentedViewController;
+                return self.topViewControllerWithRootViewController(rootViewController: presentedViewController!);
+            }else
+            {
+                return rootViewController
+            }
+        }
+        
+        return nil
+    }
+}

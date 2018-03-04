@@ -62,6 +62,15 @@
 		6B62AFFD1ECB37BA003D8D2B /* UpdateFailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62AFFC1ECB37BA003D8D2B /* UpdateFailViewController.swift */; };
 		6B62AFFF1ECBFBBB003D8D2B /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62AFFE1ECBFBBB003D8D2B /* GalleryViewController.swift */; };
 		6B8124F51EC59A4300A55421 /* BLEObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8124F41EC59A4300A55421 /* BLEObject.swift */; };
+		6B942F52200F962000982E78 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B942F51200F962000982E78 /* GuideViewController.swift */; };
+		6B942F55200F972200982E78 /* GuideCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B942F53200F972200982E78 /* GuideCollectionViewCell.swift */; };
+		6B942F56200F972200982E78 /* GuideCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B942F54200F972200982E78 /* GuideCollectionViewCell.xib */; };
+		6B942F58200F9C0600982E78 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B942F57200F9C0600982E78 /* iOSDevCenters+GIF.swift */; };
+		6B942F5D200F9D2400982E78 /* img_guide_horizontal_01.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6B942F59200F9D2100982E78 /* img_guide_horizontal_01.gif */; };
+		6B942F5E200F9D2400982E78 /* img_guide_01.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6B942F5A200F9D2200982E78 /* img_guide_01.gif */; };
+		6B942F5F200F9D2400982E78 /* img_guide_02.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6B942F5B200F9D2300982E78 /* img_guide_02.gif */; };
+		6B942F60200F9D2400982E78 /* img_guide_horizontal_02.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6B942F5C200F9D2300982E78 /* img_guide_horizontal_02.gif */; };
+		6BD8901B2042BBE4009242FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6BD8901D2042BBE4009242FD /* Localizable.strings */; };
 		C794DE56F095DD32F77F11B9 /* Pods_BT_DV_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 469EB96BD249CBBCAFA38A1C /* Pods_BT_DV_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -108,11 +117,16 @@
 		04D03CC61EB0789B0040C5B0 /* PowerControlViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerControlViewController.swift; sourceTree = "<group>"; };
 		469EB96BD249CBBCAFA38A1C /* Pods_BT_DV_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BT_DV_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5479C8344E8C355AA76294FD /* Pods-BT_DV_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BT_DV_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BT_DV_iOS/Pods-BT_DV_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		6B15371E20302EB40016FC9F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		6B153722203032140016FC9F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		6B153723203032140016FC9F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		6B196C5B1EE691EA00FB1CAA /* BleListNameTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleListNameTableViewCell.swift; sourceTree = "<group>"; };
 		6B196C5C1EE691EA00FB1CAA /* BleListNameTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BleListNameTableViewCell.xib; sourceTree = "<group>"; };
 		6B196C5F1EE69FDF00FB1CAA /* FA00000-V17.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "FA00000-V17.zip"; sourceTree = "<group>"; };
 		6B1CCF701ECAA5FD0067D4D3 /* updateFirmwareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = updateFirmwareViewController.swift; sourceTree = "<group>"; };
 		6B21AFC01EF2AD8200F1EF87 /* FA00000-V18.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "FA00000-V18.zip"; sourceTree = "<group>"; };
+		6B236B3E2042B882008673A6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		6B236B3F2042B882008673A6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		6B2F66E61EC1F1ED003D775E /* CommProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommProcess.h; sourceTree = "<group>"; };
 		6B2F66E71EC1F1ED003D775E /* CommProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommProcess.m; sourceTree = "<group>"; };
 		6B2F66E81EC1F1ED003D775E /* FuelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelProtocol.h; sourceTree = "<group>"; };
@@ -130,6 +144,17 @@
 		6B62AFFC1ECB37BA003D8D2B /* UpdateFailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateFailViewController.swift; sourceTree = "<group>"; };
 		6B62AFFE1ECBFBBB003D8D2B /* GalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		6B8124F41EC59A4300A55421 /* BLEObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEObject.swift; sourceTree = "<group>"; };
+		6B942F51200F962000982E78 /* GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
+		6B942F53200F972200982E78 /* GuideCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideCollectionViewCell.swift; sourceTree = "<group>"; };
+		6B942F54200F972200982E78 /* GuideCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GuideCollectionViewCell.xib; sourceTree = "<group>"; };
+		6B942F57200F9C0600982E78 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
+		6B942F59200F9D2100982E78 /* img_guide_horizontal_01.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = img_guide_horizontal_01.gif; sourceTree = "<group>"; };
+		6B942F5A200F9D2200982E78 /* img_guide_01.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = img_guide_01.gif; sourceTree = "<group>"; };
+		6B942F5B200F9D2300982E78 /* img_guide_02.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = img_guide_02.gif; sourceTree = "<group>"; };
+		6B942F5C200F9D2300982E78 /* img_guide_horizontal_02.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = img_guide_horizontal_02.gif; sourceTree = "<group>"; };
+		6BD8901C2042BBE4009242FD /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6BD8901E2042BBEB009242FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6BD8901F2042BBEC009242FD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		A8A0524EA998A4BAE97D4A0B /* Pods-BT_DV_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BT_DV_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-BT_DV_iOS/Pods-BT_DV_iOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,6 +191,8 @@
 				04276A641EB8827800F224B7 /* BLEListTableViewCell.xib */,
 				6B196C5B1EE691EA00FB1CAA /* BleListNameTableViewCell.swift */,
 				6B196C5C1EE691EA00FB1CAA /* BleListNameTableViewCell.xib */,
+				6B942F53200F972200982E78 /* GuideCollectionViewCell.swift */,
+				6B942F54200F972200982E78 /* GuideCollectionViewCell.xib */,
 			);
 			name = xib;
 			sourceTree = "<group>";
@@ -194,11 +221,18 @@
 				0487AA3A1E8A3138009822EE /* Main.storyboard */,
 				0487AA3F1E8A3138009822EE /* LaunchScreen.storyboard */,
 				0487AA361E8A3138009822EE /* AppDelegate.swift */,
+				6B942F57200F9C0600982E78 /* iOSDevCenters+GIF.swift */,
+				6B942F51200F962000982E78 /* GuideViewController.swift */,
+				6B942F5A200F9D2200982E78 /* img_guide_01.gif */,
+				6B942F5B200F9D2300982E78 /* img_guide_02.gif */,
+				6B942F59200F9D2100982E78 /* img_guide_horizontal_01.gif */,
+				6B942F5C200F9D2300982E78 /* img_guide_horizontal_02.gif */,
 				04249ACA1EB08A0E0051454B /* xib */,
 				6B2F66F21EC1F52A003D775E /* BLE OBJc */,
 				0487AA421E8A3138009822EE /* Info.plist */,
 				6B2F66F31EC1F55C003D775E /* UserValue.swift */,
 				0487AA381E8A3138009822EE /* ViewController.swift */,
+				6BD8901D2042BBE4009242FD /* Localizable.strings */,
 				6B2F66F51EC1FC40003D775E /* CameraController */,
 				6B8124F31EC58F0900A55421 /* BLE Controller */,
 				6B1CCF721ECAA6060067D4D3 /* Update */,
@@ -331,11 +365,12 @@
 			};
 			buildConfigurationList = 0487AA2E1E8A3138009822EE /* Build configuration list for PBXProject "BT_DV_iOS" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = "zh-Hant";
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				"zh-Hans",
+				en,
 			);
 			mainGroup = 0487AA2A1E8A3137009822EE;
 			productRefGroup = 0487AA341E8A3138009822EE /* Products */;
@@ -353,15 +388,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				0487AA411E8A3138009822EE /* LaunchScreen.storyboard in Resources */,
+				6B942F56200F972200982E78 /* GuideCollectionViewCell.xib in Resources */,
+				6B942F5F200F9D2400982E78 /* img_guide_02.gif in Resources */,
+				6B942F60200F9D2400982E78 /* img_guide_horizontal_02.gif in Resources */,
 				042B64321EAFE34A00B2E1A8 /* PowerControlTableViewCell.xib in Resources */,
 				04D03CC51EB0712F0040C5B0 /* ImageSizeDetailTableViewCell.xib in Resources */,
 				6B62AFF91ECAFA8C003D8D2B /* FA00000-V16A.zip in Resources */,
 				6B196C5E1EE691EA00FB1CAA /* BleListNameTableViewCell.xib in Resources */,
 				042B64261EAFD1F100B2E1A8 /* MainSettingTableViewCell.xib in Resources */,
 				6B196C601EE69FDF00FB1CAA /* FA00000-V17.zip in Resources */,
+				6BD8901B2042BBE4009242FD /* Localizable.strings in Resources */,
 				0487AA3E1E8A3138009822EE /* Assets.xcassets in Resources */,
+				6B942F5D200F9D2400982E78 /* img_guide_horizontal_01.gif in Resources */,
 				042B642A1EAFD2CD00B2E1A8 /* MainSettingTwoTableViewCell.xib in Resources */,
 				6B21AFC11EF2AD8200F1EF87 /* FA00000-V18.zip in Resources */,
+				6B942F5E200F9D2400982E78 /* img_guide_01.gif in Resources */,
 				042B642E1EAFE25C00B2E1A8 /* ImageSizeTableViewCell.xib in Resources */,
 				04276A661EB8827900F224B7 /* BLEListTableViewCell.xib in Resources */,
 				0487AA3C1E8A3138009822EE /* Main.storyboard in Resources */,
@@ -438,6 +479,7 @@
 				6B2F66EE1EC1F1ED003D775E /* FuelProtocol.m in Sources */,
 				04276A651EB8827900F224B7 /* BLEListTableViewCell.swift in Sources */,
 				0487AA391E8A3138009822EE /* ViewController.swift in Sources */,
+				6B942F55200F972200982E78 /* GuideCollectionViewCell.swift in Sources */,
 				0455AB171EAC95730087C14D /* senceViewController.swift in Sources */,
 				6B62AFFB1ECB37A6003D8D2B /* UpdateSuccessViewController.swift in Sources */,
 				042B64311EAFE34A00B2E1A8 /* PowerControlTableViewCell.swift in Sources */,
@@ -458,8 +500,10 @@
 				04276A6A1EB91B1A00F224B7 /* CBlueClass.swift in Sources */,
 				6B2F66ED1EC1F1ED003D775E /* CommProcess.m in Sources */,
 				044BF5071EBA8CCC0031E92B /* FailToScanViewController.swift in Sources */,
+				6B942F52200F962000982E78 /* GuideViewController.swift in Sources */,
 				6B2F66EF1EC1F1ED003D775E /* Function.m in Sources */,
 				04D03CC71EB0789B0040C5B0 /* PowerControlViewController.swift in Sources */,
+				6B942F58200F9C0600982E78 /* iOSDevCenters+GIF.swift in Sources */,
 				6B1CCF711ECAA5FD0067D4D3 /* updateFirmwareViewController.swift in Sources */,
 				04C1E8681EB754DA00EE3299 /* GetBlueToothInfoViewController.swift in Sources */,
 				6B2F66F41EC1F55C003D775E /* UserValue.swift in Sources */,
@@ -475,6 +519,9 @@
 			isa = PBXVariantGroup;
 			children = (
 				0487AA3B1E8A3138009822EE /* Base */,
+				6B15371E20302EB40016FC9F /* zh-Hant */,
+				6B153722203032140016FC9F /* zh-Hans */,
+				6B236B3E2042B882008673A6 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -483,8 +530,20 @@
 			isa = PBXVariantGroup;
 			children = (
 				0487AA401E8A3138009822EE /* Base */,
+				6B153723203032140016FC9F /* zh-Hans */,
+				6B236B3F2042B882008673A6 /* en */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		6BD8901D2042BBE4009242FD /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6BD8901C2042BBE4009242FD /* zh-Hant */,
+				6BD8901E2042BBEB009242FD /* en */,
+				6BD8901F2042BBEC009242FD /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -494,6 +553,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -544,6 +604,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

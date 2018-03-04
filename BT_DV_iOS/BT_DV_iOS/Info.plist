@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>zh-Hant</string>
 	<key>CFBundleDisplayName</key>
 	<string>易拍客</string>
 	<key>CFBundleExecutable</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4.0</string>
+	<string>1.4.9</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -27,11 +27,11 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>We need BLE to connect the switch</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Need to use your camera</string>
+	<string>Need camera to take pictures</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Need to use your Microphone</string>
+	<string>Need Microphone to take videos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Need to use your library</string>
+	<string>Need library to let you edit your photos</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

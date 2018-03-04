@@ -1,0 +1,56 @@
+/* 
+  Localizable.strings
+  BT_DV_iOS
+
+  Created by YeouTimothy on 2018/2/25.
+  Copyright © 2018年 VictorBasic. All rights reserved.
+*/
+
+"flashLightNameArray_Auto" = "自動";
+"flashLightNameArray_MoreFlash" = "補光閃光燈";
+"flashLightNameArray_NoRedEye" = "消除紅眼";
+"flashLightNameArray_Off" = "關";
+"flashLightNameArray_FlashLight" = "手電筒模式";
+
+"senceNameArray_Move" = "行進中";
+"senceNameArray_Portrait" = "人像";
+"senceNameArray_Landscape" = "風景";
+"senceNameArray_Night" = "夜間";
+"senceNameArray_NightPortrait" = "夜間人像";
+"senceNameArray_Cinema" = "劇院";
+"senceNameArray_Beach" = "海灘";
+"senceNameArray_Snow" = "雪景";
+"senceNameArray_Sunset" = "夕照";
+"senceNameArray_PreventShake" = "防震";
+"senceNameArray_Fireworks" = "煙火";
+"senceNameArray_Moving" = "運動";
+"senceNameArray_Party" = "派對";
+"senceNameArray_Candle" = "燭光";
+
+"settingNameArrayOne_SceneSelect" = "場景選擇";
+"settingNameArrayOne_Whitebalance" = "白平衡";
+"settingNameArrayOne_expose" = "曝光補償";
+"settingNameArrayOne_Touch" = "觸碰拍攝";
+
+"tenthousand" = "萬";
+
+"powerControlDetail_Off" = "關";
+"powerControlDetail_2" = "2分鐘後自動關機";
+"powerControlDetail_5" = "5分鐘後自動關機";
+
+"whiteBalanceName_Dark" = "陰暗";
+"whiteBalanceName_Cloudy" = "陰天";
+"whiteBalanceName_Sun" = "晴天";
+"whiteBalanceName_LightBall" = "日光燈";
+"whiteBalanceName_LightBallOss" = "鎢絲燈";
+"whiteBalanceName_Sunset" = "黃昏";
+"whiteBalanceName_WarnLight" = "暖光燈";
+
+"AskBlueTooth" = "請開啟藍芽";
+"Comfirm" = "確認";
+
+"BLE_Name" = "名稱";
+"BLE_HDVer" = "硬體版本";
+"BLE_SDVer" = "韌體版本";
+"BLE_Battery" = "電源";
+"BLE_TurnOff" = "關閉";

@@ -191,9 +191,10 @@ extension StartScanBLEViewController: ConnectStateDelegate, DataResponseDelegate
         }
         if isEnable{
         }else{
+            //MARK:  Need Localization
             BLEObject.BLEobj.state = false
-            let alert = UIAlertController(title: "請開啟藍芽", message: nil, preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "確認", style: .cancel, handler: nil)
+            let alert = UIAlertController(title: NSLocalizedString("AskBlueTooth", comment:"請開啟藍芽"), message: nil, preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Comfirm", comment:"確認"), style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             self.present(alert, animated: false, completion: nil)
             isContinue = false
